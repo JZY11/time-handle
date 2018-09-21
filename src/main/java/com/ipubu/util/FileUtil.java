@@ -146,4 +146,25 @@ public class FileUtil {
 			return lines;
 		}
 	}
+	
+	/**
+	 * 将Map对象中的Key写入到文件中
+	 * @param 
+	 * @return
+	 */
+	public static void writeMap(Map<String, Integer> keymap,String outfile){
+		try {
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outfile),"utf-8"));
+			String line = "";
+			Set<String> key = keymap.keySet();
+	        
+	        for (Iterator<String> it = key.iterator(); it.hasNext();) {         
+	            String keystr = (String) it.next();
+	            writer.write(keystr+"\n");
+	        }
+			writer.close();
+		} catch (IOException e) {
+			Log.logger.error("Exception",e);
+		}
+	}
 }
