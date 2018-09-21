@@ -104,4 +104,46 @@ public class FileUtil {
 			return line;
 		}
 	}
+	
+	public static void removeDupLines(String filepath) throws IOException {
+		Map<String,Integer> map = readFile2Map(filepath);
+		writeMap(map,filepath);
+	}
+	
+	/**
+	 * 将文件中的资源存储在Map对象中 
+	 * @param  一个文件地址的字符串
+	 * @return 返回一个保存了文件资源的Map对象
+	 */
+	public static Map<String,Integer> readFile2Map(String filepath) throws IOException {
+		Map<String,Integer> lines= Collections.synchronizedMap(new TreeMap<String,Integer>());
+		String line;
+		File f = new File(filepath);
+		if (!f.exists()) {
+			return null;
+		} else {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f),"utf-8"));
+			//TreeMap<String,String> map = new TreeMap<String,String>();
+			while ((line = br.readLine()) != null) {
+				if(line.startsWith("//")) continue;
+				line = line.toLowerCase().trim();
+				if(line.length()==0) continue;	
+				String[] secs = line.split("\t");
+				if(secs.length>1&&secs[1].matches("[0-9]+")) lines.put(secs[0], new Integer(secs[1]));
+				// string的matches()方法用来检测字符串是否匹配给定的正则表达式，方法返回一个boolean 值
+				
+				/**
+				 * 1、int与Integer进行比较的时候，Integer会进行自动拆箱，转为int值再与int进行比较
+				 * 2、Integer与Integer进行比较的时候，由于直接进行复制的时候会进行自动的装箱，那么这里就需要注意两个问题，一个是-128<= x<=127的整数，将会直接缓存在IntegerCache中
+				 * 	 那么当复制在这个区间的时候，不会创建新的Integer对象。二：当大于这个范围的时候，直接new Integer来创建Integer对象
+				 * 3、new Integer(1)与Integer a = 1不同，前者会创建对象存储在堆内存中，而后者因为在-128到127的范围内，所以不会创建新的对象，而是从IntegerCache中获取的
+				 *   那么Integer a = 128, 大于该范围的话才会直接通过new Integer（128）创建对象，进行装箱。
+				 */
+				
+				else lines.put(line,null);
+			}
+			br.close();
+			return lines;
+		}
+	}
 }
