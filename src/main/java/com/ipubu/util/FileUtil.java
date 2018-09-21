@@ -213,4 +213,15 @@ public class FileUtil {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 获取文件夹中的所有文件名列表
+	 * @param  文件夹地址路径
+	 * @return 文件夹中含有所有文件名的数组
+	 */
+	public static String[] getFileNames(String filedir){
+		File file = new File(filedir);
+		String[] fileNames = file.list();
+		return fileNames;
+	}
 }
