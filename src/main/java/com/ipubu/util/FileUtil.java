@@ -58,4 +58,28 @@ public class FileUtil {
 	public static String getRootPath(){
 		return System.getProperty("user.dir") + File.separator;
 	}
+	
+	/**
+	 * 从文件中读取信息（一行行的读取）
+	 * @param  路径地址
+	 * @return  
+	 */
+	public static List<String> readStringFromFile(String filepath) throws IOException, FileNotFoundException {
+		List<String> lines = new ArrayList<String>();
+		String line;
+		File file = new File(filepath);
+		if (!file.exists()) {
+			return null;
+		} else {
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8")); // 创建字符缓冲输入流
+			
+			while ((line = bufferedReader.readLine()) != null) {
+				if(line.startsWith("//")) continue;
+				if(line.length() == 0) continue;
+				lines.add(line);
+			}
+			bufferedReader.close();
+		}
+		return lines;
+	}
 }
