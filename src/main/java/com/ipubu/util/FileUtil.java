@@ -82,4 +82,26 @@ public class FileUtil {
 		}
 		return lines;
 	}
+	
+	/**
+	 * 读取目标文件中的第一行
+	 * @param 地址路径
+	 * @return 
+	 */
+	public static String readFirstFromFile(String filepath) throws IOException {
+		String line;
+		File f = new File(filepath);
+		if (!f.exists()) {
+			return null;
+		} else {
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(f),"utf-8")); // 创建字符缓冲输入流
+			while ((line = bufferedReader.readLine()) != null) {
+				if(line.startsWith("//")) continue;
+				if(line.length()==0) continue;
+				break;
+			}
+			bufferedReader.close();
+			return line;
+		}
+	}
 }
