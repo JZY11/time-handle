@@ -190,4 +190,27 @@ public class FileUtil {
 			Log.logger.error("Exception",e);
 		}
 	}
+	
+	/**
+	 * 判断文件中一行行的数据中是否匹配数字，如果匹配的话就累加，如果每一行中都不匹配数字的话，就返回-1
+	 * @param  字符串的文件路径
+	 * @return 返回一个int
+	 */
+	public static int sumFile(String filename){
+		try {
+			int sum = 0;
+			List<String> lines = readStringFromFile(filename);
+			for(String line:lines){
+				if(line.matches("[0-9]+")){
+					int num = new Integer(line);
+					sum+=num;
+				}
+			}
+			return sum;
+			
+		} catch (IOException e) {
+			Log.logger.error("Exception",e);
+		}
+		return -1;
+	}
 }
