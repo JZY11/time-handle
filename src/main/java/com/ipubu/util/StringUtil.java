@@ -179,4 +179,49 @@ public final class StringUtil {
 		}
 		return str;
 	}
+	
+	//替换所有停用词
+	public static String deleteStopWords(String trim) {
+		if(trim==null || trim.length()==0) return trim;
+		String str=trim;
+		for(String sw:stopWords){
+			str=str.replace(sw,"");
+		}
+		return str;
+	}
+
+	public static void main(String[] args) throws IOException {
+//		String text = "一九年4月5日天气6月十五号17日";
+//        String regYear = "([0-9]{2,4}年|[一二三四五六七八九零]{2,4}年)";
+//        String regMonth = "([1-9]月|10月|11月|12月|[一二三四五六七八九十]月|十一月|十二月)";
+//        String regDay = "([1-2]?[0-9][日号]|[一二三四五六七八九十][日号]|二?十[一二三四五六七八九]?[日号])";
+//
+//        String regMonthDay = "(" + regMonth + regDay + ")";
+//        String regYearMonth = "(" + regYear + regMonth + ")";
+//
+//        String regYearMonthDay = "(" + regYear + regMonth + regDay + ")";
+//
+//        String regDate = "(" + regYearMonthDay + "|"
+//                + regYearMonth + "|" + regMonthDay + "|"
+//                + regYear + "|" + regMonth + "|" + regDay + ")";
+//
+//        String regHeDao = "(" + regDate +"[和到]" + regDate + ")";
+//
+//        Log.logger.info(regDate);
+//        String reg = regDate;
+//        Pattern p = Pattern.compile(regDate);
+//        Matcher m = p.matcher("17日18日的天气");
+//        while (m.find()) {
+//            Log.logger.info("this match group count is " + m.groupCount() + "， and group(0) is " + m.group());
+//            for (int i = 1; i <= m.groupCount(); i++)
+//                Log.logger.info("group id " + i + " , memo " + m.group(i));
+//        }
+//		InputStreamReader reader = new InputStreamReader(System.in);
+//		BufferedReader input = new BufferedReader(reader);
+//		while(true){
+//			String line=input.readLine().trim();
+//			System.out.println(toChinese(line));
+//		}
+		System.out.println(toChinese("0000000000"));
+	}
 }
