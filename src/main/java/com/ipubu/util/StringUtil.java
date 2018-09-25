@@ -51,4 +51,9 @@ public final class StringUtil {
             + regYearMonth + "|" + regMonthDay + "|"  // + regYear + "|"
             + regMonth + "|" + regDay + ")";
 
+	public static boolean hasMatch(String text, String regex) {
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(text);
+		return m.find();
+	}
 }
