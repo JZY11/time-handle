@@ -71,4 +71,30 @@ public final class StringUtil {
 			return "'" + s + "'";
 		return null;
 	}
+	public static List<List<String>> getAllMatchedDetail(String text, String regex) {
+        Pattern pat = Pattern.compile(regex);
+        Matcher mat = pat.matcher(text);
+        List<List<String>> result = new LinkedList<List<String>>();
+
+        while (mat.find()) {
+            List<String> element = new ArrayList<String>(mat.groupCount());
+            for (int i = 1; i <= mat.groupCount(); i++) {
+                element.add(mat.group(i));
+            }
+            result.add(element);
+        }
+
+        return result;
+    }
+
+	public static List<String> getAllmatched(String text, String regex) {
+		Pattern pat = Pattern.compile(regex);
+		Matcher mat = pat.matcher(text);
+		List<String> result = new LinkedList<String>();
+		while (mat.find()) {
+			result.add(mat.group(0));
+		}
+
+		return result;
+	}
 }
