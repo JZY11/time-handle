@@ -224,4 +224,91 @@ public final class StringUtil {
 //		}
 		System.out.println(toChinese("0000000000"));
 	}
+	 /**
+     * 提取字符串中数字
+     * @param text
+     * @return
+     */
+    public static String getNum(String text) {
+    	StringBuffer sb=new StringBuffer();
+    	char[] ch=text.toCharArray();
+    	for(char c : ch ){
+    		if(Character.isDigit(c)){
+    			sb.append(c);
+    		}
+    	}
+		return sb.toString();
+    }
+    
+    /**
+     * 传入一个阿拉伯整数字符串 返回中文说法 
+     * @param string
+     * @return
+     */
+    public static String toChinese(String str) {
+        String[] s1 = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+        String[] s2 = { "十", "百", "千", "万", "十", "百", "千", "亿", "十", "百", "千" };
+//        String[] s3 = {"十", "百", "千"};
+
+        String fu="";
+        if(str.contains("-")){
+        	fu="负";
+        }
+        str=str.replace("-", "");
+        String result = "";
+        try {
+            String strings[]=str.split("\\.");
+            String string =strings[0];
+            int n = string.length();
+            for (int i = 0; i < n; i++) {
+                int num = string.charAt(i) - '0';
+
+                if (i != n - 1 && num != 0) {
+                    result += s1[num] + s2[n - 2 - i];
+                } else if((n-2-i==3 ||n-2-i==7) && result.length()>0 ){
+                	 result=result.replaceAll("(零)+", "$1");
+                     if(result.length()>1 && result.endsWith("零")){
+                     	result=result.substring(0,result.length()-1);
+                     }
+                     if(result.equals("零")){
+                    	 result="";
+                     }else{
+                    	 if(result.endsWith("亿"))
+                        	 result += s1[num];
+                         else
+                        	 result += s2[n - 2 - i];
+                     }
+                }else {
+                    result += s1[num];
+                }
+            }
+            if(result.startsWith("一十"))//一十六 这种 去掉一
+            	result=result.substring(1);
+            
+            //去掉重复的零，和末尾的零
+            result=result.replaceAll("(零)+", "$1");
+            if(result.length()>1 && result.endsWith("零")){
+            	result=result.substring(0,result.length()-1);
+            }
+//            if(!result.contains("零") && Arrays.asList(s3).contains(result.substring(result.length()-1)))//一千六百 去掉百
+//            	result=result.substring(0,result.length()-1);
+
+            if(strings.length==2){//小数
+            	String st=strings[1];
+            	if(Long.parseLong(st)!=0){
+            		result+="点";
+                	for (int i = 0; i < st.length(); i++){
+                		result+=s1[Integer.parseInt(st.charAt(i)+"")];
+                	}
+                	if(result.endsWith("零")){
+                    	result=result.substring(0,result.length()-1);
+                    }
+            	}
+            }
+		} catch (Exception e) {
+			
+		}
+
+        return fu+result;
+    }
 }
