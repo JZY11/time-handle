@@ -56,4 +56,19 @@ public final class StringUtil {
 		Matcher m = p.matcher(text);
 		return m.find();
 	}
+	
+	public static String getFirstMatched(String text, String regex) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(text);
+        if (m.find())
+            return m.group();
+        else
+            return null;
+    }
+
+	public static String toSqlString(String s){
+		if(s!=null)
+			return "'" + s + "'";
+		return null;
+	}
 }
