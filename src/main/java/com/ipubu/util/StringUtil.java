@@ -168,4 +168,15 @@ public final class StringUtil {
 		}
 		return result;
 	}
+	//替换所有的符号
+	public static String deleteSymbol(String trim) {
+		if(trim==null || trim.length()==0) return trim;
+		String symbol ="`~!@#$%^&_-=:;'<>,/【】，。？！；：“”’[](){}^|?+.*\"\\";
+		String str=trim;
+		for(int i=0;i<symbol.length();i++){
+			char c=symbol.charAt(i);
+			str=str.replace(c+"","");
+		}
+		return str;
+	}
 }
