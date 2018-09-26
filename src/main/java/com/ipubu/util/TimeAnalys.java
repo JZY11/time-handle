@@ -96,4 +96,41 @@ public class TimeAnalys {
 			if(Integer.valueOf(m.group(1))!=day)
 				outOfMonth = true;
 		}
+	 	
+	 	
+		//月
+		rule = "(\\d+)月";
+		p = Pattern.compile(rule);
+		m = p.matcher(timeExpnum);
+		if(!m.find()){
+			if(isAfter(cal)){
+				cal.add(cal.MONTH, 1);
+				this.notqust = 3;
+			}
+		}
+		//年
+		rule = "(\\d+)年";
+		p = Pattern.compile(rule);
+		m = p.matcher(timeExpnum);
+		if(!m.find()){
+			if(isAfter(cal)){
+				cal.add(cal.YEAR, 1);
+				this.notqust = 4;
+			}
+		}
+		
+		
+		this.endtime = sdf.format(cal.getTime());
+		this.starttime = sdf.format(cal.getTime());
+		List<TimeFormat3> ltf = new ArrayList<TimeFormat3>();
+		TimeFormat3 tf3 = new TimeFormat3(null, null);
+		List<String> ls=new ArrayList<String>();
+		ls.add("[startTime="+this.starttime + " " +this.startflag +",endTime="+this.endtime + " " + this.endflag);
+		tf3.setTime(ls);
+		tf3.setTimeExp(this.timeExp);
+		ltf.add(tf3);	
+		
+		return ltf;
+	}
+	
 }
