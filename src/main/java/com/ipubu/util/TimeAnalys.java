@@ -56,4 +56,17 @@ public class TimeAnalys {
 			e.printStackTrace();
 		}
 	 	int day = cal.get(cal.DAY_OF_MONTH);
+	 	
+	 	
+	 	
+	 	//星期
+	 	String rule = "(周|礼拜|星期)([1234567天日])";
+	 	Pattern p = Pattern.compile(rule);
+	 	Matcher m = p.matcher(timeExpnum);
+	 	if(m.find()){
+	 		if(isAfter(cal)){
+	 			cal.add(cal.WEEK_OF_YEAR, 1);
+	 			this.notqust = 1;
+	 		}
+	 	}
 }
