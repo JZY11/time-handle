@@ -139,4 +139,15 @@ public class TimeAnalys {
 		else 
 			return false;
 	}
+	private void getParameter(List<TimeFormat3> ltf3){
+		timeExp = ltf3.get(0).getTimeExp();
+		String st = ltf3.get(0).getTime().get(0).split(",")[0];
+		String ed = ltf3.get(0).getTime().get(0).split(",")[1];
+		String[] starray = st.split("=")[1].split(" ");
+		String[] edarray = ed.split("=")[1].split(" ");
+		starttime = starray[0] + " " + starray[1];
+		endtime = edarray[0] + " " + edarray[1];
+		startflag = starray[2] + " "+ starray[3] + " " + starray[4];
+		endflag = edarray[2] + " " + edarray[3] +" " + edarray[4];
+	}
 }
