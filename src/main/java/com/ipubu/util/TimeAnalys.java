@@ -133,4 +133,10 @@ public class TimeAnalys {
 		return ltf;
 	}
 	
+	private static boolean isAfter(Calendar cal){
+		if (Calendar.getInstance().getTime().after(cal.getTime())) 
+			return true;
+		else 
+			return false;
+	}
 }
