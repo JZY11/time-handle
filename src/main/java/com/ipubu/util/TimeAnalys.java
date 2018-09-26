@@ -69,4 +69,31 @@ public class TimeAnalys {
 	 			this.notqust = 1;
 	 		}
 	 	}
+	 	//今天
+	 	rule = "今天";
+	 	p = Pattern.compile(rule);
+	 	m = p.matcher(timeExpnum);
+	 	if(m.find()){
+	 		if("今天".equals(timeExpnum))return ltf3;
+	 		if(isAfter(cal)){
+	 			this.qust = true;
+	 		}
+	 		return ltf3;
+	 	}
+	 	
+	 	
+	 	
+	 	//日
+	 	rule = "(\\d+)(日|号)";
+	 	p = Pattern.compile(rule);
+	 	m = p.matcher(timeExpnum);
+	 	if(!m.find()){
+	 		if(isAfter(cal)){
+	 			cal.add(cal.DAY_OF_YEAR, 1);
+	 			this.notqust = 2;
+	 		}
+	 	}else {
+			if(Integer.valueOf(m.group(1))!=day)
+				outOfMonth = true;
+		}
 }
