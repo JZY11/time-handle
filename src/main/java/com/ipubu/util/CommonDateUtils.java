@@ -81,6 +81,23 @@ public class CommonDateUtils {
 		else if("周".equals(type)){ resulttime = (long) (currenttime + d * ONE_WEEK_MILLISECOND); }
 		return new Date(resulttime);
 	}
+	public static Date getAfterDate(Date base, double d,String type){
+		if(d<0||type==null) return new Date(System.currentTimeMillis());
+		
+		long currenttime = -1;
+		if(base ==null)
+			currenttime = System.currentTimeMillis();
+		else
+			currenttime = base.getTime();
+		long resulttime = -1;
+		
+		if("秒".equals(type)){resulttime = (long) (currenttime + d * 1000);}
+		else if("分钟".equals(type)){ resulttime = (long) (currenttime - d * ONE_MINUTE_MILLISECOND); }
+		else if("小时".equals(type)){ resulttime = (long) (currenttime - d * ONE_HOUR_MILLISECOND); }
+		else if("天".equals(type)){ resulttime = (long) (currenttime - d * ONE_DAY_MILLISECOND); }
+		else if("周".equals(type)){ resulttime = (long) (currenttime - d * ONE_WEEK_MILLISECOND); }
+		return new Date(resulttime);
+	}
 	public static void main(String[] args) {
 		System.out.println(isHoliday(""));
 	}
