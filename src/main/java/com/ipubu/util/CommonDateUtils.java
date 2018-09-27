@@ -32,4 +32,18 @@ public class CommonDateUtils {
 		
 		return null;
 	}
+	public static boolean isHoliday(String holiday){
+
+		if("".equals(holiday)||holiday==null) return false;
+		for(String str:HOLIDAY){
+			if(str.contains(holiday)||(str+"节").equals(holiday))
+				return true;
+		}
+		
+		return false;
+
+	}
+	public static void main(String[] args) {
+		System.out.println(isHoliday(""));
+	}
 }
