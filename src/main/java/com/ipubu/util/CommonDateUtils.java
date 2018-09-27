@@ -43,6 +43,27 @@ public class CommonDateUtils {
 		return false;
 
 	}
+	public static boolean isWeek(String value){
+		value = StringPreHandlingModule.chineseNumeralsToArabiaNumbers(value);
+		String rule = "(礼拜|星期|周)(\\d)";
+	 	Pattern p = Pattern.compile(rule);
+	 	Matcher m = p.matcher(value);
+	 	boolean result = m.find();
+	 	if(result)return true;
+		return false;
+	}
+	
+	public static boolean isHao(String value){
+		
+		value = StringPreHandlingModule.chineseNumeralsToArabiaNumbers(value);
+		String rule = "((\\d+)月)?(\\d+)(号|日)";
+	 	Pattern p = Pattern.compile(rule);
+	 	Matcher m = p.matcher(value);
+	 	boolean result = m.find();
+	 	if(result)return true;
+		return false;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(isHoliday(""));
 	}
