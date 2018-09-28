@@ -77,4 +77,19 @@ public class DateUtil extends CommonDateUtil{
 		c.set(Calendar.MILLISECOND, 0);
 		return c.getTime();
 	}
+
+	/**
+	 * 得到本周周一
+	 *
+	 * @return Date
+	 */
+	public static Date getFirstDayOfWeek(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int day_of_week = c.get(Calendar.DAY_OF_WEEK) - 1;
+		if (day_of_week == 0)
+			day_of_week = 7;
+		c.add(Calendar.DATE, -day_of_week + 1);
+		return c.getTime();
+	}
 }
