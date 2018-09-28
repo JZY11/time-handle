@@ -182,4 +182,6 @@ public class DateUtil extends CommonDateUtil{
 	//时间格式 为：小时：分 ;如：12:30
 	public static final String FORMAT_CALENDAR_TIME = "HH:mm";
 	
+	
+	private final static List<Integer> TIMEUNITS = new ArrayList<Integer>();
 }
