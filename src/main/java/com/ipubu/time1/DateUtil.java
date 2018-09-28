@@ -184,4 +184,13 @@ public class DateUtil extends CommonDateUtil{
 	
 	
 	private final static List<Integer> TIMEUNITS = new ArrayList<Integer>();
+
+	static {
+		TIMEUNITS.add(Calendar.YEAR);
+		TIMEUNITS.add(Calendar.MONTH);
+		TIMEUNITS.add(Calendar.DATE);
+		TIMEUNITS.add(Calendar.HOUR);
+		TIMEUNITS.add(Calendar.MINUTE);
+		TIMEUNITS.add(Calendar.SECOND);
+	}
 }
