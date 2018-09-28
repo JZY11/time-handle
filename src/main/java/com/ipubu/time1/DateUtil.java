@@ -132,4 +132,15 @@ public class DateUtil extends CommonDateUtil{
 		c.set(Calendar.MILLISECOND, 999);
 		return c.getTime();
 	}
+
+	/**
+	 * 默认时间格式化
+	 * 
+	 * @param date
+	 * @param format
+	 * @return
+	 */
+	public static String formatDateDefault(Date date) {
+		return DateUtil.formatDate(date, "yyyy-MM-dd HH:mm:ss");
+	}
 }
