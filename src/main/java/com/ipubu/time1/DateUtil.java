@@ -143,4 +143,37 @@ public class DateUtil extends CommonDateUtil{
 	public static String formatDateDefault(Date date) {
 		return DateUtil.formatDate(date, "yyyy-MM-dd HH:mm:ss");
 	}
+	
+    /**
+     * 检测日期格式字符串是否符合format
+     * 
+     * 主要逻辑为先把字符串parse为该format的Date对象，再将Date对象按format转换为string。如果此string与初始字符串一致，则日期符合format。
+     * 
+     * 之所以用来回双重逻辑校验，是因为假如把一个非法字符串parse为某format的Date对象是不一定会报错的。 比如 2015-06-29 13:12:121，明显不符合yyyy-MM-dd
+     * HH:mm:ss，但是可以正常parse成Date对象，但时间变为了2015-06-29 13:14:01。增加多一重校验则可检测出这个问题。
+     * 
+     * @param strDateTime
+     * @param format 日期格式
+     * @return boolean
+     */
+    public static boolean checkDateFormatAndValite(String strDateTime, String format) {
+        if (strDateTime == null || strDateTime.length() == 0) {
+            return false;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            Date ndate = sdf.parse(strDateTime);
+            String str = sdf.format(ndate);
+            Log.logger.info("func<checkDateFormatAndValite> strDateTime<" + strDateTime + "> format<" + format +
+                               "> str<" + str + ">");
+            if (str.equals(strDateTime)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+        	Log.logger.error("Exception",e);
+            return false;
+        }
+    }
 }
