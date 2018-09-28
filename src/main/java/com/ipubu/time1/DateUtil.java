@@ -176,4 +176,7 @@ public class DateUtil extends CommonDateUtil{
             return false;
         }
     }
+	
+	//日期格式为:年 月 日 ；如：2016年04月06日
+	public static final String FORMAT_CALENDAR_DATE = "yyyy\u5E74MM\u6708dd\u65E5E";
 }
