@@ -92,4 +92,18 @@ public class DateUtil extends CommonDateUtil{
 		c.add(Calendar.DATE, -day_of_week + 1);
 		return c.getTime();
 	}
+
+	/**
+	 * 处理相对日期的相对运算（当前只支持周、月）
+	 * 
+	 * @param date
+	 * @param hourIn24
+	 * @return
+	 */
+	public static Date getRelativeTime(final Date date, final int calUnit, final int relative) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(calUnit, relative);
+		return c.getTime();
+	}
 }
