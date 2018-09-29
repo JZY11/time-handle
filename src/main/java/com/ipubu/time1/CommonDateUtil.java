@@ -234,4 +234,20 @@ public class CommonDateUtil {
 		c.set(5, day);
 		return c.getTime();
 	}
+
+	private static Date getFirstCleanDay(int datePart, Date date) {
+		Calendar c = Calendar.getInstance();
+		if (date != null)
+			c.setTime(date);
+		c.set(datePart, 1);
+		return getCleanDay(c);
+	}
+
+	private static Date add(int datePart, int detal, Date date) {
+		Calendar c = Calendar.getInstance();
+		if (date != null)
+			c.setTime(date);
+		c.add(datePart, detal);
+		return c.getTime();
+	}
 }
