@@ -54,4 +54,42 @@ public class CommonDateUtil {
 	public static int getYear(Date date) {
 		return getCalendar(date).get(1);	// int get(int field) 此方法返回给定日历字段的值  1表示获取年份
 	}
+
+	/**
+	 * 获取月份
+	 * @param  传入一个日期
+	 * @return
+	 */
+	public static int getMonth(Date date) {
+		return getCalendar(date).get(2);	// int get(int field) 此方法返回给定日历字段的值  2表示获取月份
+	}
+
+
+	public static Date getCleanDay(Date day) {
+		return getCleanDay(getCalendar(day));
+	}
+
+	/**
+	 * 该方法主要就是将日历的时间设置为给定的日期 （Date）
+	 * @param 	参数为：具体的一个日期
+	 * @return	返回：一个日历对象
+	 */
+	public static Calendar getCalendar(Date day) {
+		Calendar c = Calendar.getInstance();
+		if (day != null)
+			c.setTime(day);	// 方法设置日历的时间为给定的日期 Date   public final void setTime(Date date)
+		return c;
+		
+		/**
+		 * Calendar 的 month 从 0 开始，也就是全年 12 个月由 0 ~ 11 进行表示。
+		*	而 Calendar.DAY_OF_WEEK 定义值如下，每周从 SUNDAY 开始，从 1 ~ 7：
+		*	Calendar.SUNDAY = 1
+		*	Calendar.MONDAY = 2
+		*	Calendar.TUESDAY = 3
+		*	Calendar.WEDNESDAY = 4
+		*	Calendar.THURSDAY = 5
+		*	Calendar.FRIDAY = 6
+		*	Calendar.SATURDAY = 7
+		 */
+	}
 }
