@@ -45,4 +45,13 @@ public class CommonDateUtil {
 	public static String getDatePattern() {
 		return defaultDatePattern;
 	}
+	
+	/**
+	 * 获取年份
+	 * @param  传入一个日期
+	 * @return
+	 */
+	public static int getYear(Date date) {
+		return getCalendar(date).get(1);	// int get(int field) 此方法返回给定日历字段的值  1表示获取年份
+	}
 }
