@@ -407,4 +407,24 @@ public class CommonDateUtil {
 			return null;
 		}
 	}
+
+	public static void main(String[] args) {
+		Log.logger.info(year2Zodica(1973));
+		Log.logger.info(date2Zodica(new Date()));
+		Log.logger.info(date2Constellation(makeDate(1973, 5, 12)));
+		Log.logger.info(Calendar.getInstance() == Calendar.getInstance());
+		Log.logger.info(getCleanDay(new Date()));
+		Log.logger.info(new Date());
+		Calendar c = Calendar.getInstance();
+		c.set(5, 1);
+		Log.logger.info(getFirstDayOfMonth());
+		Log.logger.info(getLastDayOfMonth(makeDate(1996, 2, 1)));
+
+		Log.logger.info(formatDate(makeDate(2009, 5, 1)));
+		Log.logger.info(formatDate(makeDate(2010, 5, 1)));
+		Log.logger.info(formatDate(makeDate(2010, 12, 21)));
+		Log.logger.info(before(makeDate(2009, 5, 1), new Date()));
+		Log.logger.info(after(makeDate(2009, 5, 1), new Date()));
+		Log.logger.info(inPeriod(makeDate(2009, 11, 24), makeDate(2009, 11, 30), makeDate(2009, 11, 25)));
+	}
 }
