@@ -250,4 +250,31 @@ public class CommonDateUtil {
 		c.add(datePart, detal);
 		return c.getTime();
 	}
+
+	public static Date getFirstDayOfWeek(Date date) {
+		return getFirstCleanDay(7, date);
+	}
+
+	public static Date getFirstDayOfWeek() {
+		return getFirstDayOfWeek(null);
+	}
+
+	public static Date getFirstDayOfMonth(Date date) {
+		return getFirstCleanDay(5, date);
+	}
+
+	public static Date getFirstDayOfMonth() {
+		return getFirstDayOfMonth(null);
+	}
+
+	public static Date getLastDayOfMonth() {
+		return getLastDayOfMonth(null);
+	}
+
+	public static Date getLastDayOfMonth(Date date) {
+		Calendar c = getCalendar(getFirstDayOfMonth(date));
+		c.add(2, 1);
+		c.add(5, -1);
+		return getCleanDay(c);
+	}
 }
