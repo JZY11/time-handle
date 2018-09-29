@@ -64,9 +64,26 @@ public class CommonDateUtil {
 		return getCalendar(date).get(2);	// int get(int field) 此方法返回给定日历字段的值  2表示获取月份
 	}
 
+	/**
+	 * 获取具体的是某天
+	 * @param  传入一个日期
+	 * @return
+	 */
+	public static int getDay(Date date) {
+		return getCalendar(date).get(5);	// int get(int field) 此方法返回给定日历字段的值  5表示获取日期中具体的某天
+	}
 
-	public static Date getCleanDay(Date day) {
-		return getCleanDay(getCalendar(day));
+	/**
+	 * 获取具体的是哪一周
+	 * @param  传入一个日期
+	 * @return
+	 */
+	public static int getWeek(Date date) {	// int get(int field) 此方法返回给定日历字段的值  7表示获取日期中具体的是哪一周
+		return getCalendar(date).get(7);
+	}
+
+	public static int getWeekOfFirstDayOfMonth(Date date) {
+		return getWeek(getFirstDayOfMonth(date));
 	}
 
 	/**
