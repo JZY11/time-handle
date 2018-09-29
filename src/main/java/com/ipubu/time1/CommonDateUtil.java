@@ -86,6 +86,86 @@ public class CommonDateUtil {
 		return getWeek(getFirstDayOfMonth(date));
 	}
 
+	public static int getWeekOfLastDayOfMonth(Date date) {
+		return getWeek(getLastDayOfMonth(date));
+	}
+
+	public static final Date parseDate(String strDate, String format) {
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		try {
+			return df.parse(strDate);
+		} catch (ParseException pe) {
+		}
+		return null;
+	}
+
+	public static final Date parseDateSmart(String strDate) {
+		if (StringUtil.isEmpty(strDate))
+			return null;
+		for (String fmt : SMART_DATE_FORMATS) {
+			Date d = parseDate(strDate, fmt);
+			if (d != null) {
+				String s = formatDate(d, fmt);
+				if (strDate.equals(s))
+					return d;
+			}
+		}
+		try {
+			long time = Long.parseLong(strDate);
+			return new Date(time);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public static Date parseDate(String strDate) {
+		return parseDate(strDate, getDatePattern());
+	}
+
+	public static boolean isLeapYear(int year) {
+		if (year / 4 * 4 != year) {
+			return false;
+		}
+		if (year / 100 * 100 != year) {
+			return true;
+		}
+
+		return (year / 400 * 400 == year);
+	}
+
+	public static boolean isWeekend(Date date) {
+		Calendar c = Calendar.getInstance();
+		if (date != null)
+			c.setTime(date);
+		int weekDay = c.get(7);
+		return ((weekDay == 1) || (weekDay == 7));
+	}
+
+	public static boolean isWeekend() {
+		return isWeekend(null);
+	}
+
+	public static String getCurrentTime() {
+		return formatDate(new Date());
+	}
+
+	public static String getCurrentTime(String format) {
+		return formatDate(new Date(), format);
+	}
+
+	public static String formatDate(Date date, String format) {
+		if (date == null)
+			date = new Date();
+		if (format == null)
+			format = getDatePattern();
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		return formatter.format(date);
+	}
+
+	public static Date getCleanDay(Date day) {
+		return getCleanDay(getCalendar(day));
+	}
+
 	/**
 	 * 该方法主要就是将日历的时间设置为给定的日期 （Date）
 	 * @param 	参数为：具体的一个日期
