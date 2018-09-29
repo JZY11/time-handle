@@ -309,4 +309,43 @@ public class CommonDateUtil {
 	public static Date getDateAfterYears(Date start, int years) {
 		return add(1, years, start);
 	}
+
+	public static Date getDateAfterDays(Date start, int days) {
+		return getDateAfterMs(start, days * 86400000L);
+	}
+
+	public static Date getDateAfterMs(Date start, long ms) {
+		return new Date(start.getTime() + ms);
+	}
+
+	public static long getPeriodNum(Date start, Date end, long msPeriod) {
+		return (getIntervalMs(start, end) / msPeriod);
+	}
+
+	public static long getIntervalMs(Date start, Date end) {
+		return (end.getTime() - start.getTime());
+	}
+
+	public static int getIntervalDays(Date start, Date end) {
+		return (int) getPeriodNum(start, end, 86400000L);
+	}
+
+	public static int getIntervalWeeks(Date start, Date end) {
+		return (int) getPeriodNum(start, end, 604800000L);
+	}
+
+	public static boolean before(Date base, Date date) {
+		return ((date.before(base)) || (date.equals(base)));
+	}
+
+	public static boolean after(Date base, Date date) {
+		return ((date.after(base)) || (date.equals(base)));
+	}
+
+	public static Date max(Date date1, Date date2) {
+		if (date1.getTime() > date2.getTime()) {
+			return date1;
+		}
+		return date2;
+	}
 }
