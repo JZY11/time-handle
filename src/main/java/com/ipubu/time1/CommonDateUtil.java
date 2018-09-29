@@ -162,6 +162,34 @@ public class CommonDateUtil {
 		return formatter.format(date);
 	}
 
+	public static String formatDate(Date date) {
+		long offset = System.currentTimeMillis() - date.getTime();
+		String pos = "前";
+		if (offset < 0L) {
+			pos = "后";
+			offset = -offset;
+		}
+		if (offset >= 31536000000L) {
+			return formatDate(date, getDatePattern());
+		}
+		if (offset >= 5184000000L) {
+			return ((offset + 1296000000L) / 2592000000L) + "个月" + pos;
+		}
+		if (offset > 604800000L) {
+			return ((offset + 302400000L) / 604800000L) + "周" + pos;
+		}
+		if (offset > 86400000L) {
+			return ((offset + 43200000L) / 86400000L) + "天" + pos;
+		}
+		if (offset > 3600000L) {
+			return ((offset + 1800000L) / 3600000L) + "小时" + pos;
+		}
+		if (offset > 60000L) {
+			return ((offset + 30000L) / 60000L) + "分钟" + pos;
+		}
+		return (offset / 1000L) + "秒" + pos;
+	}
+
 	public static Date getCleanDay(Date day) {
 		return getCleanDay(getCalendar(day));
 	}
