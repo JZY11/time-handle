@@ -277,4 +277,36 @@ public class CommonDateUtil {
 		c.add(5, -1);
 		return getCleanDay(c);
 	}
+
+	public static Date getFirstDayOfSeason(Date date) {
+		Date d = getFirstDayOfMonth(date);
+		int delta = getMonth(d) % 3;
+		if (delta > 0)
+			d = getDateAfterMonths(d, -delta);
+		return d;
+	}
+
+	public static Date getFirstDayOfSeason() {
+		return getFirstDayOfMonth(null);
+	}
+
+	public static Date getFirstDayOfYear(Date date) {
+		return makeDate(getYear(date), 1, 1);
+	}
+
+	public static Date getFirstDayOfYear() {
+		return getFirstDayOfYear(new Date());
+	}
+
+	public static Date getDateAfterWeeks(Date start, int weeks) {
+		return getDateAfterMs(start, weeks * 604800000L);
+	}
+
+	public static Date getDateAfterMonths(Date start, int months) {
+		return add(2, months, start);
+	}
+
+	public static Date getDateAfterYears(Date start, int years) {
+		return add(1, years, start);
+	}
 }
