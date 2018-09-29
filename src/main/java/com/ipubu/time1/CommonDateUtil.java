@@ -217,4 +217,21 @@ public class CommonDateUtil {
 		*	Calendar.SATURDAY = 7
 		 */
 	}
+
+	private static Date getCleanDay(Calendar c) {
+		c.set(11, 0);
+		c.clear(12);
+		c.clear(13);
+		c.clear(14);
+		return c.getTime();
+	}
+
+	public static Date makeDate(int year, int month, int day) {
+		Calendar c = Calendar.getInstance();
+		getCleanDay(c);
+		c.set(1, year);
+		c.set(2, month - 1);
+		c.set(5, day);
+		return c.getTime();
+	}
 }
