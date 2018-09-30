@@ -116,4 +116,28 @@ public class FormatIntegerUtil {
 			return re;
 
 		}
+		
+		static String getExp(String text,String exp ) {
+		
+			String tar = StringPreHandlingModule.numberTranslator(text);
+			exp = StringPreHandlingModule.numberTranslator(exp);
+			int i = text.length() - tar.length();
+		
+			if(!tar.contains(exp)){
+			exp = exp.replaceAll("号", "日").replaceAll("到", "至");
+			if(exp.contains("周7")||exp.contains("礼拜7")||exp.contains("星期7"))
+				exp =  text.substring(tar.indexOf(exp),tar.indexOf(exp) + exp.length() + i);
+				else
+			exp = FormatIntegerUtil.regexTr(exp);
+			}else{
+				if(!exp.contains("10")&&i <= 0){
+					exp =  text.substring(tar.indexOf(exp),tar.indexOf(exp) + exp.length());
+				}else
+					if(i==2)
+						exp =  text.substring(tar.indexOf(exp),tar.indexOf(exp) + exp.length() + 1);
+					else
+					exp =  text.substring(tar.indexOf(exp),tar.indexOf(exp) + exp.length() + i);
+				}
+			return exp;
+		}
 }
