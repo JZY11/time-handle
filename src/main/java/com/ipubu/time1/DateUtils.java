@@ -74,4 +74,13 @@ public class DateUtils {
             }
         }
     }
+
+    public static void main(String[] args) {
+
+        Log.logger.info(DateUtils.dataToUpper(new Date()));
+        Log.logger.info(DateUtils.numToUpper(16));
+        Log.logger.info(DateUtils.monthToUppder(10));
+        Log.logger.info(DateUtils.dayToUppder(20));
+//        Log.logger.info(DateUtils.dataToUpper("2016年10月21号天")); 
+    }
 }
