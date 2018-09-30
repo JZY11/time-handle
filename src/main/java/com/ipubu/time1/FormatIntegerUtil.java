@@ -157,4 +157,14 @@ public class FormatIntegerUtil {
 			}
 			return deleteFristZero(chs2);
 		}
+		
+		
+		public static void main(String[] args) {
+//			String num = "2016年10月20号";// "2016年10月20号天气"
+//			String s = regexTr(num);
+//			Log.logger.info("num= " + num + ", convert result: " + s);
+			//
+			// String num = "1";//"2016年10月20号天气"
+			 String s = foematInteger("30");
+		}
 }
