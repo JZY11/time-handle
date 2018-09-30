@@ -39,4 +39,21 @@ public class DateUtils {
         }
         return rstr;
     }
+
+    /***
+     * <b>function:</b> 月转化为大写
+     * @createDate 2010-5-27 上午10:41:42
+     * @param month 月份
+     * @return 返回转换后大写月份
+     */
+    public static String monthToUppder(int month) {
+        if (month < 10) {
+            return numToUpper(month);
+        } else if (month == 10) {
+            return "十";
+        } else {
+            return "十" + numToUpper(month - 10);
+        }
+    }
+
 }
