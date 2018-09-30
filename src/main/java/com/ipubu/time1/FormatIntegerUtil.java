@@ -140,4 +140,17 @@ public class FormatIntegerUtil {
 				}
 			return exp;
 		}
+		
+		private static char[]  deleteFristZero(char[] chs){
+			char[] chs2;
+			if(chs.length>1&&'0'== chs[0]){
+				chs2=new char[chs.length-1];
+				for(int i=0;i<chs.length-1;i++){
+					chs2[i]=chs[i+1];
+				}
+			}else{
+				return chs;
+			}
+			return deleteFristZero(chs2);
+		}
 }
