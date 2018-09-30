@@ -67,4 +67,53 @@ public class FormatIntegerUtil {
 			}
 			return sb.toString();
 		}
+
+		static String regexTr(String num) {
+
+			Pattern p = Pattern.compile("([0-9]{1,4})");// ([0-9]{2,4})
+			Matcher ma = p.matcher(num);
+			StringBuffer sbs = new StringBuffer();
+			boolean result = ma.find();
+			while (result) {
+				String group = ma.group();
+				String numStr2 = foematInteger(group);
+				if (num.contains("周"+group + "点")||num.contains("星期"+group + "点")) {
+					int i = Integer.parseInt(group.substring(0, 1));
+					String nums = DateUtils.dayToUppder(i);
+					int i2 = Integer.parseInt(group.substring(1, group.length()));
+					String numss = DateUtils.dayToUppder(i2);
+					numStr2 = nums + numss;
+				}else{
+				if (num.contains(group + "点")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.dayToUppder(i);
+				}
+				if (num.contains(group + "分")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.dayToUppder(i);
+				}
+				if (num.contains(group + "秒")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.dayToUppder(i);
+				}
+				if (num.contains(group + "年")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.numToUpper(i);
+				}
+				if (num.contains(group + "月")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.monthToUppder(i);
+				}
+				if (num.contains(group + "日") || num.contains(group + "号")) {
+					int i = Integer.parseInt(group);
+					numStr2 = DateUtils.dayToUppder(i);
+				}}
+				ma.appendReplacement(sbs, numStr2);
+				result = ma.find();
+			}
+			ma.appendTail(sbs);
+			String re = sbs.toString();
+			return re;
+
+		}
 }
