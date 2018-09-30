@@ -56,4 +56,22 @@ public class DateUtils {
         }
     }
 
+    /***
+     * <b>function:</b> 日转化为大写
+     * @createDate 2010-5-27 上午10:43:32
+     * @param day 日期
+     * @return 转换大写的日期格式
+     */
+    public static String dayToUppder(int day) {
+        if (day < 20) {
+            return monthToUppder(day);
+        } else {
+            char[] str = String.valueOf(day).toCharArray();
+            if (str[1] == '0') {
+                return numToUpper(Integer.parseInt(str[0] + "")) + "十";
+            } else {
+                return numToUpper(Integer.parseInt(str[0] + "")) + "十" + numToUpper(Integer.parseInt(str[1] + ""));
+            }
+        }
+    }
 }
