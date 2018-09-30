@@ -148,6 +148,10 @@ public class FormatIntegerUtil {
 				for(int i=0;i<chs.length-1;i++){
 					chs2[i]=chs[i+1];
 				}
+			}else if (chs.length==1&&'0'== chs[0]){
+				chs2=new char[1];
+				chs2[0]='0';
+				return chs2;
 			}else{
 				return chs;
 			}
