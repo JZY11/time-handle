@@ -131,5 +131,31 @@ public class NormTime {
 		}
 		return list; 
 	}
+	
+	/**
+	 * 解析 提醒领域的 每天 每周几
+	 * @param str
+	 * @return
+	 */
+	public static String parseRepeat(String str){ 
+		String st=StringPreHandlingModule.chineseNumeralsToArabiaNumbers(str);
+		String nums=StringUtil.getNum(st);
+		char [] ch =nums.toCharArray();
+		StringBuffer repeat=new StringBuffer("");
+		if(st.contains("到")){
+			if(ch.length>0&& ch.length==1){
+				repeat.append("W"+ch[0]);
+			}else if (ch.length>1){
+				repeat.append("W"+ch[0]+"<W"+ch[1]);
+			}
+		}else if(ch.length<=4&& ch.length>0){
+			for(char c:ch){
+				repeat.append("W"+c);
+			}
+		}else if(st.contains("每天")|| st.contains("每日")){
+			repeat.append("EVERYDAY");
+		}
+		return repeat.toString();
+	}
 
 }
