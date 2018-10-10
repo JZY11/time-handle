@@ -241,6 +241,45 @@ public class NormTime {
 			return flag;
 		}  
 		
+		if(exp.contains("年")||exp.contains("月")||exp.contains("日")||exp.contains("号")||exp.contains("-")){
+			if("".equals(year)||(year==null)){
+				year=Integer.toString(year_now);
+			}
+			if(year.length()==2){
+				year="20"+year;
+			}
+			if("".equals(year1)||(year1==null)){
+				year1=year;
+			}else if(year1.length()==2){
+				year1="20"+year1;
+			}
+			if("".equals(month)||(month==null)){
+				month=Integer.toString(month_now);
+			}
+			if(!"".equals(day)&&!(day==null)){
+				if(Integer.parseInt(day)>getMaxDay(Integer.parseInt(year), Integer.parseInt(month))||Integer.parseInt(day)<1 ||Integer.parseInt(month)<1||Integer.parseInt(month)>12){
+					flag=false;
+				}
+				if("".equals(month1)||(month1==null)){
+					month1=month;
+				}
+				if(!"".equals(day1)&&!(day1==null)){
+					if(Integer.parseInt(day1)>getMaxDay(Integer.parseInt(year1), Integer.parseInt(month1))||Integer.parseInt(day1)<1 ||Integer.parseInt(month1)<1||Integer.parseInt(month1)>12){
+						flag=false;
+					}
+				}else{
+					if(Integer.parseInt(month1)<1||Integer.parseInt(month1)>12)flag=false;
+				}
+			}
+		}
+
+		
+		Log.logger.info("时间最终结果exp:	"+exp);
+		Log.logger.info("时间最终结果year:	"+year);
+		Log.logger.info("时间最终结果month:	"+month);
+		Log.logger.info("时间最终结果day:	"+day);
+		Log.logger.info("时间最终结果month1:	"+month1);
+		Log.logger.info("时间最终结果day1:	"+day1);
 		return flag;
 	}
 
