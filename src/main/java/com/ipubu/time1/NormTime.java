@@ -111,5 +111,25 @@ public class NormTime {
 		}
 		return list; 
 	}
+	/**
+	 * 把从时间解析出的时间 提取到list中 便于操作
+	 * @param ttf
+	 * @return
+	 */
+	public static List<String> parseTime1(String ttf){
+		List<String> list=new ArrayList<String>();
+		
+		ttf=ttf.replaceAll("\\[", "").replaceAll("\\]", "");
+		String [] strs=ttf.split(",");
+		String[] str1=strs[0].split("=")[1].split(" ");
+		for(String s:str1){
+			list.add(s.replace(":", "-"));
+		}
+		String[] str2=strs[1].split("=")[1].split(" ");
+		for(String s:str2){
+			list.add(s.replace(":", "-"));
+		}
+		return list; 
+	}
 
 }
