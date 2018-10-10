@@ -73,5 +73,43 @@ public class NormTime {
 		return normtime;
 
 	}
+	///
+	
+	public static List<String> getNormTimeSource(String timeExp,String domain){
+		List<TimeFormat2> ltf = StdTime2.normalTime(timeExp,domain);
+		List<TimeFormat2> ltf2 = StdTime2.normalTime_o(timeExp, ltf,"");
+		List<TimeFormat3> ltf3=StdTime2.normalTime_o2(timeExp,ltf2);
+		List<String> normtime = new ArrayList<String>();
+			for (TimeFormat3 t : ltf3) {
+				normtime = t.getTime();
+			}
+		return normtime;
+
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 把从时间解析出的时间 提取到list中 便于操作
+	 * @param ttf
+	 * @return
+	 */
+	public static List<String> parseTime(String ttf){
+		List<String> list=new ArrayList<String>();
+		
+		ttf=ttf.replaceAll("\\[", "").replaceAll("\\]", "");
+		String [] strs=ttf.split(",");
+		String[] str1=strs[0].split("=")[1].split(" ");
+		for(String s:str1){
+			list.add(s.replace("-", "").replace(":", "-"));
+		}
+		String[] str2=strs[1].split("=")[1].split(" ");
+		for(String s:str2){
+			list.add(s.replace("-", "").replace(":", "-"));
+		}
+		return list; 
+	}
 
 }
