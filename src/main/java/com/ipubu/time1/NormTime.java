@@ -158,4 +158,90 @@ public class NormTime {
 		return repeat.toString();
 	}
 
+	public static boolean judgeTime(String value){
+		boolean flag=true;
+		String year="";
+		String year1="";
+		String month="";
+		String month1="";
+		String day="";
+		String day1="";
+		String exp="";
+		String regex="";
+		Pattern p;
+		Matcher m;
+		value=StringPreHandlingModule.chineseNumeralsToArabiaNumbers(value);
+		
+		//号月日或号号
+		regex="([0123456789一二三四五六七八九十]+)(((号|日)?[到和与])|号|日)((([0123456789一二三四五六七八九十]+)(月|-))?([0123456789一二三四五六七八九十]+)(号|日)?)?";
+		p=Pattern.compile(regex);
+		m=p.matcher(value);
+		if(m.find()){
+			exp=m.group();
+			day=m.group(1);
+			month1=m.group(7);
+			day1=m.group(9);
+		}
+		
+		//月日
+				regex="([0123456789一二三四五六七八九十]+)(月|-)([0123456789一二三四五六七八九十]+)(号|日|)?";
+				p=Pattern.compile(regex);
+				m=p.matcher(value);
+				if(m.find()){
+					exp=m.group();
+					month=m.group(1);
+					day=m.group(3);
+				}
+				
+				
+				//月日到月日
+				regex="([0123456789一二三四五六七八九十]+)(月|-)([0123456789一二三四五六七八九十]+)(((号|日)?[到和与])|号|日)(([0123456789一二三四五六七八九十]+)(月|-))?([0123456789一二三四五六七八九十]+)(号|日)?";
+				p=Pattern.compile(regex);
+				m=p.matcher(value);
+				if(m.find()){
+					exp=m.group();
+					month=m.group(1);
+					day=m.group(3);
+					month1=m.group(8);
+					day1=m.group(10);
+				}
+				
+		//年月日都有
+		regex="([0123456789一二三四五六七八九十]+)(年|-)([0123456789一二三四五六七八九十]+)(月|-)([0123456789一二三四五六七八九十]+)(号|日|)?";
+		p=Pattern.compile(regex);
+		m=p.matcher(value);
+		if(m.find()){
+			exp=m.group();
+			year=m.group(1);
+			month=m.group(3);
+			day=m.group(5);
+			
+		}
+		
+		//年月日到月日或号
+		regex="([0123456789一二三四五六七八九十]+)(年|-)([0123456789一二三四五六七八九十]+)(月|-)([0123456789一二三四五六七八九十]+)(((号|日)?[到和与])|号|日)(([0123456789一二三四五六七八九十]+)(下月|下个月|次月|月|-))?([0123456789一二三四五六七八九十]+)(号|日)?";
+		p=Pattern.compile(regex);
+		m=p.matcher(value);
+		if(m.find()){
+			exp=m.group();
+			year=m.group(1);
+			month=m.group(3);
+			day=m.group(5);
+			month1=m.group(10);
+			day1=m.group(12);
+			
+		}
+		Calendar cl=Calendar.getInstance();
+		int year_now=cl.get(Calendar.YEAR);
+		int month_now=cl.get(Calendar.MONTH)+1;
+		int day_now=cl.get(Calendar.DAY_OF_MONTH);
+		
+		Log.logger.info("当前年月日:"+Integer.toString(year_now)+Integer.toString(month_now)+Integer.toString(day_now));
+		if("".equals(day)||(day==null)||"".equals(exp)){
+			return flag;
+		}  
+		
+		return flag;
+	}
+
 }
