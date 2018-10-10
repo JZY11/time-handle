@@ -282,5 +282,30 @@ public class NormTime {
 		Log.logger.info("时间最终结果day1:	"+day1);
 		return flag;
 	}
+	
+	public static int getMaxDay(int year,int month){
+		int maxday;
+		if(month==1||month==3||month==5||month==7||month==8||month==10||month==12){
+			maxday=31;
+		}else if(month==4||month==6||month==9||month==11){
+			maxday=30;
+		}else{
+			if(year%4==0){
+				maxday=29;
+			}else{
+				maxday=28;
+			}
+		}
+		return maxday;
+	}
+	public static void main(String[] args) {
+//		List<String> normtime=getNormTime("三分钟后");
+//		for(String str:normtime){
+//			Log.logger.info("normtime:"+str);
+//			Log.logger.info(":");
+//		}
+		String ct=NormTime.getCityZone().get("pacific");
+		System.out.println(ct);
+	}
 
 }
