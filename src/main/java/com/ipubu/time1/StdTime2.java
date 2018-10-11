@@ -684,5 +684,34 @@ public class StdTime2 {
 			// m.appendReplacement(sb, "明天到大后天");
 			result = m.find();
 		}
+		
+		
+		
+		///
+		rules = "过去两天|过去2天|过去二天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("昨天到今天")) {
+				exp = exp.replaceAll("昨天到今天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		
+		rules = "过去3天|过去三天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("前天到今天")) {
+				exp = exp.replaceAll("前天到今天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
 	}
 }
