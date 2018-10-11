@@ -893,4 +893,29 @@ public class StdTime2 {
 		return ltf3;
 	}
 
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// "今天到二十号天气本周日天气"; 礼拜四天气 "十二月九日天气";"周四";"十月十号";
+//		Constants.setDataDir("./data_multi_11_03/");
+		//SegmentMore.initUserDefineWords(Constants.wcdir);
+//		SegmentMore.init();
+		String text = "现在到国庆节还有多少天";
+		text = text.replace("气温", "");
+		text = text.replaceAll("天气|查一下|播一下|查下|播下|播报下|说一下|上一个|定一个|查询下|播报一下|四川|三门峡|几月|几日|上个|十堰",""); //识别时去掉天气这个词，解决明天过后天气，提取出后天
+		List<TimeFormat2> ltf = normalTime(text,"");
+		List<TimeFormat2> ltf2 = normalTime_o(text, ltf,"");
+//		Log.logger.info("ltf.size():" + ltf.size());
+		for (TimeFormat2 t : ltf2) {
+			Log.logger.info(t.toString());
+		}
+		List<TimeFormat3> ltf3=normalTime_o2(text,ltf2);
+//		Log.logger.info("ltf3.size():" + ltf3.size());
+//		TimeAnalys ta = new TimeAnalys();
+//		List<TimeFormat3> ltf33 = ta.analysPross(ltf3);
+		for (TimeFormat3 t : ltf3) {
+			Log.logger.info(t.toString());
+			
+		}
+
+	}
 }
