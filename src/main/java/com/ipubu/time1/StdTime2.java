@@ -343,4 +343,346 @@ public class StdTime2 {
 		
 		return exp;
 	}
+	public static String o_wordTranslator(String text, String exp,String domian) {
+		if (text.contains("礼拜") && exp.contains("星期")) {
+			exp = exp.replaceAll("星期", "礼拜");
+		}
+		if (text.contains("礼拜天") && exp.contains("礼拜7")) {
+			exp = exp.replaceAll("礼拜7", "礼拜天");
+		}
+		if (text.contains("礼拜日") && exp.contains("礼拜7")) {
+			exp = exp.replaceAll("礼拜7", "礼拜日");
+		}
+		if (text.contains("星期天") && exp.contains("星期7")) {
+			exp = exp.replaceAll("星期7", "星期天");
+		}
+		if (text.contains("星期日") && exp.contains("星期7")) {
+			exp = exp.replaceAll("星期7", "星期日");
+		}
+		if (text.contains("周天") && exp.contains("周7")) {
+			exp = exp.replaceAll("周7", "周天");
+		}
+		if (text.contains("周日") && exp.contains("周7")) {
+			exp = exp.replaceAll("周7", "周日");
+		}
+		if (text.contains("周末") && exp.contains("周7")) {
+			exp = exp.replaceAll("周7", "周末");
+		}
+		if (text.contains("周六日") && exp.contains("周6到周7")) {
+			exp = exp.replaceAll("周6到周7", "周六日");
+		}
+		String rules = "未来几天|随后几天|未来3天|未来三天|往后三天|往后3天|接下来三天|明天过后|接下来3天";
+		Pattern p = Pattern.compile(rules);
+		Matcher m = p.matcher(text);
+		StringBuffer sb = new StringBuffer();
+		boolean result = m.find();
+		while (result) {
+			if (exp.contains("今天到后天")) {
+				exp = exp.replaceAll("今天到后天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		// m.appendTail(sb);
+		// text = sb.toString();
+		 rules = "未来四天|随后四天|未来4天|往后四天|往后4天|接下来四天|接下来4天|4天以内|4天内|四天以内|四天内|随后4天";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到大后天")) {
+				exp = exp.replaceAll("今天到大后天", m.group());
+			}
+			result = m.find();
+		}
+		
+		 rules = "未来五天|随后五天|未来5天|往后五天|往后5天|接下来五天|接下来5天|随后5天";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到4天后")) {
+				exp = exp.replaceAll("今天到4天后", m.group());
+			}
+			result = m.find();
+		}
+		 rules = "未来六天|随后六天|往后六天|往后6天|接下来六天|接下来6天|未来6天|随后6天";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到5天后")) {
+				exp = exp.replaceAll("今天到5天后", m.group());
+			}
+			result = m.find();
+		}
+		 rules = "未来七天|随后七天|往后七天|往后7天|接下来七天|接下来7天|未来7天|随后7天|往后7天|未来一周|未来1周";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到6天后")) {
+				exp = exp.replaceAll("今天到6天后", m.group());
+			}
+			result = m.find();
+		}
+		
+		///////
+		 rules = "乐语音天气";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到6天后")) {
+				exp = exp.replaceAll("今天到6天后", m.group());
+			}
+			result = m.find();
+		}
+		////
+
+		rules = "((周|星期)[1234567一二三四五六日天])((周|星期)[1234567一二三四五六日天])";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		result = m.find();
+		while (result) {
+				exp = exp.replaceAll("和","");
+			result = m.find();
+		}
+		
+		rules = "([一二两三四五六七八九十0123456789]{1,2}[号日])([一二两三四五六七八九十0123456789]{1,2}[号日])";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		result = m.find();
+		while (result) {
+				exp = exp.replaceAll("和","");
+			result = m.find();
+		}
+		
+		rules = "((周|星期)[一二三四五六七1234567日天])与((周|星期)[一二三四五六七1234567日天])";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			exp = exp.replaceAll("到","与");
+			result = m.find();
+		}
+
+
+		rules = "今明天|今天明天|今明天|今明两天|今明2天|今天与明天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("今天到明天")) {
+				exp = exp.replaceAll("今天到明天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		rules = "24小时内|每天|实时";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		result = m.find();
+		while (result) {
+			if (exp.contains("今儿")) {
+				exp =  exp.replaceAll("今儿", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		////
+	
+		rules = "工作日";
+		p = Pattern.compile(rules);
+		
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("周1到周5")) {
+				exp = exp.replaceAll("周1到周5", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		////
+		rules = "周6日|周末|非工作日|周六日";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("周6到周7")) {
+				exp = exp.replaceAll("周6到周7", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		/////
+		rules = "后儿|过两天";
+		p = Pattern.compile(rules);
+		
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("后天")) {
+				exp = exp.replaceAll("后天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+
+		/////
+		rules = "前儿|前儿晚";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("前天")) {
+				exp = exp.replaceAll("前天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		///
+		rules = "周天儿";
+		p = Pattern.compile(rules);
+		
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("周天")) {
+				exp = exp.replaceAll("周天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+
+		
+		
+		rules = "未来24小时|未来二十四小时";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("明天")) {
+				exp = exp.replaceAll("明天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		////
+		rules = "半夜|上半夜|下半夜|午夜|黎明";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("凌晨")) {
+				exp = exp.replaceAll("凌晨", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		
+		rules = "明后天|明天后天|未来2天|未来两天|明后两天|明后2天|接下来两天|明天与后天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("明天到后天")) {
+				exp = exp.replaceAll("明天到后天", m.group());
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		String rules_sp="(本周|这周|这星期)[1-7一二三四五六七天日]";
+		Pattern p_sp = Pattern.compile(rules_sp);
+		Matcher m_sp = p_sp.matcher(text);
+		boolean result_sp = !m_sp.find();
+		if (result_sp) {
+			rules = "(本周|这周|这星期|这一周|这一星期|最近一周|这1周|这1星期|最近1周)";
+			p = Pattern.compile(rules);
+			m = p.matcher(text);
+			sb = new StringBuffer();
+			result = m.find();
+			while (result) {
+				if (exp.contains("周1到周7")) {
+					exp = exp.replaceAll("周1到周7", m.group());
+				}
+				// m.appendReplacement(sb, "明天到大后天");
+				result = m.find();
+			}
+			
+		}
+		
+		rules = "(明年|去年|今年|([0123456789一二三四五六七八九零两千]+)年)([0123456789一二三四五六七八九零两十]+)月([0123456789一二三四五六七八九零两十]+)(日|号)到现在";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			
+			if (exp.contains("年")&&exp.contains("月")&&exp.contains("日")&&exp.contains("点")&&exp.contains("分")&&exp.contains("秒")) 
+				exp = m.group();
+			result = m.find();
+		}
+		
+		
+		rules = "(((([0123456789一二三四五六七八九零千]+)年)|去年|前年|明年|后年|今年)的?)?"+"(寒食节|七夕情人节|下元节|端午节|中秋节|清明节|中元节|圣诞节|重阳节|国庆节|大寒|谷雨|处暑|元旦|重阳|平安夜|建党节|劳动节|春分|秋分|教师节|圣诞|"
+				+ "联合国日|中元|老人节|除夕|霜降|青年节|清明|大雪|小寒|万圣节|孙中山诞辰纪念日|国庆|寒露|立夏|"
+				+ "建军节|中秋|小雪|端午|立春|小满|爸爸节|大暑|消费者权益日|下元|国际奥林匹克日|植树节|元宵节|小年|"
+				+ "立冬|夏至|愚人节|冬至|白露|雨水|七夕|孔子诞辰|护士节|小暑|惊蛰|芒种|妇女节|澳门回归纪念日|立秋|"
+				+ "春节|过年|端阳|寒食|腊八节|抗战胜利纪念日|情人节|世界艾滋病日|儿童节|父亲节|母亲节|新年|阳历年|11期间|十一期间|五一|十一|光棍节)";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+
+		while (result) {
+			if (exp.contains("年")&&exp.contains("月")&&exp.contains("日")&&exp.contains("点")&&exp.contains("分")&&exp.contains("秒")) {
+//				exp = exp.replaceAll("年", m.group());
+				String str="";
+				if(exp.length()>(exp.indexOf('秒')+1)){
+					str = exp.substring(exp.indexOf('秒')+1);
+				}
+				
+				exp = m.group()+str;
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+		//
+		rules = "现在|当前";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+
+		while (result) {
+			if (exp.contains("年")&&exp.contains("月")&&exp.contains("日")&&exp.contains("点")&&exp.contains("分")&&exp.contains("秒")) {
+//				exp = exp.replaceAll("年", m.group());
+				String str="";
+				if(exp.length()>(exp.indexOf('秒')+1)){
+					str = exp.substring(exp.indexOf('秒')+1);
+				}
+				
+				exp = m.group()+str;
+			}
+			// m.appendReplacement(sb, "明天到大后天");
+			result = m.find();
+		}
+	}
 }
