@@ -822,4 +822,50 @@ public class StdTime2 {
 
 		return ltf;
 	}
+	public static List<TimeFormat3> normalTime_o2(String text, List<TimeFormat2> ltf) {
+
+		List<TimeFormat3> ltf3 = new ArrayList<TimeFormat3>();
+		if(ltf==null||ltf.size()==0) return ltf3;
+		
+		String h1="null";String h2="null";
+		String h3="null";String h4="null";
+		String h5="null";
+		if(ltf.size()>1){
+			 h1=ltf.get(0).getTimeExp()+ltf.get(1).getTimeExp();
+			 h2=ltf.get(0).getTimeExp()+"和"+ltf.get(1).getTimeExp();
+			 h4=ltf.get(0).getTimeExp()+"与"+ltf.get(1).getTimeExp();
+			 h3=ltf.get(0).getTimeExp()+"过"+ltf.get(1).getTimeExp();
+			 h5=ltf.get(0).getTimeExp()+"儿"+ltf.get(1).getTimeExp();
+		}
+		if(text.contains(h1)){
+			TimeFormat3 tf3=new TimeFormat3(null, null);
+			List<String> ls=new ArrayList<String>();
+			ls.add(ltf.get(0).toString2());
+			ls.add(ltf.get(1).toString2());
+			tf3.setTime(ls);
+			tf3.setTimeExp(h1);
+			ltf3.add(tf3);	
+		}else if(text.contains(h2)){
+			TimeFormat3 tf3=new TimeFormat3(null, null);
+			List<String> ls=new ArrayList<String>();
+			ls.add(ltf.get(0).toString2());
+			ls.add(ltf.get(1).toString2());
+			tf3.setTime(ls);
+			tf3.setTimeExp(h2);
+			ltf3.add(tf3);	
+		}else {
+			for(TimeFormat2 tf2:ltf){
+				TimeFormat3 tf3=new TimeFormat3(null, null);
+				List<String> ls=new ArrayList<String>();
+				ls.add(tf2.toString2());
+				tf3.setTime(ls);
+				tf3.setTimeExp(tf2.getTimeExp());
+				ltf3.add(tf3);
+			}
+
+		}
+		
+		return ltf3;
+	}
+
 }
