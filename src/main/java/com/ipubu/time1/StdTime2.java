@@ -853,7 +853,32 @@ public class StdTime2 {
 			tf3.setTime(ls);
 			tf3.setTimeExp(h2);
 			ltf3.add(tf3);	
-		}else {
+		}else if(text.contains(h4)){
+			TimeFormat3 tf3=new TimeFormat3(null, null);
+			List<String> ls=new ArrayList<String>();
+			ls.add(ltf.get(0).toString2());
+			ls.add(ltf.get(1).toString2());
+			tf3.setTime(ls);
+			tf3.setTimeExp(h4);
+			ltf3.add(tf3);	
+		}
+		else if(text.contains(h3)){
+			TimeFormat3 tf3=new TimeFormat3(null, null);
+			List<String> ls=new ArrayList<String>();
+			ls.add("[startTime="+ltf.get(0).getStartTime()+",endTime="+ltf.get(1).getEndTime()+"]");
+			tf3.setTime(ls);
+			tf3.setTimeExp(h3);
+			ltf3.add(tf3);	
+		}
+		else if(text.contains(h5)){
+			TimeFormat3 tf3=new TimeFormat3(null, null);
+			List<String> ls=new ArrayList<String>();
+			ls.add(ltf.get(1).toString2());
+			tf3.setTime(ls);
+			tf3.setTimeExp(h5);
+			ltf3.add(tf3);	
+		}
+		else {
 			for(TimeFormat2 tf2:ltf){
 				TimeFormat3 tf3=new TimeFormat3(null, null);
 				List<String> ls=new ArrayList<String>();
