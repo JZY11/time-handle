@@ -713,5 +713,29 @@ public class StdTime2 {
 			// m.appendReplacement(sb, "明天到大后天");
 			result = m.find();
 		}
+		
+		 rules = "下周";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("下周1到下周7")) {
+				exp = exp.replaceAll("下周1到下周7", m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "上周";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("上周1到上周7")) {
+				exp = exp.replaceAll("上周1到上周7", m.group());
+			}
+			result = m.find();
+		}
 	}
 }
