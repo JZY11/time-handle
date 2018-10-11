@@ -762,5 +762,37 @@ public class StdTime2 {
 			}
 			result = m.find();
 		}
+		
+		rules = "(截止|截至)(\\d+(号|日))";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到"+m.group(2))) {
+				exp = exp.replaceAll("今天到"+m.group(2), m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "到(\\d+(号|日))(止|为止)";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到"+m.group(2))) {
+				exp = exp.replaceAll("今天到"+m.group(2), m.group());
+			}
+			result = m.find();
+		}
+		
+		
+		
+		if("新闻".equals(domian)){
+			exp = wordTranslatorRev(text, exp);
+		}else 
+			exp =wordTranslatorFor(text, exp);
+		return exp;
 	}
 }
