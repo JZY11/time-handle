@@ -737,5 +737,30 @@ public class StdTime2 {
 			}
 			result = m.find();
 		}
+		
+		 rules = "(截止|截至|截止到|截至到)((周|礼拜|星期)[1-7一二三四五六日])((早上|中午|晚上|下午)?([0-9一二三四五六七八九两零]点)半?)?(为止|)";//(截止)?到(周[1-7])(止|为止)?
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();		
+		while (result) {
+			if (exp.contains("今天到")) {
+				exp = exp.replaceAll(exp, m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "到((周|礼拜|星期)[1-7一二三四五六日])((早上|中午|晚上|下午)?([0-9一二三四五六七八九两零]点)半?)?(止|为止)";//(截止)?到(周[1-7])(止|为止)? 
+		p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();		
+		while (result) {
+			System.out.println(m.group());
+			if (exp.contains("今天到")) {
+				exp = exp.replaceAll(exp, m.group());
+			}
+			result = m.find();
+		}
 	}
 }
