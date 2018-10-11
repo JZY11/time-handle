@@ -795,4 +795,31 @@ public class StdTime2 {
 			exp =wordTranslatorFor(text, exp);
 		return exp;
 	}
+
+	public static List<TimeFormat2> normalTime_o(String text, List<TimeFormat2> ltf , String domain) {
+		for (TimeFormat2 t : ltf) {
+//			Log.logger.info(t.getTimeExp());
+//			Log.logger.info("text:" + text);
+			String tar = StringPreHandlingModule.numberTranslator(text);
+//			Log.logger.info("tar:" + tar);
+			String exp = t.getTimeExp();
+//			Log.logger.info("exp:" + exp);
+			if (!text.contains(exp)) {
+//			Log.logger.info("exp:" + exp);
+				exp = o_wordTranslator(text, exp,domain);
+//				Log.logger.info("exp:" + exp);
+//				String s = foematIntegerUtil.regexTr(exp);
+				String s = FormatIntegerUtil.getExp(text, exp);
+//				Log.logger.info("exps:" + s);
+//				String firststr = s.substring(0, 1);
+//				String endtstr = s.substring(s.length() - 1);
+//				s = text.substring(text.indexOf(firststr), text.indexOf(firststr) + s.length());
+				t.setTimeExp(s);
+				text = text.replaceAll(s, "");
+			} 
+			
+		}
+
+		return ltf;
+	}
 }
