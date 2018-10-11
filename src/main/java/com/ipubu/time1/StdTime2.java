@@ -264,4 +264,83 @@ public class StdTime2 {
 		
 		return exp;
 	}
+	
+	
+	public static String wordTranslatorRev(String text, String exp) {
+		
+		String rules = "最近几天|这3天|这三天|这几天|这些天|三天内|3天内|最近三天|最近3天|最近|近三天|近3天";
+		Pattern p = Pattern.compile(rules);
+		Matcher m = p.matcher(text);
+		StringBuffer sb = new StringBuffer();
+		boolean result = m.find();
+		while (result) {
+			if (exp.contains("今天到前天")) {
+				exp = exp.replaceAll("今天到前天", m.group());
+			}
+			result = m.find();
+		}
+		
+		 rules = "最近一周|最近七天|最近7天|近1周|近一周|七天以内|7天以内|7天内|七天内|近7天|近七天";
+		 p = Pattern.compile(rules);
+		 m = p.matcher(text);
+		 sb = new StringBuffer();
+		 result = m.find();
+		while (result) {
+			if (exp.contains("今天到6天前")) {
+				exp = exp.replaceAll("今天到6天前", m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "这6天|最近6天|6天内|6天以内|六天以内|六天内|最近六天|这六天|近六天|近6天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("今天到5天前")) {
+				exp = exp.replaceAll("今天到5天前", m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "这5天|最近5天|5天内|5天以内|五天以内|五天内|最近五天|这五天|近五天|近5天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("今天到4天前")) {
+				exp = exp.replaceAll("今天到4天前", m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "这4天|最近4天|4天内|4天以内|四天以内|四天内|最近四天|这四天|近四天|近4天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("今天到大前天")) {
+				exp = exp.replaceAll("今天到大前天", m.group());
+			}
+			result = m.find();
+		}
+		
+		rules = "这2天|最近2天|2天内|2天以内|两天以内|两天内|最近两天|这两天|近两天|近2天";
+		p = Pattern.compile(rules);
+		m = p.matcher(text);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			if (exp.contains("今天到昨天")) {
+				exp = exp.replaceAll("今天到昨天", m.group());
+			}
+			result = m.find();
+		}
+		
+		
+		return exp;
+	}
 }
