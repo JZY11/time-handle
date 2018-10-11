@@ -152,4 +152,39 @@ public class StdTime2 {
 	}
 
 	
+	public static String comTim(Date date,String stmp) {
+		if(date==null||stmp==null) return null;
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		if(Calendar.getInstance().getTime().before(date)){
+//			if((stmp.contains("星期")||stmp.contains("礼拜")||stmp.contains("周"))&&!stmp.startsWith("本")&&!stmp.startsWith("这"))
+//			{
+//				cal.add(cal.DAY_OF_YEAR,-7);
+//			}else 
+				if((stmp.contains("日")||stmp.contains("号"))&&!stmp.contains("月")){
+				cal.add(cal.MONTH, -1);
+			}
+			
+		}
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
+		
+	}
+	
+	public static String comTim(Date date,boolean flag ) {
+		if(date==null) return null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(cal.MINUTE, 3);
+		cal.setTime(date);
+		
+		if(Calendar.getInstance().getTime().after(date)&&!flag){
+				cal.add(cal.MONTH,1);
+		}
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime());
+		
+	}
+	
 }
