@@ -875,4 +875,26 @@ public class TimeUnit {
 			_tp.tunit[2] = Integer.parseInt(time_fin[2]);
 		
 	}
+
+	/**
+	 * 该方法用于更新timeBase使之具有上下文关联性
+	 */
+	public void modifyTimeBase(){
+		String [] time_grid=new String[6];
+		time_grid=normalizer.getTimeBase().split("-");
+		
+		String s = "";
+		if(_tp.tunit[0] != -1)
+			s += Integer.toString(_tp.tunit[0]);
+		else
+			s += time_grid[0];
+		for(int i = 1; i < 6; i++){
+			s += "-";
+			if(_tp.tunit[i] != -1)
+				s += Integer.toString(_tp.tunit[i]);
+			else
+				s += time_grid[i];
+		}
+		normalizer.setTimeBase(s);
+	}
 }
