@@ -351,4 +351,164 @@ public class TimeUnit {
 			isAllDayTime = false;
 		}
 	}
+	
+	/**
+     *秒-规范化方法
+     *
+     *该方法识别时间表达式单元的秒字段
+     * 
+     */
+	public void norm_setsecond()
+	{
+		/*
+		 * 添加了省略“分”说法的时间
+		 * 如17点15分32
+		 * modified by 曹零
+		 */
+		String rule="([0-5]?[0-9](?=秒))|((?<=分)[0-5]?[0-9])";
+		
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			_tp.tunit[5]=Integer.parseInt(match.group());
+			isAllDayTime = false;
+		}	
+	}
+	
+	/**
+     *特殊形式的规范化方法
+     *
+     *该方法识别特殊形式的时间表达式单元的各个字段
+     * 
+     */
+	public void norm_setTotal()
+	{
+		String rule;
+		Pattern pattern;
+		Matcher match;
+		String[] tmp_parser;
+		String tmp_target;
+		
+		rule="(?<!(周|星期))([0-2]?[0-9]):[0-5]?[0-9]:[0-5]?[0-9]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			tmp_parser=new String[3];
+			tmp_target=match.group();
+			tmp_parser=tmp_target.split(":");
+			_tp.tunit[3]=Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[4]=Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[5]=Integer.parseInt(tmp_parser[2]);
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}else{
+			rule="(?<!(周|星期))([0-2]?[0-9]):[0-5]?[0-9]";
+			pattern=Pattern.compile(rule);
+			match=pattern.matcher(Time_Expression);
+			if(match.find())
+			{
+				tmp_parser=new String[2];
+				tmp_target=match.group();
+				tmp_parser=tmp_target.split(":");
+				_tp.tunit[3]=Integer.parseInt(tmp_parser[0]);
+				_tp.tunit[4]=Integer.parseInt(tmp_parser[1]);
+				/**处理倾向于未来时间的情况  @author kexm*/
+				////preferFuture(3);
+				isAllDayTime = false;
+			}
+		}
+		/*
+		 * 增加了:固定形式时间表达式的
+		 * 中午,午间,下午,午后,晚上,傍晚,晚间,晚,pm,PM
+		 * 的正确时间计算，规约同上
+		 */
+		rule = "(中午)|(午间)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 0 && _tp.tunit[3] <= 10)
+				_tp.tunit[3] += 12;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.noon.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+			////preferFuture(3);
+			isAllDayTime = false;
+			
+		}
+		
+		rule = "(下午)|(午后)|(pm)|(PM)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 0 && _tp.tunit[3] <= 11)
+				_tp.tunit[3] += 12;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.afternoon.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "晚";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 1 && _tp.tunit[3] <= 11)
+				_tp.tunit[3] += 12;
+			else if(_tp.tunit[3] == 12)
+				_tp.tunit[3] = 0;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.night.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		
+		rule="[0-9]?[0-9]?[0-9]{2}-((10)|(11)|(12)|([1-9]))-((?<!\\d))([0-3][0-9]|[1-9])";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			tmp_parser=new String[3];
+			tmp_target=match.group();
+			tmp_parser=tmp_target.split("-");
+			_tp.tunit[0]=Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[1]=Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[2]=Integer.parseInt(tmp_parser[2]);
+		}
+		
+		rule="((10)|(11)|(12)|([1-9]))/((?<!\\d))([0-3][0-9]|[1-9])/[0-9]?[0-9]?[0-9]{2}";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			tmp_parser=new String[3];
+			tmp_target=match.group();
+			tmp_parser=tmp_target.split("/");
+			_tp.tunit[1]=Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[2]=Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[0]=Integer.parseInt(tmp_parser[2]);
+		}
+		
+		/*
+		 * 增加了:固定形式时间表达式 年.月.日 的正确识别
+		 * add by 曹零
+		 */
+		rule="[0-9]?[0-9]?[0-9]{2}\\.((10)|(11)|(12)|([1-9]))\\.((?<!\\d))([0-3][0-9]|[1-9])";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			tmp_parser=new String[3];
+			tmp_target=match.group();
+			tmp_parser=tmp_target.split("\\.");
+			_tp.tunit[0]=Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[1]=Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[2]=Integer.parseInt(tmp_parser[2]);
+		}
+	}
 }
