@@ -992,4 +992,54 @@ public class TimeUnit {
 	public String toString(){
 		return Time_Expression+" ---> "+ Time_Norm;
 	}
+	
+	/**
+	 * 如果用户选项是倾向于未来时间，检查checkTimeIndex所指的时间是否是过去的时间，如果是的话，将大一级的时间设为当前时间的+1。
+	 * 
+	 * 如在晚上说“早上8点看书”，则识别为明天早上;
+	 * 12月31日说“3号买菜”，则识别为明年1月的3号。
+	 * 
+	 * @param checkTimeIndex _tp.tunit时间数组的下标
+	 */
+	private void preferFuture(int checkTimeIndex){
+		/**1. 检查被检查的时间级别之前，是否没有更高级的已经确定的时间，如果有，则不进行处理.*/
+		for(int i = 0; i < checkTimeIndex; i++){
+			if(_tp.tunit[i] != -1)  return;
+		}
+		/**2. 根据上下文补充时间*/
+		checkContextTime(checkTimeIndex);
+		/**3. 根据上下文补充时间后再次检查被检查的时间级别之前，是否没有更高级的已经确定的时间，如果有，则不进行倾向处理.*/
+		for(int i = 0; i < checkTimeIndex; i++){
+			if(_tp.tunit[i] != -1)  return;
+		}
+		/**4. 确认用户选项*/
+		if(!normalizer.isPreferFuture()){
+			return;
+		}
+		/**5. 获取当前时间，如果识别到的时间小于当前时间，则将其上的所有级别时间设置为当前时间，并且其上一级的时间步长+1*/
+	    Calendar c = Calendar.getInstance();
+	    if (this.normalizer.getTimeBase() != null) {
+	      String[] ini = this.normalizer.getTimeBase().split("-");
+	      c.set(Integer.valueOf(ini[0]).intValue(), Integer.valueOf(ini[1]).intValue()-1, Integer.valueOf(ini[2]).intValue()
+	    	  , Integer.valueOf(ini[3]).intValue(), Integer.valueOf(ini[4]).intValue(), Integer.valueOf(ini[5]).intValue());
+	      Log.logger.info(DateUtil.formatDateDefault(c.getTime()));
+	    }
+	    
+		int curTime = c.get(TUNIT_MAP.get(checkTimeIndex));
+		if(curTime < _tp.tunit[checkTimeIndex]){
+			return;
+		}
+		//准备增加的时间单位是被检查的时间的上一级，将上一级时间+1
+		int addTimeUnit = TUNIT_MAP.get(checkTimeIndex-1);
+		c.add(addTimeUnit, 1);
+		
+//		_tp.tunit[checkTimeIndex - 1] = c.get(TUNIT_MAP.get(checkTimeIndex - 1));
+		for(int i = 0; i < checkTimeIndex; i++){
+			_tp.tunit[i] = c.get(TUNIT_MAP.get(i));
+			if(TUNIT_MAP.get(i) == Calendar.MONTH){
+				++_tp.tunit[i];
+			}
+		}
+		
+	}
 }
