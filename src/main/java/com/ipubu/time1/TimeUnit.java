@@ -155,4 +155,200 @@ public class TimeUnit {
 			}
 		}	
 	}
+	
+	/**
+     *日-规范化方法
+     *
+     *该方法识别时间表达式单元的日字段
+     * 
+     */
+	public void norm_setday()
+	{
+		String rule="((?<!\\d))([0-3][0-9]|[1-9])(?=(日|号))";
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			_tp.tunit[2]=Integer.parseInt(match.group());
+			
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(2);
+		}	
+	}
+	
+	/**
+     *时-规范化方法
+     *
+     *该方法识别时间表达式单元的时字段
+     * 
+     */
+	public Boolean getIsTimePoint() {
+		return isTimePoint;
+	}
+
+	public void setIsTimePoint(Boolean isTimePoint) {
+		this.isTimePoint = isTimePoint;
+	}
+
+	public Boolean getIsDate() {
+		return isDate;
+	}
+
+	public void setIsDate(Boolean isDate) {
+		this.isDate = isDate;
+	}
+	public void norm_sethour()
+	{
+		String rule="(?<!(周|星期))([0-2]?[0-9])(?=(点|时))(前|之前|以前|后|之后|以后)?";
+		
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			_tp.tunit[3]=Integer.parseInt(match.group());
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isTimePoint = true;
+			isAllDayTime = false;
+		}	
+		/*
+		 * 对关键字：早（包含早上/早晨/早间），上午，中午,午间,下午,午后,晚上,傍晚,晚间,晚,pm,PM的正确时间计算
+		 * 规约：
+		 * 1.中午/午间0-10点视为12-22点
+		 * 2.下午/午后0-11点视为12-23点
+		 * 3.晚上/傍晚/晚间/晚1-11点视为13-23点，12点视为0点
+		 * 4.0-11点pm/PM视为12-23点
+		 * 
+		 * add by kexm
+		 */
+		rule = "凌晨";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“凌晨”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.day_break.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "早上|早晨|早间|晨间|今早|明早";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“早上/早晨/早间”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.early_morning.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "上午";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“上午”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.morning.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "(中午)|(午间)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 0 && _tp.tunit[3] <= 10)
+				_tp.tunit[3] += 12;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.noon.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "(下午)|(午后)|(pm)|(PM)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 0 && _tp.tunit[3] <= 11)
+				_tp.tunit[3] += 12;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“下午|午后”这种情况的处理  @author kexm*/
+				_tp.tunit[3] = RangeTimeEnum.afternoon.getHourTime(); 
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		rule = "晚上|夜间|夜里|今晚|明晚";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			if(_tp.tunit[3] >= 1 && _tp.tunit[3] <= 11)
+				_tp.tunit[3] += 12;
+			else if(_tp.tunit[3] == 12)
+				_tp.tunit[3] = 0; 
+			else if(_tp.tunit[3] == -1)
+				_tp.tunit[3] = RangeTimeEnum.night.getHourTime();
+			
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+	}
+	
+	/**
+     *分-规范化方法
+     *
+     *该方法识别时间表达式单元的分字段
+     * 
+     */
+	public void norm_setminute()
+	{
+		String rule="([0-5]?[0-9](?=分(?!钟)))|((?<=((?<!小)[点时]))[0-5]?[0-9](?!刻))";
+		
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			if(!match.group().equals("")){
+				_tp.tunit[4]=Integer.parseInt(match.group());
+				/**处理倾向于未来时间的情况  @author kexm*/
+//				//preferFuture(4);
+				isAllDayTime = false;
+				isTimePoint = true;
+			}
+		}
+		/** 加对一刻，半，3刻的正确识别（1刻为15分，半为30分，3刻为45分）*/
+		rule = "(?<=[点时])[1一]刻(?!钟)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			_tp.tunit[4] = 15;
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(4);
+			isAllDayTime = false;
+		}
+		
+		rule = "(?<=[点时])半";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			_tp.tunit[4] = 30;
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(4);
+			isAllDayTime = false;
+		}
+		
+		rule = "(?<=[点时])[3三]刻(?!钟)";
+		pattern = Pattern.compile(rule);
+		match = pattern.matcher(Time_Expression);
+		if(match.find()){
+			_tp.tunit[4] = 45;
+			/**处理倾向于未来时间的情况  @author kexm*/
+//			//preferFuture(4);
+			isAllDayTime = false;
+		}
+	}
 }
