@@ -1042,4 +1042,66 @@ public class TimeUnit {
 		}
 		
 	}
+	
+	/**
+	 * 如果用户选项是倾向于未来时间，检查所指的day_of_week是否是过去的时间，如果是的话，设为下周。
+	 * 
+	 * 如在周五说：周一开会，识别为下周一开会
+	 * 
+	 * @param weekday 识别出是周几（范围1-7）
+	 */
+	private void preferFutureWeek(int weekday, Calendar c){
+		/**1. 确认用户选项*/
+		if(!normalizer.isPreferFuture()){
+			return;
+		}
+		/**2. 检查被检查的时间级别之前，是否没有更高级的已经确定的时间，如果有，则不进行倾向处理.*/
+		int checkTimeIndex = 2;
+		for(int i = 0; i < checkTimeIndex; i++){
+			if(_tp.tunit[i] != -1)  return;
+		}
+		/**获取当前是在周几，如果识别到的时间小于当前时间，则识别时间为下一周*/
+	    Calendar curC = Calendar.getInstance();
+	    if (this.normalizer.getTimeBase() != null) {
+	      String[] ini = this.normalizer.getTimeBase().split("-");
+	      curC.set(Integer.valueOf(ini[0]).intValue(), Integer.valueOf(ini[1]).intValue(), Integer.valueOf(ini[2]).intValue()
+	    	     , Integer.valueOf(ini[3]).intValue(), Integer.valueOf(ini[4]).intValue(), Integer.valueOf(ini[5]).intValue());
+	    }
+		int curWeekday = curC.get(Calendar.DAY_OF_WEEK);
+		if(weekday == 1){
+			weekday = 7;
+		}
+		if(curWeekday < weekday){
+			return;
+		}
+		//准备增加的时间单位是被检查的时间的上一级，将上一级时间+1
+		c.add(Calendar.WEEK_OF_YEAR, 1);
+	}
+	
+	/**
+	 * 根据上下文时间补充时间信息
+	 * 
+	 */
+	private void checkContextTime(int checkTimeIndex){
+		for(int i = 0; i < checkTimeIndex ; i++){
+			if(_tp.tunit[i] == -1 && _tp_origin.tunit[i] != -1){
+				_tp.tunit[i] = _tp_origin.tunit[i];
+			} 
+		}
+		/**在处理小时这个级别时，如果上文时间是下午的且下文没有主动声明小时级别以上的时间，则也把下文时间设为下午*/
+		if(isFirstTimeSolveContext == true && checkTimeIndex == 3 && _tp_origin.tunit[checkTimeIndex] >= 12 && _tp.tunit[checkTimeIndex] < 12 ){
+			_tp.tunit[checkTimeIndex] += 12;
+		}
+		isFirstTimeSolveContext = false;
+	}
+	
+	private static Map<Integer, Integer> TUNIT_MAP = new HashMap<Integer, Integer>();
+	static{
+		TUNIT_MAP.put(0, Calendar.YEAR);
+		TUNIT_MAP.put(1, Calendar.MONTH);
+		TUNIT_MAP.put(2, Calendar.DAY_OF_MONTH);
+		TUNIT_MAP.put(3, Calendar.HOUR_OF_DAY);
+		TUNIT_MAP.put(4, Calendar.MINUTE);
+		TUNIT_MAP.put(5, Calendar.SECOND);
+	}
 }
