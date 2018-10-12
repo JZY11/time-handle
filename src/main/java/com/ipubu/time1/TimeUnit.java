@@ -897,4 +897,99 @@ public class TimeUnit {
 		}
 		normalizer.setTimeBase(s);
 	}
+	
+	/**
+     *时间表达式规范化的入口
+     *
+     *时间表达式识别后，通过此入口进入规范化阶段，
+     *具体识别每个字段的值
+     * 
+     */
+	public void Time_Normalization()
+	{
+		norm_setyear();
+		norm_setmonth();
+		norm_setday();
+		norm_setmonth_fuzzyday();/**add by kexm*/
+		norm_setBaseRelated();
+		norm_setCurRelated();
+		norm_sethour();
+		norm_setminute();
+		norm_setsecond();
+		norm_setTotal();
+		modifyTimeBase();
+		
+		_tp_origin.tunit = _tp.tunit.clone();
+		
+		String [] time_grid=new String[6];
+		time_grid=normalizer.getTimeBase().split("-");
+		
+		int tunitpointer=5;
+		while (tunitpointer>=0 && _tp.tunit[tunitpointer]<0)
+		{
+			tunitpointer--;
+		}
+		for (int i=0;i<tunitpointer;i++)
+		{
+			if (_tp.tunit[i]<0)
+				_tp.tunit[i]=Integer.parseInt(time_grid[i]);
+		}
+		String[] _result_tmp=new String[6];
+		_result_tmp[0]=String.valueOf(_tp.tunit[0]);
+		if (_tp.tunit[0]>=10 &&_tp.tunit[0]<100)
+		{
+			_result_tmp[0]="19"+String.valueOf(_tp.tunit[0]);
+		}
+		if (_tp.tunit[0]>0 &&_tp.tunit[0]<10)
+		{
+			_result_tmp[0]="200"+String.valueOf(_tp.tunit[0]);
+		}
+		
+		for (int i = 1; i < 6; i++) {
+            _result_tmp[i] = String.valueOf(_tp.tunit[i]);
+        }
+
+        Calendar cale = Calendar.getInstance();			//leverage a calendar object to figure out the final time
+        cale.clear();
+        if (Integer.parseInt(_result_tmp[0]) != -1) {
+            Time_Norm += _result_tmp[0] + "年";
+            cale.set(Calendar.YEAR, Integer.valueOf(_result_tmp[0]));
+            if (Integer.parseInt(_result_tmp[1]) != -1) {
+                Time_Norm += _result_tmp[1] + "月";
+                cale.set(Calendar.MONTH, Integer.valueOf(_result_tmp[1]) - 1);
+                if (Integer.parseInt(_result_tmp[2]) != -1) {
+                    Time_Norm += _result_tmp[2] + "日";
+                    cale.set(Calendar.DAY_OF_MONTH, Integer.valueOf(_result_tmp[2]));
+                    if (Integer.parseInt(_result_tmp[3]) != -1) {
+                        Time_Norm += _result_tmp[3] + "时";
+                        cale.set(Calendar.HOUR_OF_DAY, Integer.valueOf(_result_tmp[3]));
+                        if (Integer.parseInt(_result_tmp[4]) != -1) {
+                            Time_Norm += _result_tmp[4] + "分";
+                            cale.set(Calendar.MINUTE, Integer.valueOf(_result_tmp[4]));
+                            if (Integer.parseInt(_result_tmp[5]) != -1) {
+                                Time_Norm += _result_tmp[5] + "秒";
+                                cale.set(Calendar.SECOND, Integer.valueOf(_result_tmp[5]));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        time = cale.getTime();
+		
+		time_full = _tp.tunit.clone();
+//		time_origin = _tp_origin.tunit.clone(); comment by kexm
+	}
+	
+	public Boolean getIsAllDayTime() {
+		return isAllDayTime;
+	}
+
+	public void setIsAllDayTime(Boolean isAllDayTime) {
+		this.isAllDayTime = isAllDayTime;
+	}
+
+	public String toString(){
+		return Time_Expression+" ---> "+ Time_Norm;
+	}
 }
