@@ -511,4 +511,368 @@ public class TimeUnit {
 			_tp.tunit[2]=Integer.parseInt(tmp_parser[2]);
 		}
 	}
+	
+	/**
+	 * 设置以上文时间为基准的时间偏移计算
+	 * 
+	 */
+	public void norm_setBaseRelated(){
+		String [] time_grid=new String[6];
+		time_grid=normalizer.getTimeBase().split("-");
+		int[] ini = new int[6];
+		for(int i = 0 ; i < 6; i++)
+			ini[i] = Integer.parseInt(time_grid[i]);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
+		calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]);
+		calendar.getTime();
+		
+		boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
+		
+
+		String rule="\\d+(?=天[以之]?前)";
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int day = Integer.parseInt(match.group());
+			calendar.add(Calendar.DATE, -day);
+		}
+		
+		rule="(过)?(\\d+(?=天[以之]?后))";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int day = Integer.parseInt(match.group());
+			calendar.add(Calendar.DATE, day);
+		}
+		
+		rule="(过)((\\d+)天)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int day = Integer.parseInt(match.group().replace("过", "").replace("天", ""));
+			calendar.add(Calendar.DATE, day);
+		}
+		
+		rule="\\d+(?=周[以之]?前)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			int week = Integer.parseInt(match.group());
+			calendar.add(Calendar.WEEK_OF_YEAR, -week);
+		}
+		
+		rule="\\d+(?=周[以之]?后)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			int week = Integer.parseInt(match.group());
+			calendar.add(Calendar.WEEK_OF_YEAR, week);
+		}
+		
+		
+		rule="\\d+(?=(个)?月[以之]?前)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			int month = Integer.parseInt(match.group());
+			calendar.add(Calendar.MONTH, -month);
+		}
+		
+		rule="\\d+(?=(个)?月[以之]?后)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			int month = Integer.parseInt(match.group());
+			calendar.add(Calendar.MONTH, month);
+		}
+		
+		rule="\\d+(?=年[以之]?前)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			int year = Integer.parseInt(match.group());
+			calendar.add(Calendar.YEAR, -year);
+		}
+		
+		rule="\\d+(?=年[以之]?后)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			int year = Integer.parseInt(match.group());
+			calendar.add(Calendar.YEAR, year);
+		}
+		
+		String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
+		String[] time_fin = s.split("-");
+		if(flag[0]||flag[1]||flag[2]){
+			_tp.tunit[0] = Integer.parseInt(time_fin[0]);
+		}
+		if(flag[1]||flag[2])
+			_tp.tunit[1] = Integer.parseInt(time_fin[1]);
+		if(flag[1]||flag[2])
+			_tp.tunit[2] = Integer.parseInt(time_fin[2]);
+	}
+	
+	/**
+	 * 设置当前时间相关的时间表达式
+	 * 
+	 */
+	public void norm_setCurRelated(){
+		String [] time_grid=new String[6];
+		time_grid=normalizer.getOldTimeBase().split("-");
+		int[] ini = new int[6];
+		for(int i = 0 ; i < 6; i++)
+			ini[i] = Integer.parseInt(time_grid[i]);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
+		calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]);
+		calendar.getTime();
+		
+		boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
+		
+		String rule="前年";
+		Pattern pattern=Pattern.compile(rule);
+		Matcher match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, -2);
+		}
+		
+		rule="去年";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, -1);
+		}
+		
+		rule="今年";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, 0);
+		}
+		
+		rule="明年";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, 1);
+		}	
+		
+		rule="后年";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, 2);
+		}	
+		
+		rule="上(个)?月";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, -1);
+			
+		}
+		
+		rule="(本|这个)月";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, 0);
+		}
+		
+		rule="下(个)?月";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, 1);
+		}
+		
+		rule="大前天";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -3);
+		}
+		
+		rule="(?<!大)前天";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -2);
+		}
+		
+		rule="昨";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -1);
+		}
+		
+		rule="今(?!年)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 0);
+		}
+		
+		rule="明(?!年)";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 1);
+		}
+		
+		rule="(?<!大)后天";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 2);
+		}
+		
+		rule="大后天";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 3);
+		}
+		
+		rule="(?<=(上上(周|星期|礼拜)))[1-7]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int week = Integer.parseInt(match.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, -2);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
+		rule="(?<=((?<!上)上(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int week = Integer.parseInt(match.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, -1);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
+		rule="(?<=((?<!下)下(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int week = Integer.parseInt(match.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 1);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
+		rule="(?<=(下下(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int week = Integer.parseInt(match.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 2);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
+		rule="(?<=((?<!(上|下))(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		match=pattern.matcher(Time_Expression);
+		if(match.find())
+		{
+			flag[2] = true;
+			int week = Integer.parseInt(match.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 0);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+			/**处理未来时间倾向 @author kexm*/
+			//preferFutureWeek(week, calendar);
+		}
+		
+		String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
+		String[] time_fin = s.split("-");
+		if(flag[0]||flag[1]||flag[2]){
+			_tp.tunit[0] = Integer.parseInt(time_fin[0]);
+		}
+		if(flag[1]||flag[2])
+			_tp.tunit[1] = Integer.parseInt(time_fin[1]);
+		if(flag[2])
+			_tp.tunit[2] = Integer.parseInt(time_fin[2]);
+		
+	}
 }
