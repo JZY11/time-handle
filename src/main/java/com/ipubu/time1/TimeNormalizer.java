@@ -88,4 +88,94 @@ public class TimeNormalizer {
 		}
 	}
 
+	/**
+	 * TimeNormalizer的构造方法，根据提供的待分析字符串和timeBase进行时间表达式提取
+	 * 在构造方法中已完成对待分析字符串的表达式提取工作
+	 * 
+	 * @param target
+	 *            待分析字符串
+	 * @param timeBase
+	 *            给定的timeBase
+	 * @return 返回值
+	 */
+
+	public TimeUnit[] parse(final String target, final String timeBase,String domain) {
+		this.target = target;
+		this.timeBase = timeBase;
+		this.oldTimeBase = timeBase;
+		// 字符串预处理
+//		preHandling();
+		timeToken = TimeEx(this.target, timeBase,null);
+		return timeToken;
+	}
+
+	/**
+	 * 同上的TimeNormalizer的构造方法，timeBase取默认的系统当前时间
+	 * 
+	 * @param target
+	 *            待分析字符串
+	 * @return 时间单元数组
+	 */
+	public TimeUnit[] parse(final String target, String domain) {
+		this.target = target;
+		this.timeBase = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime());// TODO
+		this.oldTimeBase = timeBase;
+		preHandling();// 字符串预处理
+		timeToken = TimeEx(this.target, timeBase,domain);
+		return timeToken;
+	}
+
+	/**
+	 * timeBase的get方法
+	 * 
+	 * @return 返回值
+	 */
+	public String getTimeBase() {
+		return timeBase;
+	}
+
+	/**
+	 * oldTimeBase的get方法
+	 * 
+	 * @return 返回值
+	 */
+	public String getOldTimeBase() {
+		return oldTimeBase;
+	}
+
+	public boolean isPreferFuture() {
+		return isPreferFuture;
+	}
+
+	public void setPreferFuture(final boolean isPreferFuture) {
+		this.isPreferFuture = isPreferFuture;
+	}
+
+	/**
+	 * timeBase的set方法
+	 * 
+	 * @param s
+	 *            timeBase
+	 */
+	public void setTimeBase(final String s) {
+		timeBase = s;
+	}
+
+	/**
+	 * 重置timeBase为oldTimeBase
+	 * 
+	 */
+	public void resetTimeBase() {
+		timeBase = oldTimeBase;
+	}
+
+	/**
+	 * 时间分析结果以TimeUnit组的形式出现，此方法为分析结果的get方法
+	 * 
+	 * @return 返回值
+	 */
+	public TimeUnit[] getTimeUnit() {
+		return timeToken;
+	}
+
 }
