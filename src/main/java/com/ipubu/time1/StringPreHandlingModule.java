@@ -737,4 +737,233 @@ public class StringPreHandlingModule {
 		return s;
 		
 	}
+
+	/**
+	 * 该方法可以将字符串中所有的用汉字表示的数字转化为用阿拉伯数字表示的数字 如"这里有一千两百个人，六百零五个来自中国"可以转化为
+	 * "这里有1200个人，605个来自中国" 此外添加支持了部分不规则表达方法 如两万零六百五可转化为20650
+	 * 两百一十四和两百十四都可以转化为214 一六零加一五八可以转化为160+158 该方法目前支持的正确转化范围是0-99999999
+	 * 该功能模块具有良好的复用性
+	 * 
+	 * @param target
+	 *            待转化的字符串
+	 * @return 转化完毕后的字符串
+	 */
+	public static String numberTranslator(String target) {
+		if(target==null||"".equals(target)){return "";}
+		Pattern p = Pattern.compile("[一二两三四五六七八九123456789]亿[一二两三四五六七八九123456789](?!(万|千|百|十))");
+		Matcher m = p.matcher(target);
+		StringBuffer sb = new StringBuffer();
+		boolean result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("亿");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 100000000 + wordToNumber(s[1]) * 10000000;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		p = Pattern.compile("[一二两三四五六七八九123456789]万[一二两三四五六七八九123456789](?!(千|百|十))");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("万");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 10000 + wordToNumber(s[1]) * 1000;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[一二两三四五六七八九123456789]千[一二两三四五六七八九123456789](?!(百|十))");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("千");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 1000 + wordToNumber(s[1]) * 100;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[一二两三四五六七八九123456789]百[一二两三四五六七八九123456789](?!十)");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("百");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 100 + wordToNumber(s[1]) * 10;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[零一二两三四五六七八九]");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			m.appendReplacement(sb, Long.toString(wordToNumber(m.group())));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+
+		p = Pattern.compile("(?<=(周|星期|礼拜))[末天日]");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			m.appendReplacement(sb, Long.toString(wordToNumber(m.group())));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("(?<!(周|星期))0?[0-9]?十[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("十");
+			long num = 0;
+			if (s.length == 0) {
+				num += 10;
+			} else if (s.length == 1) {
+				long ten = Long.parseLong(s[0]);
+				if (ten == 0)
+					num += 10;
+				else
+					num += ten * 10;
+			} else if (s.length == 2) {
+				if (s[0].equals(""))
+					num += 10;
+				else {
+					long ten = Long.parseLong(s[0]);
+					if (ten == 0)
+						num += 10;
+					else
+						num += ten * 10;
+				}
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("0?[1-9]百[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("百");
+			long num = 0;
+			if (s.length == 1) {
+				long hundred = Long.parseLong(s[0]);
+				num += hundred * 100;
+			} else if (s.length == 2) {
+				long hundred = Long.parseLong(s[0]);
+				num += hundred * 100;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("0?[1-9]千[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("千");
+			long num = 0;
+			if (s.length == 1) {
+				long thousand = Long.parseLong(s[0]);
+				num += thousand * 1000;
+			} else if (s.length == 2) {
+				long thousand = Long.parseLong(s[0]);
+				num += thousand * 1000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[0-9]+万[0-9]?[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("万");
+			long num = 0;
+			if (s.length == 1) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 10000;
+			} else if (s.length == 2) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 10000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		p = Pattern.compile("[0-9]+亿[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("亿");
+			long num = 0;
+			if (s.length == 1) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 100000000;
+			} else if (s.length == 2) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 100000000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		return target;
+		
+	}
 }
