@@ -966,4 +966,36 @@ public class StringPreHandlingModule {
 		return target;
 		
 	}
+
+	/**
+	 * 方法numberTranslator的辅助方法，可将[零-九]正确翻译为[0-9]
+	 * 
+	 * @param s
+	 *            大写数字
+	 * @return 对应的整形数，如果不是大写数字返回-1
+	 */
+	private static int wordToNumber(String s) {
+		if (s.equals("零") || s.equals("0"))
+			return 0;
+		else if (s.equals("一") || s.equals("1"))
+			return 1;
+		else if (s.equals("二") || s.equals("两") || s.equals("2"))
+			return 2;
+		else if (s.equals("三") || s.equals("3"))
+			return 3;
+		else if (s.equals("四") || s.equals("4"))
+			return 4;
+		else if (s.equals("五") || s.equals("5"))
+			return 5;
+		else if (s.equals("六") || s.equals("6"))
+			return 6;
+		else if (s.equals("七") || s.equals("天") || s.equals("日") || s.equals("末") ||s.equals("7"))
+			return 7;
+		else if (s.equals("八") || s.equals("8"))
+			return 8;
+		else if (s.equals("九") || s.equals("9"))
+			return 9;
+		else
+			return -1;
+	}
 }
