@@ -1023,4 +1023,30 @@ public class StringPreHandlingModule {
 		else
 			return -1;
 	}
+	//将五一、十一这些日期转换成节日，如：五一，转换成劳动节
+	
+	public static String holidaytrans(String target) {
+		if(target==null||"".equals(target)) return null;
+		
+		String  rules = "离五一还有|离五一放假|离五一假期|距五一还有|年五一是|距五一放假|距五一假期|五一劳动节";
+		Pattern p = Pattern.compile(rules);
+		Matcher m = p.matcher(target);
+		boolean result = m.find();
+		while (result||"五一".equals(target)) {
+			target = target.replaceAll("五一", "劳动节");
+			result = m.find();
+		}
+		
+		rules = "离十一还有|离十一放假|离十一假期|距十一还有|年十一是|距十一放假|距十一假期";
+		p = Pattern.compile(rules);
+		m = p.matcher(target);
+		result = m.find();
+		while (result||"十一".equals(target)) {
+			target = target.replace("十一", "国庆节");
+			result = m.find();
+		}
+		
+		return target;
+	}
+	
 }
