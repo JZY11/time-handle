@@ -60,4 +60,15 @@ public class TimeFormat {
 	public void setTimes(List<String> times) {
 		this.times = times;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TimeFormat: [startTime=" + startTime + ", endTime=" + endTime
+				+ "]," + times.toString();
+	}
+	
+	
 }
