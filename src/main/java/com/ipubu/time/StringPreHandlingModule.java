@@ -149,6 +149,132 @@ public class StringPreHandlingModule {
 		m.appendTail(sb);
 		target = sb.toString();
 		
+		p = Pattern.compile("(?<!(周|星期))0?[0-9]?十[0-9]?");  // (?<!pattern):反向否定预查，与正向否定预查类似，只是方向相反。
+		m = p.matcher(target);								 // 例如“(?<!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("十");
+			long num = 0;
+			if (s.length == 0) {
+				num += 10;
+			} else if (s.length == 1) {
+				long ten = Long.parseLong(s[0]);
+				if (ten == 0)
+					num += 10;
+				else
+					num += ten * 10;
+			} else if (s.length == 2) {
+				if (s[0].equals(""))
+					num += 10;
+				else {
+					long ten = Long.parseLong(s[0]);
+					if (ten == 0)
+						num += 10;
+					else
+						num += ten * 10;
+				}
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("0?[1-9]百[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("百");
+			long num = 0;
+			if (s.length == 1) {
+				long hundred = Long.parseLong(s[0]);
+				num += hundred * 100;
+			} else if (s.length == 2) {
+				long hundred = Long.parseLong(s[0]);
+				num += hundred * 100;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+
+		p = Pattern.compile("0?[1-9]千[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("千");
+			long num = 0;
+			if (s.length == 1) {
+				long thousand = Long.parseLong(s[0]);
+				num += thousand * 1000;
+			} else if (s.length == 2) {
+				long thousand = Long.parseLong(s[0]);
+				num += thousand * 1000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[0-9]+万[0-9]?[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("万");
+			long num = 0;
+			if (s.length == 1) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 10000;
+			} else if (s.length == 2) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 10000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		p = Pattern.compile("[0-9]+亿[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("亿");
+			long num = 0;
+			if (s.length == 1) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 100000000;
+			} else if (s.length == 2) {
+				long tenthousand = Long.parseLong(s[0]);
+				num += tenthousand * 100000000;
+				num += Long.parseLong(s[1]);
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
 		return target;
 	}	
 }
