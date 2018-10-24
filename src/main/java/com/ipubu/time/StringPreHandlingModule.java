@@ -106,6 +106,48 @@ public class StringPreHandlingModule {
 		m.appendTail(sb);
 		target = sb.toString();
 		
+		p = Pattern.compile("[零一二两三四五六七八九]");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			m.appendReplacement(sb, Long.toString(wordToNumber(m.group())));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		
+		p = Pattern.compile("(百分之)([一二三四五六七八九十0-9]+)");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			System.out.println(m.group(2));
+			if (m.group(2).length() == 2) {
+				char[] charArray = m.group(2).toCharArray();
+				int first = wordToNumber(String.valueOf(charArray[0]));
+				int second = wordToNumber(String.valueOf(charArray[1]));
+				int account = first + second;
+				String all = String.valueOf(account);
+				m.appendReplacement(sb, all);
+			}
+			m.appendReplacement(sb, Long.toString(wordToNumber(m.group(2))));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		p = Pattern.compile("(?<=(周|星期|礼拜))[末天日]"); // (?<!pattern):反向否定预查，与正向否定预查类似，只是方向相反
+		m = p.matcher(target);						  // 例如“(?<!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			m.appendReplacement(sb, Long.toString(wordToNumber(m.group())));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
 		
 		return target;
 	}	
