@@ -311,4 +311,34 @@ public class StringPreHandlingModule {
 			return -1;
 		}
 	}
+	/**
+	 * 将五一、十一这些日期转换成节日，如：五一，转换成劳动节
+	 * @param 
+	 * @return
+	 */
+	public static String dateToFestival(String target){
+		if (target == null || "".equals(target)) {
+			return null;
+		}
+		String rules = "离五一还有|离五一放假|离五一假期|距五一还有|年五一是|距五一放假|距五一假期|五一劳动节";
+		Pattern pattern = Pattern.compile(rules);
+		Matcher matcher = pattern.matcher(target);
+		boolean result = matcher.find();
+		
+		while (result || target.contains("五一")) {
+			target.replaceAll("五一", "劳动节");
+			result = matcher.find();
+		}
+		
+		rules = "离十一还有|离十一放假|离十一假期|距十一还有|年十一是|距十一放假|距十一假期";
+		pattern = Pattern.compile(rules);
+		matcher = pattern.matcher(target);
+		result = matcher.find();
+		
+		while (result || target.contains("十一")) {
+			target = target.replaceAll("十一", "国庆节");
+			result = matcher.find();
+		}
+		return target;
+	}
 }
