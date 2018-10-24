@@ -55,6 +55,57 @@ public class StringPreHandlingModule {
 		m.appendTail(sb);
 		target = sb.toString();
 		
+		p = Pattern.compile("[一二两三四五六七八九123456789]万[一二两三四五六七八九123456789](?!(千|百|十))");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("万");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 10000 + wordToNumber(s[1]) * 1000;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+
+		p = Pattern.compile("[一二两三四五六七八九123456789]千[一二两三四五六七八九123456789](?!(百|十))");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("千");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 1000 + wordToNumber(s[1]) * 100;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
+		p = Pattern.compile("[一二两三四五六七八九123456789]百[一二两三四五六七八九123456789](?!十)");
+		m = p.matcher(target);
+		sb = new StringBuffer();
+		result = m.find();
+		while (result) {
+			String group = m.group();
+			String[] s = group.split("百");
+			long num = 0;
+			if (s.length == 2) {
+				num += wordToNumber(s[0]) * 100 + wordToNumber(s[1]) * 10;
+			}
+			m.appendReplacement(sb, Long.toString(num));
+			result = m.find();
+		}
+		m.appendTail(sb);
+		target = sb.toString();
+		
 		
 		return target;
 	}	
