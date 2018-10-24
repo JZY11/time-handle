@@ -341,4 +341,31 @@ public class StringPreHandlingModule {
 		}
 		return target;
 	}
+	
+	public static String dateConversion(String target){
+		if (target == null || "".equals(target)) {
+			return "";
+		}
+		if ("上周".equals(target)) {
+			return "上周1到上周7";
+		} else if ("下周".equals(target)) {
+			return "下周1到下周7";
+		}
+		String rules = "(([个1234567890]+)(分钟|小时|分))?(([1234567890半个]+)(秒|分钟|小时|分))(钱|前|后|之前|之后|以后)?";
+		Pattern pattern = Pattern.compile(rules);
+		Matcher matcher = pattern.matcher(target);
+		boolean result = matcher.find();
+		
+		while (result) {
+			if (matcher.group().contains("小时") || matcher.group().contains("分钟") || matcher.group().contains("秒") || 
+					((matcher.group().contains("小时") && matcher.group().contains("分")) || (matcher.group().contains("小时") && matcher.group().contains("分钟")) || 
+							(matcher.group().contains("小时") && matcher.group().contains("秒")) || (matcher.group().contains("分") && matcher.group().contains("秒")) || 
+							(matcher.group().contains("分钟") && matcher.group().contains("秒")) || (matcher.group().contains("小时") && matcher.group().contains("分") && matcher.group().contains("秒")) || 
+							(matcher.group().contains("小时") && matcher.group().contains("分钟") && matcher.group().contains("秒")))) {
+				
+			}
+			
+		}
+		return target;
+	}
 }
