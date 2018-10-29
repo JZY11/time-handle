@@ -141,4 +141,29 @@ public class TimeUtils {
 		calendar.set(year, month - 1, day);
 		convert();// 转换日期
 	}
+
+	/**
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param hourOfDay
+	 *            24小时制(0-23)
+	 * @param minute
+	 */
+	public TimeUtils(int year, int month, int day, int hourOfDay, int minute) {
+		calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day, hourOfDay, minute);
+		convert();// 转换日期
+	}
+
+	public TimeUtils(Date date) {
+		calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		convert();// 转换日期
+	}
+
+	public TimeUtils(Calendar calendar) {
+		this.calendar = calendar;
+		convert();// 转换日期
+	}
 }
