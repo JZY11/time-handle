@@ -85,4 +85,60 @@ public class TimeUtils {
 	private static String[] yearName = { "零", "壹", "贰", "叁", "肆", "伍", "陆",
 			"柒", "捌", "玖" };
 
+	static {
+		// 农历节日
+		lunarHolidayMap.put(0x0101, "春节");
+		lunarHolidayMap.put(0x010f, "元宵节");
+		lunarHolidayMap.put(0x0202, "龙抬头");
+		lunarHolidayMap.put(0x0307, "寒食");
+		lunarHolidayMap.put(0x0505, "端午");
+		lunarHolidayMap.put(0x0707, "七夕");
+		lunarHolidayMap.put(0x070f, "中元");
+		lunarHolidayMap.put(0x080f, "中秋");
+		lunarHolidayMap.put(0x0909, "重阳");
+		lunarHolidayMap.put(0x0a0f, "下元");
+		lunarHolidayMap.put(0x0c08, "腊8节");
+		lunarHolidayMap.put(0x0c18, "小年");
+		lunarHolidayMap.put(0x0c1e, "除夕");
+
+		// 公历节日
+		holidayMap.put(0x0101, "元旦");
+		holidayMap.put(0x020e, "情人节");
+		holidayMap.put(0x0308, "妇女节");
+		holidayMap.put(0x030c, "植树节");
+		holidayMap.put(0x030f, "消费者权益日");
+		holidayMap.put(0x0401, "愚人节");
+		holidayMap.put(0x0501, "劳动节");
+		holidayMap.put(0x0504, "青年节");
+		holidayMap.put(0x050c, "护士节");
+		holidayMap.put(0x0601, "儿童节");
+		holidayMap.put(0x0617, "国际奥林匹克日");
+		holidayMap.put(0x0701, "建党节");
+		holidayMap.put(0x0801, "建军节");
+		holidayMap.put(0x0808, "爸爸节");
+		holidayMap.put(0x0903, "抗战胜利纪念日");
+		holidayMap.put(0x090a, "教师节");
+		holidayMap.put(0x091c, "孔子诞辰");
+		holidayMap.put(0x0a01, "国庆");
+		holidayMap.put(0x0a06, "老人节");
+		holidayMap.put(0x0a18, "联合国日");
+		holidayMap.put(0x0b0c, "孙中山诞辰纪念日");
+		holidayMap.put(0x0b0b, "光棍节");
+		holidayMap.put(0x0c01, "世界艾滋病日");
+		holidayMap.put(0x0c14, "澳门回归纪念日");
+		holidayMap.put(0x0c19, "圣诞");
+		holidayMap.put(0x0c18, "平安夜");
+		holidayMap.put(0x0b01, "万圣节");
+	}
+
+	public TimeUtils() {
+		this.calendar = Calendar.getInstance(Locale.SIMPLIFIED_CHINESE);
+		convert();// 转换日期
+	}
+
+	public TimeUtils(int year, int month, int day) {
+		calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+		convert();// 转换日期
+	}
 }
