@@ -166,4 +166,34 @@ public class TimeUtils {
 		this.calendar = calendar;
 		convert();// 转换日期
 	}
+
+	/**
+	 * 农历年份的总天数
+	 * 
+	 * @param year
+	 *            农历年份
+	 * @return
+	 */
+	private static int totalDaysOfYear(int year) {
+		int sum = 348; // 29*12
+		for (int i = 0x8000; i > 0x8; i >>= 1) {
+			sum += (lunarInfo[year - 1900] & i) == 0 ? 0 : 1; // 大月+1天
+		}
+		return (sum + leapDays(year)); // +闰月的天数
+	}
+
+	/**
+	 * 农历 year年闰月的天数
+	 * 
+	 * @param year
+	 * @return
+	 */
+	private static int leapDays(int year) {
+		int result = 0;
+		if (leapMonth(year) != 0) {
+			result = (lunarInfo[year - 1900] & 0x10000) == 0 ? 29 : 30;
+		}
+		return result;
+	}
+
 }
