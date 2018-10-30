@@ -196,4 +196,107 @@ public class TimeUtils {
 		return result;
 	}
 
+	/**
+	 * 传农历 year年闰哪个月 1-12 , 没闰传回 0
+	 * 
+	 * @param 农历年份
+	 * @return
+	 */
+	private static int leapMonth(int year) {
+		return (lunarInfo[year - 1900] & 0xf);
+	}
+
+	/**
+	 * 农历 y年m月的总天数
+	 * 
+	 * @param y
+	 * @param m
+	 * @return
+	 */
+	private static int monthDays(int y, int m) {
+		return ((lunarInfo[y - 1900] & (0x10000 >> m)) == 0 ? 29 : 30);
+	}
+
+	/**
+	 * 将传入的日期转换为农历
+	 * 
+	 * @param date
+	 *            公历日期
+	 */
+	private void convert() {
+		// 基准时间 1900-01-31是农历1900年正月初一
+		Calendar baseCalendar = Calendar.getInstance();
+		baseCalendar.set(1900, 0, 31, 0, 0, 0); // 1900-01-31是农历1900年正月初一
+		Date baseDate = baseCalendar.getTime();
+		// 偏移量（天）
+		int offset = (int) ((calendar.getTimeInMillis() - baseDate.getTime()) / 86400000); // 天数(86400000=24*60*60*1000)
+		// 基准时间在天干地支纪年法中的位置
+		int monCyl = 14; // 1898-10-01是农历甲子月
+		int dayCyl = offset + 40; // 1899-12-21是农历1899年腊月甲子日
+
+		// 得到年数
+		int i;
+		int temp = 0;
+		for (i = 1900; i < 2050 && offset > 0; i++) {
+			temp = totalDaysOfYear(i); // 农历每年天数
+			offset -= temp;
+			monCyl += 12;
+		}
+		if (offset < 0) {
+			offset += temp;
+			i--;
+			monCyl -= 12;
+		}
+
+		int year = i; // 农历年份
+		int yearCyl = i - 1864; // 1864年是甲子年
+
+		int leap = leapMonth(i); // 闰哪个月
+		boolean isLeap = false;
+		int j;
+		for (j = 1; j < 13 && offset > 0; j++) {
+			// 闰月
+			if (leap > 0 && j == (leap + 1) && isLeap == false) {
+				--j;
+				isLeap = true;
+				temp = leapDays(year);
+			} else {
+				temp = monthDays(year, j);
+			}
+			// 解除闰月
+			if (isLeap == true && j == (leap + 1))
+				isLeap = false;
+			offset -= temp;
+			if (isLeap == false)
+				monCyl++;
+		}
+		if (offset == 0 && leap > 0 && j == leap + 1)
+			if (isLeap) {
+				isLeap = false;
+			} else {
+				isLeap = true;
+				--j;
+				--monCyl;
+			}
+		if (offset < 0) {
+			offset += temp;
+			--j;
+			--monCyl;
+		}
+		int month = j; // 农历月份
+		int day = offset + 1; // 农历天
+		result = new int[] { year, month, day, isLeap ? 1 : 0, yearCyl, monCyl,
+				dayCyl };
+	}
+
+	/**
+	 * 获取偏移量对应的干支, 0=甲子
+	 * 
+	 * @param num
+	 *            偏移量（年or月or日）
+	 * @return
+	 */
+	private static String cyclical(int num) {
+		return (Gan[num % 10] + Zhi[num % 12]);
+	}
 }
