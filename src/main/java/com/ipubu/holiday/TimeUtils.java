@@ -436,4 +436,136 @@ public class TimeUtils {
 		}
 		return lunarHolidayMap.get(temp);
 	}
+
+	/**
+	 * 公历节日
+	 * @return
+	 */
+	public String getHoliday() {
+		int m = calendar.get(Calendar.MONTH) + 1;
+		int d = calendar.get(Calendar.DAY_OF_MONTH);
+		int temp = (m << 8) + d;
+		return holidayMap.get(temp);
+	}
+
+	/**
+	 * 判断m年y月是大月还是小月
+	 * 
+	 * @param y
+	 * @param m
+	 * @return true:大月，false:小月
+	 */
+	private boolean isBigMonth(int y, int m) {
+		return !((lunarInfo[y - 1900] & (0x10000 >> m)) == 0);
+	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	/**
+	 * 后一天
+	 */
+	public void nextDay() {
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		convert();
+	}
+
+//	public static String getDay(String sentence) {
+//		String regex = StringUtil.regDate + "[和到至]" + StringUtil.regDate;
+//		String result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regDate + StringUtil.regDate + StringUtil.regDate;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regDate + StringUtil.regDate;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regDate;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//		
+//		// 添加　　周
+//		regex = StringUtil.regweekday + "[和到至]" + StringUtil.regweekday;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regweekday + StringUtil.regweekday + StringUtil.regweekday;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regweekday + StringUtil.regweekday;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		regex = StringUtil.regweekday;
+//		result = StringUtil.getFirstMatched(sentence,regex);
+//		if (result != null) return result;
+//
+//		
+//		return null;
+//
+//	}
+//	
+//	public static String getCurrentDate(){
+//		StandardTime st = new StandardTime();
+//		TimeFormat o = st.normTime("今天");
+//		return o.getStartTime();
+//	}
+//
+//	public static boolean isDateCurrFanwei(List<String> dlist){
+//		boolean flag=false;
+//		for(String date:dlist){
+//			SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd");
+//			SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
+//			Calendar c1 = Calendar.getInstance();
+//	        Calendar c2 = Calendar.getInstance();
+//	        try {
+//				c1.setTime(sdf1.parse(getCurrentDate()));
+//				c2.setTime(sdf2.parse(date));
+//				c1.add(Calendar.DAY_OF_YEAR,5);
+//			} catch (ParseException e) {
+//				Log.logger.error(e);
+//			}
+//	        flag=c2.compareTo(c1) <=0?true:false;
+//	        if(flag){
+//	        	break;
+//	        }
+//		}
+//		return flag;
+//	}
+//	public static boolean isDateCurrFanwei(String str){
+//		boolean flag=false;
+//			SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd");
+//			SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
+//			Calendar c1 = Calendar.getInstance();
+//	        Calendar c2 = Calendar.getInstance();
+//	        try {
+//				c1.setTime(sdf1.parse(getCurrentDate()));
+//				c2.setTime(sdf2.parse(str));
+//				c1.add(Calendar.DAY_OF_YEAR,5);
+//			} catch (ParseException e) {
+//				Log.logger.error(e);
+//			}
+//	        flag=c2.compareTo(c1) <=0?true:false;
+//		return flag;
+//	}
+
+	public static void main(String[] args) {
+
+
+		
+		TimeUtils lauar = new TimeUtils(2015, 12,25);
+		System.out.println(lauar.getHoliday());
+		
+//		lauar.nextDay();
+//
+//
+//		lauar = new TimeUtils(2015, 7, 23);
+//
+//		int num = lauar.sTerm(2016, 23);
+	}
 }
