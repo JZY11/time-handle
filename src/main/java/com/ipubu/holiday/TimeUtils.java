@@ -379,4 +379,36 @@ public class TimeUtils {
 		return chineseDay(result[2]);
 	}
 
+	/**
+	 * 获取时辰，输出格式：戊子时
+	 * 
+	 * @return
+	 */
+	public String getLunarTime() {
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int timeOffset = (result[6] % 10) * 24 + hour;
+		return Gan[((timeOffset + 1) / 2) % 10] + Zhi[((hour + 1) / 2) % 12]
+				+ "时";
+	}
+
+	/**
+	 * 核心方法 根据日期(y年m月d日)得到节气
+	 */
+	public String getSoralTerm() {
+		int y = calendar.get(Calendar.YEAR);
+		int m = calendar.get(Calendar.MONTH);
+		int d = calendar.get(Calendar.DAY_OF_MONTH);
+//		System.out.println(y+"aa"+m+"ss"+d);
+		String solarTerms;
+		if (d == sTerm(y, m * 2))
+			solarTerms = SolarTerm[m * 2];
+		else if (d == sTerm(y, m * 2 + 1))
+			solarTerms = SolarTerm[m * 2 + 1];
+		else {
+			// 到这里说明非节气时间
+			solarTerms = null;
+		}
+		return solarTerms;
+	}
+
 }
