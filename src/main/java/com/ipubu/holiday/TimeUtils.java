@@ -411,4 +411,29 @@ public class TimeUtils {
 		return solarTerms;
 	}
 
+	/**
+	 * y年的第n个节气为几日(从0小寒起算)
+	 */
+	public int sTerm(int y, int n) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(1900, 0, 6, 2, 5, 0);
+		long temp = cal.getTime().getTime();
+		cal.setTimeInMillis((long) ((31556925974.7 * (y - 1900) + STermInfo[n] * 60000L) + temp));
+		return cal.get(Calendar.DAY_OF_MONTH);
+	}
+
+	/**
+	 * 农历节日
+	 * 
+	 * @return
+	 */
+	public String getLunarHoliday() {
+		int temp;
+		if (result[2] == 29 && !isBigMonth(result[0], result[1])) {// 如果是小月，29日为最后一天，将其加为30日算
+			temp = (result[1] << 8) + 30;
+		} else {
+			temp = (result[1] << 8) + result[2];
+		}
+		return lunarHolidayMap.get(temp);
+	}
 }
