@@ -341,4 +341,42 @@ public class TimeUtils {
 		}
 		return (s);
 	}
+
+	/**
+	 * 输出格式：2015.07.04 周六 乙未[羊]年 壬午月 辛巳日
+	 * 
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return
+	 */
+	public String getLunarDate() {
+		String s = sdf.format(calendar.getTime()) + " ";
+		s += cyclical(result[4]) + "[" + Animals[(result[0] - 4) % 12] + "]年 ";
+		s += cyclical(result[5]) + "月 ";
+		s += cyclical(result[6]) + "日";
+		return s;
+	}
+
+	/**
+	 * 输出格式：五月十九
+	 * 
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return
+	 */
+	public String getLunarDay() {
+		return (result[3] == 1 ? "闰" : "") + monthNong[result[1]] + "月"
+				+ chineseDay(result[2]);
+	}
+
+	public String getLunarMonth() {
+		return (result[3] == 1 ? "闰" : "") + monthNong[result[1]] + "月";
+	}
+
+	public String getLunarDayOfMonth() {
+		return chineseDay(result[2]);
+	}
+
 }
