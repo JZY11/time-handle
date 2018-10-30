@@ -299,4 +299,46 @@ public class TimeUtils {
 	private static String cyclical(int num) {
 		return (Gan[num % 10] + Zhi[num % 12]);
 	}
+
+	/**
+	 * 中文日期
+	 * 
+	 * @param day
+	 * @return
+	 */
+	private static String chineseDay(int day) {
+		String result;
+		switch (day) {
+		case 10:
+			result = "初十";
+			break;
+		case 20:
+			result = "二十";
+			break;
+		case 30:
+			result = "三十";
+			break;
+		default:
+			result = nStr2[(int) (day / 10)];// 取商
+			result += nStr1[day % 10];// 取余
+		}
+		return (result);
+	}
+
+	/**
+	 * 大写年份
+	 * 
+	 * @param y
+	 * @return
+	 */
+	public static String chineseYear(int y) {
+		String s = " ";
+		int d;
+		while (y > 0) {
+			d = y % 10;
+			y = (y - d) / 10;
+			s = yearName[d] + s;
+		}
+		return (s);
+	}
 }
