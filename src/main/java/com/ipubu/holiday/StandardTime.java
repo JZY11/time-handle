@@ -258,4 +258,67 @@ public class StandardTime {
 		return tf;
 	}
 
+	private static TimeFormat day(String text) {
+		TimeFormat tf = null;
+		text = text.trim();
+		String[] h = { "51", "61", "71", "81", "91", "11期间" };
+		for (int i = 0; i < h.length; i++) {
+			String e = h[i];
+			if (text.equals(e)) {
+				Calendar cal = Calendar.getInstance();
+				cal.set(Calendar.MONTH, i + 4);
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				String moveTime = sdf.format(cal.getTime());
+				tf = new TimeFormat(moveTime, moveTime, null);
+			}
+		}
+		return tf;
+	}
+	private static Date transTime(String text) {
+ 		Date end = null;
+		//小时
+// 		if(text.contains("1个小时")||text.contains("1个半小时"))
+// 		{
+// 			text = text.replace("1个", "");
+// 		}
+// 		
+ 		String rules = "([0123456789半个]+)小时(之前|以前|前|之后|后|以后|钱)?";
+ 		Pattern p =  Pattern.compile(rules);
+ 		Matcher m = p.matcher(text);
+ 		boolean result = m.find();
+ 		if(result){
+ 			double value = getNum(m.group(1));
+ 			if(m.group().contains("前")||m.group().contains("钱"))
+ 				end = CommonDateUtils.getAfterDate(end,value,"小时");
+ 			else
+ 				end = CommonDateUtils.getBeforeDate(null,value,"小时");
+ 		}
+		
+		//分钟
+		rules = "([0123456789]+)(分钟 |分)(之前|以前|前|之后|后|以后)?";
+		p =  Pattern.compile(rules);
+		m = p.matcher(text);
+		if(m.find()){
+			double value = getNum(m.group(1));
+			if(m.group().contains("前"))
+			end = CommonDateUtils.getAfterDate(end,value,"分钟");
+			else
+			end = CommonDateUtils.getBeforeDate(end,value,"分钟");
+		}
+		//秒
+		rules = "(\\d+)秒(之前|以前|前|之后|后|以后)?";
+		p =  Pattern.compile(rules);
+		m = p.matcher(text);
+		if(m.find()){
+			if(m.group().contains("前"))
+			end = CommonDateUtils.getAfterDate(end,(double)Integer.valueOf(m.group(1)),
+					"秒");
+			else
+				
+				end = CommonDateUtils.getBeforeDate(end,(double)Integer.valueOf(m.group(1)),
+						"秒");
+		}
+		
+		return end;
+	}
 }
