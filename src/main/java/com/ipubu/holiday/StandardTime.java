@@ -400,4 +400,29 @@ public class StandardTime {
 		return null;
 		
 	}
+	private static void initfadingHoli(){
+		
+		Calendar date = Calendar.getInstance();
+		date.setTime(new Date(System.currentTimeMillis()));
+		String year = String.valueOf(date.get(date.YEAR));
+		String year1 = String.valueOf(date.get(date.YEAR)+1);
+		String[] fading = {"元旦","春节","清明","劳动节","端午","国庆","中秋"};
+		for(String str:fading){
+			HashSet<String> set = holidayMap.get(str);
+			for(String sttr:set){
+					if(sttr.startsWith(year+"年")||sttr.startsWith(year1+"年")){
+						try {
+							if(sdf.parse(sttr).after(date.getTime()))	
+							faDingHoliday.put(sttr,str);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+						
+					}
+			}
+		}
+		
+	}
+
 }
