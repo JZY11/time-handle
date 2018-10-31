@@ -425,4 +425,28 @@ public class StandardTime {
 		
 	}
 
+	public static String getfading(Date base){
+		
+		if (base==null) base = new Date(System.currentTimeMillis());
+		String result = "";
+		long daylen = 0L; 
+		TreeMap< Integer,String> map = new TreeMap<Integer, String>();
+		for(Entry<String, String> str:faDingHoliday.entrySet()){
+			
+			try {
+				daylen = Math.abs((base.getTime()-sdf.parse(str.getKey()).getTime())/(24*60*60*1000));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			map.put(Integer.valueOf((int)daylen), str.getValue());
+		}
+		for(Integer day:map.descendingKeySet())
+		{
+			result = map.get(day);
+//			break;
+		}
+			return result;
+	}
+	
 }
