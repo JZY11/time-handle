@@ -177,4 +177,18 @@ public class StandardTime {
 			tf = new TimeFormat(date, date, null);
 		return tf;
 	}
+	//指明了是哪一年的节日
+	private static String anysHoliday(String holiday,int year){
+		if(holiday==null||"".equals(holiday)) return null;
+		String date = null;
+		if (!holidayMap.containsKey(holiday) && holiday.contains("节")) {
+			holiday = holiday.replace("节", "");
+		}
+		if(holidayMap.containsKey(holiday)){
+		for(String time:holidayMap.get(holiday)){
+			if(time.startsWith(String.valueOf(year)))
+			date = time;
+		}}
+		return date;
+	}
 }
