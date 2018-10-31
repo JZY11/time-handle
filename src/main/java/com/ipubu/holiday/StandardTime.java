@@ -334,4 +334,47 @@ public class StandardTime {
 		return value;
 	}
 
+	private static TimeFormat moveTime(String text) {
+		TimeFormat tf = null;
+		Date start = new Date(System.currentTimeMillis());
+		String starttime = null;
+		String endtime = null;
+		if ("现在".equals(text)||"当前".equals(text)) {
+			starttime = sdf.format(start);
+			endtime = sdf.format(start);
+		} else {
+			Date end = transTime(text);
+			starttime = sdf.format(start);
+			endtime = sdf.format(end);
+		}
+		tf = new TimeFormat(starttime, endtime, null);
+		return tf;
+	}	
+	private static TimeFormat weekTime(String text) {
+		TimeFormat tf = null;
+		// 处理 感恩节、父亲节、母亲节等这类的节日
+		if (text.trim().contains("节")) {
+			String[] s = { "感恩节", "父亲节", "母亲节" };
+			for (int j = 0; j < s.length; j++) {
+				Calendar cal = Calendar.getInstance();
+				if (text.equals(s[0])) {
+					cal.set(Calendar.MONTH, 10);
+					cal.set(Calendar.WEEK_OF_MONTH, 4);
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+				} else if (text.equals(s[1])) {
+					cal.set(Calendar.MONTH, 5);
+					cal.set(Calendar.WEEK_OF_MONTH, 3);
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				} else if (text.equals(s[2])) {
+					cal.set(Calendar.MONTH, 4);
+					cal.set(Calendar.WEEK_OF_MONTH, 2);
+					cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				}
+				String moveTime = sdf.format(cal.getTime());
+				tf = new TimeFormat(moveTime, moveTime, null);
+
+			}
+		}
+		return tf;
+	}
 }
