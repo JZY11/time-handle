@@ -449,4 +449,17 @@ public class StandardTime {
 			return result;
 	}
 	
+	public static void main(String[] args) {
+
+//		String[] riqiStrings = { "十一","父亲节", "元旦", "除夕", "春节", "清明节", "劳动节", "端午节", "中秋节", "国庆节", "母亲节", "儿童节", "建军节", "愚人节",
+//				"青年节", "圣诞节", "平安夜", "教师节", "万圣节", "植树节", "重阳节", "腊八节", "情人节", "元宵节", "感恩节", "妇女节", "小年" };
+//
+		StandardTime standardTime = new StandardTime();
+		getfading(new Date(System.currentTimeMillis()));
+//		for (String str : riqiStrings) {
+			TimeFormat tfFormat = standardTime.normTime("10分钟90秒后");
+//		}
+//		System.out.println(getholiday(""));
+	
+	}
 }
