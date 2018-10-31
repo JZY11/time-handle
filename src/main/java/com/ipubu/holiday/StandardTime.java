@@ -377,4 +377,27 @@ public class StandardTime {
 		}
 		return tf;
 	}
+
+	private static HashMap<String, HashSet<String>> createMap() {
+		HashMap<String, HashSet<String>> map = new HashMap<String, HashSet<String>>();
+		for (String e : holidays) {
+			map.put(e, null);
+		}
+		return map;
+	}
+	public static String getholiday(String timeExp){
+		if(timeExp==null||"".equals(timeExp)) return null;
+		List<String> list = NormTime.getNormTime(timeExp, "");
+		
+		if(list.size()>0){
+			String time	= list.get(0).split(",")[1].split("=")[1].split(" ")[0];
+			try {
+				return	holidayTimeMap.get(sdf2.format((new SimpleDateFormat("yyyy-MM-dd")).parse(time)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+		
+	}
 }
