@@ -73,4 +73,75 @@ public class StandardTime {
 			}
 		}
 	}
+	
+	private static void getHoliday(int year){
+		
+		TimeUtils lauar = new TimeUtils(year, 1, 1);
+		int size = holidays.length;
+		while (size > 0) {
+			String lh = lauar.getLunarHoliday();// 获取农历节日
+			String h = lauar.getHoliday();// 获取公历节日
+//			String s = lauar.getSoralTerm();// 获取节气
+			HashSet<String> set =null;
+			if (holidayMap.containsKey(lh)) {
+				String value = sdf.format(lauar.getCalendar().getTime());
+				if(holidayMap.get(lh) == null){
+					set = new HashSet<String>();
+				}else{
+					set = holidayMap.get(lh);
+				}
+				set.add(value);
+				holidayMap.put(lh, set);
+				size--;
+				
+				if("春节".equals(lh)){
+					if(holidayMap.get("过年") == null){
+						set = new HashSet<String>();
+					}else{
+						set = holidayMap.get("过年");
+					}
+					set.add(value);
+					holidayMap.put("过年", set);
+				}
+				if("端午".equals(lh)){
+					if(holidayMap.get("端阳") == null){
+						set = new HashSet<String>();
+					}else{
+						set = holidayMap.get("端阳");
+					}
+					set.add(value);
+					holidayMap.put("端阳", set);
+				}
+				}
+			
+			if (holidayMap.containsKey(h)) {
+				String value = sdf.format(lauar.getCalendar().getTime());
+				if(holidayMap.get(h) == null){
+					set = new HashSet<String>();
+				}else{
+					set = holidayMap.get(h);
+				}
+				
+				if("元旦".equals(h)){
+					if(holidayMap.get("新年") == null){
+						set = new HashSet<String>();
+					}else{
+						set = holidayMap.get("新年");
+					}
+					set.add(value);
+					holidayMap.put("新年", set);
+				}
+				set.add(value);
+				holidayMap.put(h, set);
+				size--;
+			}
+
+//			if (Hmap.containsKey(s)) {
+//				String value = sdf.format(lauar.getCalendar().getTime());
+//				Hmap.put(s, value);
+//				size--;
+//			}
+			lauar.nextDay();}
+		}
+		
 }
