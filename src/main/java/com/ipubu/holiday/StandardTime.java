@@ -321,4 +321,17 @@ public class StandardTime {
 		
 		return end;
 	}
+	private static double getNum(String mp){
+		double value = -1.0;
+		if(mp.contains("半")){
+			if(!"".equals(mp.replaceAll("个", "").replaceAll("半", "")))
+				value = Integer.valueOf(mp.replaceAll("个", "").replaceAll("半", "")) + 0.5;
+			else
+				value = 0.5;
+		}else
+			value = Integer.valueOf(mp.replace("个", ""));
+		
+		return value;
+	}
+
 }
