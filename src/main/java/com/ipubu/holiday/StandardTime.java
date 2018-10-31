@@ -65,4 +65,12 @@ public class StandardTime {
 		getholidaytime();
 		initfadingHoli();
 	}
+	private static void getholidaytime(){
+		holidayTimeMap = new HashMap<String, String>();
+		for(Entry<String, HashSet<String>> str:holidayMap.entrySet()){
+			for(String time:holidayMap.get(str.getKey())){
+				holidayTimeMap.put(time.split("日")[0]+"日", str.getKey());
+			}
+		}
+	}
 }
