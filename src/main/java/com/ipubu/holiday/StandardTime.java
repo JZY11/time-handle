@@ -144,4 +144,37 @@ public class StandardTime {
 			lauar.nextDay();}
 		}
 		
+	// 节日转化为时间
+	private static TimeFormat holidayDate(String holiday) {
+		
+		holiday = holiday.replaceAll("11期间", "国庆节");
+		String date = null;
+		String rlues = "((\\d+)年)|去年|前年|明年|后年|今年";
+		Pattern p = Pattern.compile(rlues);
+		Matcher m = p.matcher(holiday);
+		Calendar cal = Calendar.getInstance();
+		boolean result = m.find();
+		if(result){
+			if("去年".equals(m.group())){
+				date = anysHoliday(holiday.replaceAll("去年", "").replaceAll("的", ""), cal.get(Calendar.YEAR) - 1);
+			}else if("前年".equals(m.group())){
+				date = anysHoliday(holiday.replaceAll("前年", "").replaceAll("的", ""), cal.get(Calendar.YEAR) - 2);
+			}else if("明年".equals(m.group())){
+				date = anysHoliday(holiday.replaceAll("明年", "").replaceAll("的", ""), cal.get(Calendar.YEAR) + 1);
+			}else if("后年".equals(m.group())){
+				date = anysHoliday(holiday.replaceAll("后年", "").replaceAll("的", ""), cal.get(Calendar.YEAR) + 2);
+			}else if("今年".equals(m.group())){
+				date = anysHoliday(holiday.replaceAll("今年", "").replaceAll("的", ""), cal.get(Calendar.YEAR));
+			}else{
+				date = anysHoliday(holiday.replace(m.group(), "").replaceAll("的", ""), Integer.valueOf(m.group().replace("年", "")));
+			}
+		}else{
+			date = anysHoliday(holiday);
+		}
+
+		TimeFormat tf = null;
+		if (date != null)
+			tf = new TimeFormat(date, date, null);
+		return tf;
+	}
 }
