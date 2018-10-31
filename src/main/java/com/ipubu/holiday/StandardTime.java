@@ -217,4 +217,45 @@ public class StandardTime {
 		return date;
 	}
 
+	// 文字转换为标准时间
+	/**
+	 * @param unit
+	 *            text修饰的时间单位,如"最近几天",单位是"天".支持年月日时分.与Calendar类中的单位标识已知
+	 * @param position
+	 *            时间轴区间标识,0标识当前,1标识未来,-1标识过去
+	 * @param movelength
+	 *            偏移的长度
+	 * @return
+	 */
+	private TimeFormat moveTime(int unit, int position, int movelength) {
+		// 时间推移的长度
+		TimeFormat tf = null;
+		Calendar cal = Calendar.getInstance();
+		String nowTime = sdf.format(cal.getTime());
+		cal.add(unit, (movelength - 1) * position);
+		String moveTime = sdf.format(cal.getTime());
+		if (position == -1)
+			tf = new TimeFormat(moveTime, nowTime, null);
+		else
+			tf = new TimeFormat(nowTime, moveTime, null);
+		return tf;
+	}
+
+	// 主要函数
+	public  static TimeFormat normTime(String text) {
+		TimeFormat tf = null;
+		try {
+			tf = holidayDate(text);
+			if (tf == null)
+				tf = weekTime(text);
+			if (tf == null)
+				tf = day(text);
+			if (tf == null)
+				tf = moveTime(text);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return tf;
+	}
+
 }
