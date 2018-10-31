@@ -191,4 +191,30 @@ public class StandardTime {
 		}}
 		return date;
 	}
+	
+	//未明确是哪一年的节日
+	private static String anysHoliday(String holiday){
+		if(holiday==null||"".equals(holiday)) return null;
+		String date = null;
+		Calendar cal = Calendar.getInstance();
+		
+		date = anysHoliday(holiday, cal.get(Calendar.YEAR));
+		if(date !=null){
+		try {
+			Date time = new SimpleDateFormat("yyyy年MM月dd日")
+					.parse(date);
+			
+			cal.setTime(time);
+			cal.add(cal.MINUTE, 3);
+			if (Calendar.getInstance().getTime().after(cal.getTime())) {
+				date = anysHoliday(holiday, cal.get(Calendar.YEAR) + 1);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+
+		return date;
+	}
+
 }
