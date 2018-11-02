@@ -241,4 +241,22 @@ public class _24SolarTerms {
 			}
 		return hmap;
 	}	
+	
+	private static HashSet<String> getSet(String jieqi,HashMap<String, HashSet<String>> hmap){
+		
+		HashSet<String> set = null;
+		if(hmap.get(jieqi)==null){
+			set = new HashSet<String>();
+		}else{
+			set = hmap.get(jieqi);
+		}
+		return set;
+	}
+	public static void main(String[] args) {
+//		Map<String, String> map = solarTermToString(2018);
+//		for(Entry<String, String> str:map.entrySet()){
+//			System.out.println(str.getKey()+"	"+str.getValue());
+//		}
+	
+	}
 }
