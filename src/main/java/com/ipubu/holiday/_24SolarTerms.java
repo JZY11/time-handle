@@ -125,4 +125,18 @@ public class _24SolarTerms {
 		return offset;
 	}
 
+	public static int getOffset(Map<String,Integer[]> map,int year,String name,int offset){
+		int off = 0;
+		Integer[] years = map.get(name);
+		if(null != years){
+			for(int i:years){
+				if(i == year){
+					off = offset;
+					break;
+				}
+			}
+		}
+		return off;
+	}
+
 }
