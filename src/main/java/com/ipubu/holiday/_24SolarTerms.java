@@ -139,4 +139,106 @@ public class _24SolarTerms {
 		return off;
 	}
 
+	public static HashMap<String, HashSet<String>> solarTermToString(int year,HashMap<String, HashSet<String>> hmap) {
+		if(year > 2000 ){
+			HashSet<String> set = null;
+			set = getSet("立春", hmap);
+			set.add(String.valueOf(year)+"年02月0"+getSolarTermNum(year,SolarTermsEnum.LICHUN.name())+"日00点00分00秒");
+			hmap.put("立春", set);
+			
+			set = getSet("雨水", hmap);
+			set.add(String.valueOf(year)+"年02月"+getSolarTermNum(year,SolarTermsEnum.YUSHUI.name())+"日00点00分00秒");
+			hmap.put("雨水", set);
+			
+			set = getSet("惊蛰", hmap);
+			set.add(String.valueOf(year)+"年03月0"+getSolarTermNum(year,SolarTermsEnum.JINGZHE.name())+"日00点00分00秒");
+			hmap.put("惊蛰", set);
+			
+			set = getSet("春分", hmap);
+			set.add(String.valueOf(year)+"年03月"+getSolarTermNum(year,SolarTermsEnum.CHUNFEN.name())+"日00点00分00秒");
+			hmap.put("春分", set);
+			
+			set = getSet("清明", hmap);
+			set.add(String.valueOf(year)+"年04月0"+getSolarTermNum(year,SolarTermsEnum.QINGMING.name())+"日00点00分00秒");
+			hmap.put("清明", set);
+			
+			set = getSet("谷雨", hmap);
+			set.add(String.valueOf(year)+"年04月"+getSolarTermNum(year,SolarTermsEnum.GUYU.name())+"日00点00分00秒");
+			hmap.put("谷雨", set);
+			
+			set = getSet("立夏", hmap);
+			set.add(String.valueOf(year)+"年05月0"+getSolarTermNum(year,SolarTermsEnum.LIXIA.name())+"日00点00分00秒");
+			hmap.put("立夏", set);
+			
+			set = getSet("小满", hmap);
+			set.add(String.valueOf(year)+"年05月"+getSolarTermNum(year,SolarTermsEnum.XIAOMAN.name())+"日00点00分00秒");
+			hmap.put("小满", set);
+			
+			set = getSet("芒种", hmap);
+			set.add(String.valueOf(year)+"年06月0"+getSolarTermNum(year,SolarTermsEnum.MANGZHONG.name())+"日00点00分00秒");
+			hmap.put("芒种", set);
+			
+			set = getSet("夏至", hmap);
+			set.add(String.valueOf(year)+"年06月"+getSolarTermNum(year,SolarTermsEnum.XIAZHI.name())+"日00点00分00秒");
+			hmap.put("夏至", set);
+			
+			set = getSet("小暑", hmap);
+			set.add(String.valueOf(year)+"年07月0"+getSolarTermNum(year,SolarTermsEnum.XIAOSHU.name())+"日00点00分00秒");
+			hmap.put("小暑", set);
+			
+			set = getSet("大暑", hmap);
+			set.add(String.valueOf(year)+"年07月"+getSolarTermNum(year,SolarTermsEnum.DASHU.name())+"日00点00分00秒");
+			hmap.put("大暑", set);
+			
+			set = getSet("立秋", hmap);
+			set.add(String.valueOf(year)+"年08月0"+getSolarTermNum(year,SolarTermsEnum.LIQIU.name())+"日00点00分00秒");
+			hmap.put("立秋", set);
+			
+			set = getSet("处暑", hmap);
+			set.add(String.valueOf(year)+"年08月"+getSolarTermNum(year,SolarTermsEnum.CHUSHU.name())+"日00点00分00秒");
+			hmap.put("处暑", set);
+			
+			set = getSet("白露", hmap);
+			set.add(String.valueOf(year)+"年09月0"+getSolarTermNum(year,SolarTermsEnum.BAILU.name())+"日00点00分00秒");
+			hmap.put("白露", set);
+			
+			set = getSet("秋分", hmap);
+			set.add(String.valueOf(year)+"年09月"+getSolarTermNum(year,SolarTermsEnum.QIUFEN.name())+"日00点00分00秒");
+			hmap.put("秋分", set);
+			
+			set = getSet("寒露", hmap);
+			set.add(String.valueOf(year)+"年10月0"+getSolarTermNum(year,SolarTermsEnum.HANLU.name())+"日00点00分00秒");
+			hmap.put("寒露", set);
+			
+			set = getSet("霜降", hmap);
+			set.add(String.valueOf(year)+"年10月"+getSolarTermNum(year,SolarTermsEnum.SHUANGJIANG.name())+"日00点00分00秒");
+			hmap.put("霜降", set);
+			
+			set = getSet("立冬", hmap);
+			set.add(String.valueOf(year)+"年11月0"+getSolarTermNum(year,SolarTermsEnum.LIDONG.name())+"日00点00分00秒");
+			hmap.put("立冬", set);
+			
+			set = getSet("小雪", hmap);
+			set.add( String.valueOf(year)+"年11月"+getSolarTermNum(year,SolarTermsEnum.XIAOXUE.name())+"日00点00分00秒");
+			hmap.put("小雪", set);
+			
+			set = getSet("大雪", hmap);
+			set.add(String.valueOf(year)+"年12月0"+getSolarTermNum(year,SolarTermsEnum.DAXUE.name())+"日00点00分00秒");
+			hmap.put("大雪", set);
+			
+			set = getSet("冬至", hmap);
+			set.add(String.valueOf(year)+"年12月"+getSolarTermNum(year,SolarTermsEnum.DONGZHI.name())+"日00点00分00秒");
+			hmap.put("冬至", set);
+			
+			set = getSet("小寒", hmap);
+			set.add(String.valueOf(year)+"年01月0"+getSolarTermNum(year,SolarTermsEnum.XIAOHAN.name())+"日00点00分00秒");
+			hmap.put("小寒", set);
+			
+			set = getSet("大寒", hmap);
+			set.add( String.valueOf(year)+"年01月"+getSolarTermNum(year,SolarTermsEnum.DAHAN.name())+"日00点00分00秒");
+			hmap.put("大寒", set);
+			
+			}
+		return hmap;
+	}	
 }
