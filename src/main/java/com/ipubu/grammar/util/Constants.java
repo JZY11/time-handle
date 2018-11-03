@@ -78,4 +78,20 @@ public class Constants {
 	 */
 	public static int SERVICE_REASK = 10;
 	
+	/**
+	 * 进入一个特定的服务
+	 */
+	public static int SERVICE_ENTER = 1;
+	
+	/**
+	 * 在服务内部，当前获得了更多明确信息。
+	 */
+	public static int SERVICE_INNER = 2;
+		
+	/**
+	 * 在服务上下文中问用户，但没有匹配到进一步明确的信息。
+	 */
+	public static int SERVICE_INNER_NOTMATCH = 3; 
+	
+
 }
