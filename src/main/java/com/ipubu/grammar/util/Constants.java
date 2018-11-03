@@ -68,5 +68,14 @@ public class Constants {
 			Log.logger.error("Exception",e1);
 		}
 	}
-
+	/**
+	 * 该服务结束
+	 */
+	public static int SERVICE_END = 9;
+	
+	/**
+	 * 反问
+	 */
+	public static int SERVICE_REASK = 10;
+	
 }
