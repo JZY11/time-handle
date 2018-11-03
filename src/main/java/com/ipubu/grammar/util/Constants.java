@@ -27,5 +27,18 @@ public class Constants {
 	public static String chatDir ="little-chat.data.txt";
 	public static int MAXRANDOMLEN = 6;
 	
+	public static String TYPE_QUIT = "退出";
+	public static String TYPE_RANDOM = "随便";
+	public static String EMPTY_PARA = "[]";
+	public static int BASIC_LIVE_SECONDS = 11;
+	public static int MAXPARAASK = 3;
+	public static String EXTREMESTR = "MAX MIN AVG";
+	public static boolean MULTIPLE_ENTITY_SUPPORT = true;
+	
+	public static String FULL_REPLY_PRE = "您还可以继续问";
+	public static String FULL_REPLY_POST = "，或者聊些别的！";
+	public static String NOT_MATCH_CONTEXT = "不好意思没听懂，您能说详细些吗？";
+	public static String NOT_MATCH = "我们可以聊聊天气听听音乐！";
+	public static BufferedWriter bw = null;
 	
 }
