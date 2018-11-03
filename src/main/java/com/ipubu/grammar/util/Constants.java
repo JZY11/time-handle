@@ -47,7 +47,11 @@ public class Constants {
 		binarywcdir = dataDir+binarywcdir;
 		grammarDir = dataDir+grammarDir;
 		serviceDir = dataDir+serviceDir;
+		treeDir = dataDir+treeDir;
+		alias_file = dataDir+alias_file;
+		chatDir = dataDir + chatDir;
+//		PosUtils.init(dir+"config/");
+//		PropertyUtil.init(dir+"config/");
 	}
 	
-
 }
