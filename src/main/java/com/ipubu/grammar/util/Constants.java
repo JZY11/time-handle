@@ -54,4 +54,19 @@ public class Constants {
 //		PropertyUtil.init(dir+"config/");
 	}
 	
+	public static void write(String line){
+		try {
+			Date d = new Date(System.currentTimeMillis());
+			FileOutputStream fos = new FileOutputStream(dataDir+"logs/"+(1900+d.getYear())+"-"+(d.getMonth()+1)+"-"+d.getDate()+"_results.log",true);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+			bw = new BufferedWriter(osw);
+			bw.write(line);
+			bw.close();
+			osw.close();
+			fos.close();
+		} catch (IOException e1) {
+			Log.logger.error("Exception",e1);
+		}
+	}
+
 }
