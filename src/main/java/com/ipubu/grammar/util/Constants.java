@@ -41,4 +41,13 @@ public class Constants {
 	public static String NOT_MATCH = "我们可以聊聊天气听听音乐！";
 	public static BufferedWriter bw = null;
 	
+	public static void setDataDir(String dir){
+		dataDir = dir;
+		wcdir = dataDir+wcdir;
+		binarywcdir = dataDir+binarywcdir;
+		grammarDir = dataDir+grammarDir;
+		serviceDir = dataDir+serviceDir;
+	}
+	
+
 }
