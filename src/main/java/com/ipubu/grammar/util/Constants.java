@@ -93,5 +93,19 @@ public class Constants {
 	 */
 	public static int SERVICE_INNER_NOTMATCH = 3; 
 	
+	/**
+	 * 当前服务需要的参数已经全部满足
+	 */
+	public static int SERVICE_FULL = 4;
+	
+	/**
+	 * 在一个服务中跳出说了别的。
+	 */
+	public static int SERVICE_JUMP = 5;
+	
+	/**
+	 * 在一个同族服务中匹配到了。
+	 */
+	public static int SERVICE_FAMILY = 6;
 
 }
