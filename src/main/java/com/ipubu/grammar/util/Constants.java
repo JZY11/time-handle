@@ -107,5 +107,20 @@ public class Constants {
 	 * 在一个同族服务中匹配到了。
 	 */
 	public static int SERVICE_FAMILY = 6;
+	
+	/**
+	 * 骂机器人
+	 */
+	public static int DEFAULT_MAREN = 6; 
+	
+	/**
+	 * 夸机器人
+	 */
+	public static int DEFAULT_BIAOYANG = 7;
+	
+	/**
+	 * 问服务
+	 */
+	public static int DEFAULT_ASK_SERVICES = 8;
 
 }
