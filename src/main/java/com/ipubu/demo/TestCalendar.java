@@ -16,6 +16,7 @@ public class TestCalendar {
 	public static void main(String[] args) {
 		getTest();
 		maxDay(2018,10);
+		weekNum(2018,10,30);
 	}
 	
 	public static void getTest(){
@@ -41,6 +42,26 @@ public class TestCalendar {
 		calendar.set(Calendar.MONTH,month-1);//默认1月为0月 
 		int dayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		System.out.println(year+"年"+month+"月"+"的最大天数是："+dayNumber);
+	}
+	
+	/**
+	 * 计算某一个月的天数是多少
+	 * @param 
+	 * @return
+	 */
+	public static void weekNum(int year,int month,int day){
+		calendar.clear();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month-1);
+		calendar.set(Calendar.DAY_OF_MONTH, day);
+		
+		/*计算某一天是该年的第几个星期*/ 
+		int weekNumberOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+		System.out.println(year+"年"+month+"月"+day+"日是这年中的第"+weekNumberOfYear+"个星期"); 
+		
+		/*计算某一天是该月的第几个星期*/
+		int weekNumberOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
+		System.out.println(year+"年"+month+"月"+day+"日是这个月中的第"+weekNumberOfMonth+"个星期");
 	}
 	
 }
