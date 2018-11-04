@@ -17,6 +17,7 @@ public class TestCalendar {
 		getTest();
 		maxDay(2018,10);
 		weekNum(2018,10,30);
+		dayNum(2018,28);
 	}
 	
 	public static void getTest(){
@@ -36,7 +37,7 @@ public class TestCalendar {
 	 * @param 
 	 * @return
 	 */
-	public static void maxDay(int year,int month){ 
+	public static void maxDay(int year,int month){
 		calendar.clear();
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH,month-1);//默认1月为0月 
@@ -62,6 +63,20 @@ public class TestCalendar {
 		/*计算某一天是该月的第几个星期*/
 		int weekNumberOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
 		System.out.println(year+"年"+month+"月"+day+"日是这个月中的第"+weekNumberOfMonth+"个星期");
+	}
+	
+	/**
+	 * 计算一年中的第几星期是几号
+	 * @param 
+	 * @return
+	 */
+	public static void dayNum(int year,int week){
+		calendar.clear();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.WEEK_OF_YEAR, week);
+		calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);  
+	    System.out.println(df.format(calendar.getTime())); 
 	}
 	
 }
