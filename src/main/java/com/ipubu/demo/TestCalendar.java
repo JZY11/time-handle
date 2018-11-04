@@ -18,6 +18,7 @@ public class TestCalendar {
 		maxDay(2018,10);
 		weekNum(2018,10,30);
 		dayNum(2018,28);
+		add(2018,10,30,1);
 	}
 	
 	public static void getTest(){
@@ -37,7 +38,7 @@ public class TestCalendar {
 	 * @param 
 	 * @return
 	 */
-	public static void maxDay(int year,int month){
+	public static void maxDay(int year,int month){ 
 		calendar.clear();
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH,month-1);//默认1月为0月 
@@ -70,7 +71,7 @@ public class TestCalendar {
 	 * @param 
 	 * @return
 	 */
-	public static void dayNum(int year,int week){
+	public static void dayNum(int year,int week){ 
 		calendar.clear();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		calendar.set(Calendar.YEAR, year);
@@ -79,4 +80,21 @@ public class TestCalendar {
 	    System.out.println(df.format(calendar.getTime())); 
 	}
 	
+	/**
+	 * 查询显示当前的后几天，前几天等
+	 * @param 
+	 * @return
+	 */
+	public static void add(int year,int month,int day,int num){ 
+		calendar.clear();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month-1);
+		calendar.set(Calendar.DAY_OF_MONTH, day);
+		Date date = calendar.getTime();
+		
+		calendar.add(Calendar.DATE, num);
+		date=calendar.getTime();  
+        System.out.println(sdf.format(date)); 
+	}
 }
