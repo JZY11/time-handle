@@ -19,6 +19,7 @@ public class TestCalendar {
 		weekNum(2018,10,30);
 		dayNum(2018,28);
 		add(2018,10,30,1);
+		getDaysBetween();
 	}
 	
 	public static void getTest(){
@@ -96,5 +97,33 @@ public class TestCalendar {
 		calendar.add(Calendar.DATE, num);
 		date=calendar.getTime();  
         System.out.println(sdf.format(date)); 
+	}
+	
+	/**
+	 * 计算两个任意时间中间相隔的天数
+	 * @param 
+	 * @return
+	 */
+	public static void getDaysBetween (){
+		Calendar day1 = Calendar.getInstance();
+		Calendar day2 = Calendar.getInstance();
+		day1.set(2018,10,2);
+		day2.set(2018,10,30);
+		if (day1.after(day2)) {
+			Calendar swap = day1;  
+            day1 = day2; 
+            day2 = swap;
+		}
+		
+		int days = day2.get(Calendar.DAY_OF_YEAR) - day1.get(Calendar.DAY_OF_YEAR);
+		int y2 = day2.get(Calendar.YEAR);
+		if (day1.get(Calendar.YEAR) != y2) {
+			day1 = (Calendar) day1.clone();
+			do {
+				days += day1.getActualMaximum(Calendar.DAY_OF_YEAR);//得到当年的实际天数
+				day1.add(Calendar.YEAR, 1);
+			} while (day1.get(Calendar.YEAR) != y2);
+		}
+		System.out.println("相隔"+days+"天"); 
 	}
 }
