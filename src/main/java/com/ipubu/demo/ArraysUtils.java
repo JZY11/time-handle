@@ -42,13 +42,13 @@ public class ArraysUtils {
 		System.out.println("对数组的第2个到第6个元素进行排序进行排序：Arrays.sort(array,2,7)：");
 		ArraysUtils.output(array1);
 		
+		/*比较数组元素是否相等*/
+		System.out.println("比较数组元素是否相等：Arrays.equals(array, array1):" + "\n" + Arrays.equals(array, array1));
+		
 		/*对整个数组进行排序*/
 		Arrays.sort(array1);
 		System.out.println("对整个数组进行排序：Arrays.sort(array1)：");
 		ArraysUtils.output(array1);
-		
-		/*比较数组元素是否相等*/
-		System.out.println("比较数组元素是否相等：Arrays.equals(array, array1):" + "\n" + Arrays.equals(array, array1));
 		
 		int[] array2 = array1.clone();
 		System.out.println("克隆后数组元素是否相等:Arrays.equals(array1, array2):" + "\n" + Arrays.equals(array1, array2));
