@@ -143,7 +143,7 @@ public class Main {
 	
 //		getPath(musicPathOriginal,list);
 		
-		File musicFile = new File(musicPathOriginal);
+		File musicFile = new File(musicPathOriginal);	// musicPathOriginal这个字符串路径是一个目录
 		
 		int count = 0;
 		String line;
@@ -153,17 +153,17 @@ public class Main {
 			String name = file.getName() + "\\";
 			musicPath += name;
 			musicPathOriginal += name;
-			if (file.isDirectory()) {
+			if (file.isDirectory()) {	// 判断如果是一个目录
 				File fileMusic = new File(musicPath);
-				fileMusic.mkdir();
+				fileMusic.mkdir();	// 新建该目录
 //				musicPath = "D:\\liuhong\\data_multi_1.25\\wctxt\\领域词汇\\音乐\\歌曲名词\\歌曲数据\\";
-				duplicateRemovalMusic(musicPathOriginal,musicPath);
+				duplicateRemovalMusic(musicPathOriginal,musicPath);	// 递归调用
 			}else {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
 //				musicPath += name;
 				File fileOfMusic = new File(musicPath);
-				if (!fileOfMusic.exists()) {
-					fileOfMusic.createNewFile();
+				if (!fileOfMusic.exists()) {	// 判断如果该文件不存在的话
+					fileOfMusic.createNewFile();	// 新生成该文件对象
 				}
 				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileOfMusic),"UTF-8"));
 				for (Iterator<String> iterator = sets.iterator(); iterator.hasNext();) {
