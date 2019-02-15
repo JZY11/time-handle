@@ -77,5 +77,16 @@ public class TestDaZhi {
 			System.out.println("predicted domain: " + result);
 		}
     	
+//    	BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream("D:\\liuhong\\中控错误case\\中控.txt"),"utf-8"));
+//		BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("D:\\liuhong\\中控错误case\\中控out.txt"),"utf-8"));
+//		String line =null;
+//		while((line=br.readLine())!=null){
+//			String result = getPredictedDomain(line);
+////			if(!result.contains("影视"))
+//				bw.write(line+"\t"+result+"\n");
+//			
+//		}
+//		br.close();
+//		bw.close();
     }
 }
