@@ -48,11 +48,16 @@ public class FileUtils {
 		
 		int count = 0;
 		String line;
+		String name = null;
 		
 		File[] fileNames = musicFile.listFiles();
 		for (File file : fileNames) {
 			System.out.println(file.getPath());
-			String name = file.getName() + "\\";
+			if (file.isDirectory()) {
+				name = file.getName() + "\\";
+			} else {
+				name = file.getName();
+			}
 			musicPath += name;
 			musicPathOriginal += name;
 			
@@ -78,7 +83,8 @@ public class FileUtils {
 						}
 					}
 				}
-				
+				musicPathOriginal = musicPathOriginal.substring(0, musicPathOriginal.lastIndexOf("\\") + 1);
+				musicPath = musicPath.substring(0, musicPath.lastIndexOf("\\") + 1);
 				reader.close();
 				writer.close();
 			}
