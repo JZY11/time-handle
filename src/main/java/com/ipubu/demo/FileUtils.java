@@ -65,6 +65,8 @@ public class FileUtils {
 				File fileMusic = new File(musicPath);
 				fileMusic.mkdir();
 				duplicateRemovalMusic(musicPathOriginal,musicPath);	// 递归调用
+				musicPathOriginal = musicPathOriginal.substring(0, musicPathOriginal.indexOf("歌曲数据") + 5);
+				musicPath = musicPath.substring(0, musicPath.indexOf("歌曲数据") + 5);
 			} else {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
 				File fileOfMusic = new File(musicPath);
@@ -87,9 +89,9 @@ public class FileUtils {
 				musicPath = musicPath.substring(0, musicPath.lastIndexOf("\\") + 1);
 				reader.close();
 				writer.close();
+				
+				System.out.println("相同的词条共：" + count);
 			}
-			
-			System.out.println("相同的词条共：" + count);
 		}
 	}
 
