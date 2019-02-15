@@ -18,6 +18,7 @@ import java.util.Scanner;
  * @Author jzy
  */
 public class TestDaZhi {
+	/** 测试能否正确预测到正确的领域 **/
 
 	public static String getPredictedDomain(String sentence) {
 
