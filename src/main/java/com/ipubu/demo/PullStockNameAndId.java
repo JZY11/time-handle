@@ -61,6 +61,10 @@ public class PullStockNameAndId {
 					writerN.write(iterator.next() + "\r\n");
 				}
 				
+				Iterator<String> it = stockC.iterator();
+				while (it.hasNext()) {
+					writerC.write(it.next() + "\r\n");
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
