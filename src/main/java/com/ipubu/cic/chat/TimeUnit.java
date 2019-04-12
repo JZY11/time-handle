@@ -83,5 +83,13 @@ public class TimeUnit {
 				}
 			}
 		}
+		
+		/** 不仅局限于支持1xxx年和2xxx年的识别，可识别三位数和四位数表示的年份 */
+		rule = "[0-9]?[0-9]{3}(?=年)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) { // 如果有三位或者四位的年份，则覆盖原来2位数识别出的年份
+			_tp.tunit[0] = Integer.parseInt(matcher.group());
+		}
 	}
 }
