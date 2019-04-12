@@ -31,4 +31,18 @@ public class TimeUnit {
 	TimeNormalizer normalizer = null;
 	public TimePoint _tp=new TimePoint();
 	public TimePoint _tp_origin=new TimePoint();
+	
+	
+	/**
+	 * 时间表达式单元构造方法
+	 * 该方法作为时间表达式单元的入口，将时间表达式字符串传入
+	 * @param exp_time 时间表达式字符串
+	 * @param n TimeNormalizer(定时器)
+	 */
+	public TimeUnit(String exp_time, TimeNormalizer n) {
+		super();
+		Time_Expression = exp_time;
+		normalizer = n;
+		Time_Normalization();
+	}
 }
