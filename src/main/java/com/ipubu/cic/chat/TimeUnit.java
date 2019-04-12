@@ -1,9 +1,10 @@
 package com.ipubu.cic.chat;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ipubu.time1.TimeNormalizer;
-import com.ipubu.time1.TimePoint;
 
 /**
  * <p>
@@ -29,8 +30,8 @@ public class TimeUnit {
 	private boolean isFirstTimeSolveContext = true;
 	
 	TimeNormalizer normalizer = null;
-	public TimePoint _tp=new TimePoint();
-	public TimePoint _tp_origin=new TimePoint();
+	public TimePoint _tp = new TimePoint();
+	public TimePoint _tp_origin = new TimePoint();
 	
 	
 	/**
@@ -44,5 +45,43 @@ public class TimeUnit {
 		Time_Expression = exp_time;
 		normalizer = n;
 		Time_Normalization();
+	}
+	
+	
+	
+	
+	/**
+     *时间表达式规范化的入口
+     *
+     *时间表达式识别后，通过此入口进入规范化阶段，
+     *具体识别每个字段的值
+     * 
+     */
+	public void Time_Normalization() {
+		norm_setyear();
+	}
+
+
+	/**
+	 * 年 - 规范化方法
+	 * @param 
+	 * @return
+	 */
+	public void norm_setyear() {
+		/** 加入只有两位数来表示年份 */
+		String rule = "[0-9]{2}(?=年)"; // 表示两个数字后边紧跟着的就是"年"
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		
+		if (matcher.find()) {
+			_tp.tunit[0] = Integer.parseInt(matcher.group()); // 将string转化为int
+			if (_tp.tunit[0] >= 0 && _tp.tunit[0] < 100) {
+				if (_tp.tunit[0] < 30) { // 30以下表示2000年以后的年份
+					_tp.tunit[0] += 2000;
+				} else { // 否则表示1900年以后的年份
+					_tp.tunit[0] += 1900;
+				}
+			}
+		}
 	}
 }
