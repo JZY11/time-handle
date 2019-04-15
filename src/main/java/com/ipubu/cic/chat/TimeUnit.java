@@ -383,6 +383,60 @@ public class TimeUnit {
 			calendar.add(Calendar.DATE, -2);
 		}
 		
+		rule="昨";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -1);
+		}
+		
+		rule = "今(?!年)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 0);
+		}
+		
+		rule = "明(?!年)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 1);
+		}
+		
+		rule = "(?<!大)后天";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 2);
+		}
+		
+		rule = "大后天";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, 3);
+		}
+		
+		rule="(?<=(上上(周|星期|礼拜)))[1-7]";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			int week = Integer.parseInt(matcher.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, -2);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
 		
 	}
 	
