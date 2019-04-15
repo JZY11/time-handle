@@ -189,7 +189,6 @@ public class TimeUnit {
 			String rule = "\\d+(?=天[以之]前)";
 			Pattern pattern = Pattern.compile(rule);
 			Matcher matcher = pattern.matcher(Time_Expression);
-			
 			if (matcher.find()) {
 				flag[2] = true;
 				int day = Integer.parseInt(matcher.group());
@@ -204,6 +203,25 @@ public class TimeUnit {
 				int day = Integer.parseInt(matcher.group());
 				calendar.add(calendar.DATE, day);
 			}
+			
+			rule = "(过)((\\d+)(天|日))";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[2] = true;
+				int day = Integer.parseInt(matcher.group(1));
+				calendar.add(calendar.DATE, day);
+			}
+			
+			rule = "\\d+(?=周[以之]?前)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[1] = true;
+				int week = Integer.parseInt(matcher.group());
+				calendar.add(calendar.WEEK_OF_MONTH, -week);
+			}
+			
 		}
 	}
 	
