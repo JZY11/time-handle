@@ -1,5 +1,6 @@
 package com.ipubu.cic.chat;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,6 +63,7 @@ public class TimeUnit {
 		norm_setmonth(); // 月份规范化
 		norm_setday(); // 日规范化
 		norm_setmonth_fuzzyday();
+		norm_setBaseRelated();
 	}
 
 
@@ -158,6 +160,49 @@ public class TimeUnit {
 				String date = matchStr.substring(splitIndex+1);
 				_tp.tunit[1] = Integer.parseInt(month);
 				_tp.tunit[2] = Integer.parseInt(date);
+			}
+		}
+	}
+	
+	
+	/**
+	 * 设置以上文时间为基准的时间偏移计算
+	 * 
+	 * @param 
+	 * @return
+	 */
+	public void norm_setBaseRelated() {
+		String[] time_grid = new String[6]; // 定义一个容量为6的字符串数组
+		time_grid = normalizer.getTimeBase().split("-");
+		
+		int[] ini = new int[6];
+		for (int i = 0; i < 6; i++) {
+			ini[i] = Integer.parseInt(time_grid[1]);
+			
+			Calendar calendar = Calendar.getInstance(); // 定义一个日历对象实例
+			calendar.setFirstDayOfWeek(Calendar.MONDAY); // 设置一周的第一天为周一
+			calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]); // 设置日历对象的 年、月、日、时、分、秒
+			calendar.getTime(); // Date对象
+			
+			boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
+			
+			String rule = "\\d+(?=天[以之]前)";
+			Pattern pattern = Pattern.compile(rule);
+			Matcher matcher = pattern.matcher(Time_Expression);
+			
+			if (matcher.find()) {
+				flag[2] = true;
+				int day = Integer.parseInt(matcher.group());
+				calendar.add(calendar.DATE, -day);
+			}
+			
+			rule = "[过|](\\d+(?=天[以之]?后))";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[2] = true;
+				int day = Integer.parseInt(matcher.group());
+				calendar.add(calendar.DATE, day);
 			}
 		}
 	}
