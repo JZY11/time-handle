@@ -219,8 +219,56 @@ public class TimeUnit {
 			if (matcher.find()) {
 				flag[1] = true;
 				int week = Integer.parseInt(matcher.group());
-				calendar.add(calendar.WEEK_OF_MONTH, -week);
+				calendar.add(calendar.WEEK_OF_YEAR, -week);
 			}
+			
+			rule = "\\d+(?=周[以之]?后)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[1] = true;
+				int week = Integer.parseInt(matcher.group());
+				calendar.add(calendar.WEEK_OF_YEAR, week);
+			}
+			
+			rule = "\\d+(?=[个|]月[以之]?前)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[1] = true;
+				int month = Integer.parseInt(matcher.group());
+				calendar.add(calendar.MONTH, -month);
+			}
+			
+			rule = "\\d+(?=[个|]月[以之]?后)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[1] = true;
+				int month = Integer.parseInt(matcher.group());
+				calendar.add(calendar.MONTH, month);
+			}
+			
+			rule = "\\d+(?=年[以之]?前)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[0] = true;
+				int year = Integer.parseInt(matcher.group());
+				calendar.add(calendar.YEAR, -year);
+			}
+			
+			rule = "\\d+(?=年[以之]?后)";
+			pattern = Pattern.compile(rule);
+			matcher = pattern.matcher(Time_Expression);
+			if (matcher.find()) {
+				flag[0] = true;
+				int year = Integer.parseInt(matcher.group());
+				calendar.add(calendar.YEAR, year);
+			}
+			
+			
+			
 			
 		}
 	}
