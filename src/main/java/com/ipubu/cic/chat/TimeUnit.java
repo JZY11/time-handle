@@ -194,7 +194,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[2] = true;
 			int day = Integer.parseInt(matcher.group());
-			calendar.add(calendar.DATE, -day);
+			calendar.add(Calendar.DATE, -day);
 		}
 		
 		rule = "[过|](\\d+(?=天[以之]?后))";
@@ -203,7 +203,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[2] = true;
 			int day = Integer.parseInt(matcher.group());
-			calendar.add(calendar.DATE, day);
+			calendar.add(Calendar.DATE, day);
 		}
 		
 		rule = "(过)((\\d+)(天|日))";
@@ -212,7 +212,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[2] = true;
 			int day = Integer.parseInt(matcher.group(1));
-			calendar.add(calendar.DATE, day);
+			calendar.add(Calendar.DATE, day);
 		}
 		
 		rule = "\\d+(?=周[以之]?前)";
@@ -221,7 +221,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[1] = true;
 			int week = Integer.parseInt(matcher.group());
-			calendar.add(calendar.WEEK_OF_YEAR, -week);
+			calendar.add(Calendar.WEEK_OF_YEAR, -week);
 		}
 		
 		rule = "\\d+(?=周[以之]?后)";
@@ -230,7 +230,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[1] = true;
 			int week = Integer.parseInt(matcher.group());
-			calendar.add(calendar.WEEK_OF_YEAR, week);
+			calendar.add(Calendar.WEEK_OF_YEAR, week);
 		}
 		
 		rule = "\\d+(?=[个|]月[以之]?前)";
@@ -239,7 +239,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[1] = true;
 			int month = Integer.parseInt(matcher.group());
-			calendar.add(calendar.MONTH, -month);
+			calendar.add(Calendar.MONTH, -month);
 		}
 		
 		rule = "\\d+(?=[个|]月[以之]?后)";
@@ -248,7 +248,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[1] = true;
 			int month = Integer.parseInt(matcher.group());
-			calendar.add(calendar.MONTH, month);
+			calendar.add(Calendar.MONTH, month);
 		}
 		
 		rule = "\\d+(?=年[以之]?前)";
@@ -257,7 +257,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[0] = true;
 			int year = Integer.parseInt(matcher.group());
-			calendar.add(calendar.YEAR, -year);
+			calendar.add(Calendar.YEAR, -year);
 		}
 		
 		rule = "\\d+(?=年[以之]?后)";
@@ -266,7 +266,7 @@ public class TimeUnit {
 		if (matcher.find()) {
 			flag[0] = true;
 			int year = Integer.parseInt(matcher.group());
-			calendar.add(calendar.YEAR, year);
+			calendar.add(Calendar.YEAR, year);
 		}
 		
 		String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
@@ -297,7 +297,7 @@ public class TimeUnit {
 		}
 		
 		Calendar calendar = Calendar.getInstance();
-		calendar.setFirstDayOfWeek(calendar.MONDAY);
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
 		calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]);
 		calendar.getTime();
 		
@@ -308,7 +308,7 @@ public class TimeUnit {
 		Matcher matcher = pattern.matcher(Time_Expression);
 		if (matcher.find()) {
 			flag[0] = true;
-			calendar.add(calendar.YEAR, -2);
+			calendar.add(Calendar.YEAR, -2);
 		}
 		
 		rule = "去年";
@@ -316,7 +316,7 @@ public class TimeUnit {
 		matcher = pattern.matcher(Time_Expression);
 		if (matcher.find()) {
 			flag[0] = true;
-			calendar.add(calendar.YEAR, -1);
+			calendar.add(Calendar.YEAR, -1);
 		}
 		
 		rule = "今年";
@@ -324,7 +324,7 @@ public class TimeUnit {
 		matcher = pattern.matcher(Time_Expression);
 		if (matcher.find()) {
 			flag[0] = true;
-			calendar.add(calendar.YEAR, 0);
+			calendar.add(Calendar.YEAR, 0);
 		}
 		
 		rule = "明年";
@@ -332,7 +332,7 @@ public class TimeUnit {
 		matcher = pattern.matcher(Time_Expression);
 		if (matcher.find()) {
 			flag[0] = true;
-			calendar.add(calendar.YEAR, 1);
+			calendar.add(Calendar.YEAR, 1);
 		}
 		
 		rule="后年";
@@ -342,6 +342,48 @@ public class TimeUnit {
 			flag[0] = true;
 			calendar.add(Calendar.YEAR, 2);
 		}
+		
+		rule = "上[个|]月";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, -1);
+		}
+		
+		rule = "(本|这个)月";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, 0);
+		}
+		
+		rule = "下[个|]月";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			calendar.add(Calendar.MONTH, 1);
+		}
+		
+		rule="大前天";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -3);
+		}
+		
+		rule = "(?<!大)前天";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			calendar.add(Calendar.DATE, -2);
+		}
+		
+		
 	}
 	
 	
