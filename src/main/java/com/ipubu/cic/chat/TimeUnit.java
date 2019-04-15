@@ -58,7 +58,8 @@ public class TimeUnit {
      * 
      */
 	public void Time_Normalization() {
-		norm_setyear();
+		norm_setyear();	// 年份规范化
+		norm_setmonth(); // 月份规范化
 	}
 
 
@@ -92,4 +93,24 @@ public class TimeUnit {
 			_tp.tunit[0] = Integer.parseInt(matcher.group());
 		}
 	}
+	
+	
+	/**
+	 * 月份 - 规范化方法
+	 * @param 
+	 * @return
+	 */
+	public void norm_setmonth() {
+		String rule = "([0-9]|10|11|12)(?=月)"; // 表示月份：1-12 数字后紧跟着"月"
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		
+		if (matcher.find()) {
+			_tp.tunit[1] = Integer.parseInt(matcher.group());
+			
+			/** 处理倾向于未来时间的处理 */
+			// preferFuture(1);
+		}
+	}
+	
 }
