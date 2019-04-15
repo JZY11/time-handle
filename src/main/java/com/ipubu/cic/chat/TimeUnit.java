@@ -1,5 +1,6 @@
 package com.ipubu.cic.chat;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -267,8 +268,17 @@ public class TimeUnit {
 				calendar.add(calendar.YEAR, year);
 			}
 			
-			
-			
+			String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
+			String[] time_constructs = s.split("-");
+			if (flag[0] || flag[1] || flag[2]) {
+				_tp.tunit[0] = Integer.parseInt(time_constructs[0]);
+			}
+			if (flag[1] || flag[2]) {
+				_tp.tunit[1] = Integer.parseInt(time_constructs[1]);
+			}
+			if (flag[1] || flag[2]) {
+				_tp.tunit[2] = Integer.parseInt(time_constructs[2]);
+			}
 			
 		}
 	}
