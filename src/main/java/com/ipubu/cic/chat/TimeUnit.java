@@ -65,6 +65,7 @@ public class TimeUnit {
 		norm_setday(); // 日规范化
 		norm_setmonth_fuzzyday();
 		norm_setBaseRelated();
+		norm_setCurRelated();
 	}
 
 
@@ -177,111 +178,192 @@ public class TimeUnit {
 		time_grid = normalizer.getTimeBase().split("-");
 		
 		int[] ini = new int[6];
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++)
 			ini[i] = Integer.parseInt(time_grid[1]);
 			
-			Calendar calendar = Calendar.getInstance(); // 定义一个日历对象实例
-			calendar.setFirstDayOfWeek(Calendar.MONDAY); // 设置一周的第一天为周一
-			calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]); // 设置日历对象的 年、月、日、时、分、秒
-			calendar.getTime(); // Date对象
-			
-			boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
-			
-			String rule = "\\d+(?=天[以之]前)";
-			Pattern pattern = Pattern.compile(rule);
-			Matcher matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[2] = true;
-				int day = Integer.parseInt(matcher.group());
-				calendar.add(calendar.DATE, -day);
-			}
-			
-			rule = "[过|](\\d+(?=天[以之]?后))";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[2] = true;
-				int day = Integer.parseInt(matcher.group());
-				calendar.add(calendar.DATE, day);
-			}
-			
-			rule = "(过)((\\d+)(天|日))";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[2] = true;
-				int day = Integer.parseInt(matcher.group(1));
-				calendar.add(calendar.DATE, day);
-			}
-			
-			rule = "\\d+(?=周[以之]?前)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[1] = true;
-				int week = Integer.parseInt(matcher.group());
-				calendar.add(calendar.WEEK_OF_YEAR, -week);
-			}
-			
-			rule = "\\d+(?=周[以之]?后)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[1] = true;
-				int week = Integer.parseInt(matcher.group());
-				calendar.add(calendar.WEEK_OF_YEAR, week);
-			}
-			
-			rule = "\\d+(?=[个|]月[以之]?前)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[1] = true;
-				int month = Integer.parseInt(matcher.group());
-				calendar.add(calendar.MONTH, -month);
-			}
-			
-			rule = "\\d+(?=[个|]月[以之]?后)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[1] = true;
-				int month = Integer.parseInt(matcher.group());
-				calendar.add(calendar.MONTH, month);
-			}
-			
-			rule = "\\d+(?=年[以之]?前)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[0] = true;
-				int year = Integer.parseInt(matcher.group());
-				calendar.add(calendar.YEAR, -year);
-			}
-			
-			rule = "\\d+(?=年[以之]?后)";
-			pattern = Pattern.compile(rule);
-			matcher = pattern.matcher(Time_Expression);
-			if (matcher.find()) {
-				flag[0] = true;
-				int year = Integer.parseInt(matcher.group());
-				calendar.add(calendar.YEAR, year);
-			}
-			
-			String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
-			String[] time_constructs = s.split("-");
-			if (flag[0] || flag[1] || flag[2]) {
-				_tp.tunit[0] = Integer.parseInt(time_constructs[0]);
-			}
-			if (flag[1] || flag[2]) {
-				_tp.tunit[1] = Integer.parseInt(time_constructs[1]);
-			}
-			if (flag[1] || flag[2]) {
-				_tp.tunit[2] = Integer.parseInt(time_constructs[2]);
-			}
-			
+		Calendar calendar = Calendar.getInstance(); // 定义一个日历对象实例
+		calendar.setFirstDayOfWeek(Calendar.MONDAY); // 设置一周的第一天为周一
+		calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]); // 设置日历对象的 年、月、日、时、分、秒
+		calendar.getTime(); // Date对象
+		
+		boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
+		
+		String rule = "\\d+(?=天[以之]前)";
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			int day = Integer.parseInt(matcher.group());
+			calendar.add(calendar.DATE, -day);
+		}
+		
+		rule = "[过|](\\d+(?=天[以之]?后))";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			int day = Integer.parseInt(matcher.group());
+			calendar.add(calendar.DATE, day);
+		}
+		
+		rule = "(过)((\\d+)(天|日))";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[2] = true;
+			int day = Integer.parseInt(matcher.group(1));
+			calendar.add(calendar.DATE, day);
+		}
+		
+		rule = "\\d+(?=周[以之]?前)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			int week = Integer.parseInt(matcher.group());
+			calendar.add(calendar.WEEK_OF_YEAR, -week);
+		}
+		
+		rule = "\\d+(?=周[以之]?后)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			int week = Integer.parseInt(matcher.group());
+			calendar.add(calendar.WEEK_OF_YEAR, week);
+		}
+		
+		rule = "\\d+(?=[个|]月[以之]?前)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			int month = Integer.parseInt(matcher.group());
+			calendar.add(calendar.MONTH, -month);
+		}
+		
+		rule = "\\d+(?=[个|]月[以之]?后)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[1] = true;
+			int month = Integer.parseInt(matcher.group());
+			calendar.add(calendar.MONTH, month);
+		}
+		
+		rule = "\\d+(?=年[以之]?前)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			int year = Integer.parseInt(matcher.group());
+			calendar.add(calendar.YEAR, -year);
+		}
+		
+		rule = "\\d+(?=年[以之]?后)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			int year = Integer.parseInt(matcher.group());
+			calendar.add(calendar.YEAR, year);
+		}
+		
+		String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
+		String[] time_constructs = s.split("-");
+		if (flag[0] || flag[1] || flag[2]) {
+			_tp.tunit[0] = Integer.parseInt(time_constructs[0]);
+		}
+		if (flag[1] || flag[2]) {
+			_tp.tunit[1] = Integer.parseInt(time_constructs[1]);
+		}
+		if (flag[1] || flag[2]) {
+			_tp.tunit[2] = Integer.parseInt(time_constructs[2]);
 		}
 	}
+	
+	/**
+	 * 设置当前时间相关的时间表达式
+	 * 
+	 * @param 
+	 * @return
+	 */
+	public void norm_setCurRelated() {
+		String[] time_grid = new String[6];
+		time_grid=normalizer.getOldTimeBase().split("-");
+		int[] ini = new int[6];
+		for (int i = 0; i < ini.length; i++) {
+			ini[i] = Integer.parseInt(time_grid[i]);
+		}
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setFirstDayOfWeek(calendar.MONDAY);
+		calendar.set(ini[0], ini[1]-1, ini[2], ini[3], ini[4], ini[5]);
+		calendar.getTime();
+		
+		boolean[] flag = {false,false,false};//观察时间表达式是否因当前相关时间表达式而改变时间
+		
+		String rule = "前年";
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			calendar.add(calendar.YEAR, -2);
+		}
+		
+		rule = "去年";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			calendar.add(calendar.YEAR, -1);
+		}
+		
+		rule = "今年";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			calendar.add(calendar.YEAR, 0);
+		}
+		
+		rule = "明年";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			flag[0] = true;
+			calendar.add(calendar.YEAR, 1);
+		}
+		
+		rule="后年";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[0] = true;
+			calendar.add(Calendar.YEAR, 2);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
