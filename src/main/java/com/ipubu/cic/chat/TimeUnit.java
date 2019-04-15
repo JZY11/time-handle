@@ -60,6 +60,7 @@ public class TimeUnit {
 	public void Time_Normalization() {
 		norm_setyear();	// 年份规范化
 		norm_setmonth(); // 月份规范化
+		norm_setday(); // 日规范化
 	}
 
 
@@ -100,13 +101,32 @@ public class TimeUnit {
 	 * @param 
 	 * @return
 	 */
-	public void norm_setmonth() {
+	public void norm_setday() {
 		String rule = "([0-9]|10|11|12)(?=月)"; // 表示月份：1-12 数字后紧跟着"月"
 		Pattern pattern = Pattern.compile(rule);
 		Matcher matcher = pattern.matcher(Time_Expression);
 		
 		if (matcher.find()) {
 			_tp.tunit[1] = Integer.parseInt(matcher.group());
+			
+			/** 处理倾向于未来时间的处理 */
+			// preferFuture(1);
+		}
+	}
+	
+	
+	/**
+	 * 日 - 规范化方法
+	 * @param 
+	 * @return
+	 */
+	public void norm_setmonth() {
+		String rule = "((?<!\\d))([0-3][0-9]))(?=日|号)"; // 表示日：xx数字后紧跟着"日或者号"
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		
+		if (matcher.find()) {
+			_tp.tunit[2] = Integer.parseInt(matcher.group());
 			
 			/** 处理倾向于未来时间的处理 */
 			// preferFuture(1);
