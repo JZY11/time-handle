@@ -61,6 +61,7 @@ public class TimeUnit {
 		norm_setyear();	// 年份规范化
 		norm_setmonth(); // 月份规范化
 		norm_setday(); // 日规范化
+		norm_setmonth_fuzzyday();
 	}
 
 
@@ -132,5 +133,34 @@ public class TimeUnit {
 			// preferFuture(1);
 		}
 	}
+	
+	/**
+	 * 月-日兼容模糊写法
+	 * 
+	 * 该方法识别时间表达式单元的月、日字段
+	 * 
+	 * @param 
+	 * @return
+	 */
+	public void norm_setmonth_fuzzyday() {
+		String rule = "([0-9]|10|11|12)(月|\\.|\\-)([0-3][0-9]|[1-9])"; // 注意：\\.|\\-  不用转义
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		
+		if (matcher.find()) {
+			String matchStr = matcher.group();
+			Pattern p = Pattern.compile("(月|.|-)");
+			Matcher m = p.matcher(matchStr);
+			
+			if (m.find()) {
+				int splitIndex = m.start();
+				String month = matchStr.substring(0, splitIndex);
+				String date = matchStr.substring(splitIndex+1);
+				_tp.tunit[1] = Integer.parseInt(month);
+				_tp.tunit[2] = Integer.parseInt(date);
+			}
+		}
+	}
+	
 	
 }
