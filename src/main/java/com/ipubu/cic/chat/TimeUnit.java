@@ -68,6 +68,7 @@ public class TimeUnit {
 		norm_setCurRelated();
 		norm_sethour();
 		norm_setminute();
+		norm_setsecond();
 	}
 
 
@@ -528,8 +529,26 @@ public class TimeUnit {
 		}
 	}
 	
-	
-	
+	/**
+	 * 秒 - 规范化方法
+	 * 该字段识别时间表达式单元的分字段
+	 * @param 
+	 * @return
+	 */
+	public void norm_setsecond() {
+		/*
+		 * 添加了省略“分”说法的时间
+		 * 如17点15分32
+		 */
+		
+		String rule = "([0-5]?[0-9](?=秒))|((?<=分)[0-5]?[0-9])";
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			_tp.tunit[5] = Integer.parseInt(matcher.group());
+			isAllDayTime = false;
+		}
+	}
 	
 	
 	
