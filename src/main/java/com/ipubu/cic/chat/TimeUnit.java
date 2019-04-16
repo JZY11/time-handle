@@ -465,6 +465,32 @@ public class TimeUnit {
 			calendar.set(Calendar.DAY_OF_WEEK, week);
 		}
 		
+		rule="(?<=((?<!(上|下))(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			int week = Integer.parseInt(matcher.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 0);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+			/**处理未来时间倾向 @author kexm*/
+			//preferFutureWeek(week, calendar);
+		}
+		
+		String s = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(calendar.getTime());
+		String[] timeConstructs = s.split("-");
+		if(flag[0]||flag[1]||flag[2]){
+			_tp.tunit[0] = Integer.parseInt(timeConstructs[0]);
+		}
+		if(flag[1]||flag[2])
+			_tp.tunit[1] = Integer.parseInt(timeConstructs[1]);
+		if(flag[2])
+			_tp.tunit[2] = Integer.parseInt(timeConstructs[2]);
+		
 	}
 	
 	
