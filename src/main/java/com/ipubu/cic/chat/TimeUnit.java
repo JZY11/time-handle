@@ -69,6 +69,7 @@ public class TimeUnit {
 		norm_sethour();
 		norm_setminute();
 		norm_setsecond();
+		norm_setTotal();
 	}
 
 
@@ -550,7 +551,33 @@ public class TimeUnit {
 		}
 	}
 	
-	
+	/**
+	 * 特殊形式的规范化方法
+	 * 如：xx:yy:zz
+	 * 该方法识别特殊形式的时间表达式单元的各个字段
+	 * @param 
+	 * @return
+	 */
+	public void norm_setTotal() {
+		String rule;
+		Pattern pattern;
+		Matcher matcher;
+		String[] tmp_parser;
+		String tmp_target;
+		
+		rule = "(?<!(周|星期))([0-2]?[0-9]):[0-5]?[0-9]:[0-5][0-9]";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			tmp_parser = new String[3];
+			tmp_target = matcher.group();
+			tmp_parser = tmp_target.split(":");
+			_tp.tunit[3]=Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[4]=Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[5]=Integer.parseInt(tmp_parser[2]);
+			isAllDayTime = false;
+		}
+	}
 	
 	
 	
