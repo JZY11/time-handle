@@ -437,6 +437,33 @@ public class TimeUnit {
 			calendar.set(Calendar.DAY_OF_WEEK, week);
 		}
 		
+		rule="(?<=((?<!下)下(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			int week = Integer.parseInt(matcher.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 1);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
+		
+		rule="(?<=(下下(周|星期)))[1-7]";
+		pattern=Pattern.compile(rule);
+		matcher=pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			flag[2] = true;
+			int week = Integer.parseInt(matcher.group());
+			if(week == 7)
+				week = 1;
+			else 
+				week++;
+			calendar.add(Calendar.WEEK_OF_MONTH, 2);
+			calendar.set(Calendar.DAY_OF_WEEK, week);
+		}
 		
 	}
 	
