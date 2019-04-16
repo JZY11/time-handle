@@ -622,9 +622,62 @@ public class TimeUnit {
 			isAllDayTime = false;
 		}
 		
+		rule = "晚";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if(matcher.find()){
+			if(_tp.tunit[3] >= 1 && _tp.tunit[3] <= 11) {
+				_tp.tunit[3] += 12;
+			} else if(_tp.tunit[3] == 12) {
+				_tp.tunit[3] = 0;
+			}
+			if(_tp.tunit[3] == -1) { /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 */
+				_tp.tunit[3] = RangeTimeEnum.night.getHourTime(); 
+			}
+			/**处理倾向于未来时间的情况  */
+			//preferFuture(3);
+			isAllDayTime = false;
+		}
 		
+		rule = "[0-9]?[0-9]?[0-9]{2}-((10)|(11)|(12)|([1-9]))-((?<!\\d))([0-3][0-9]|[1-9])";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			tmp_parser = new String[3];
+			tmp_target = matcher.group();
+			tmp_parser = tmp_target.split("-");
+			_tp.tunit[0] = Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[1] = Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[2] = Integer.parseInt(tmp_parser[2]);
+		}
 		
+		rule = "((10)|(11)|(12)|([1-9]))/((?<!\\d))([0-3][0-9]|[1-9])/[0-9]?[0-9]?[0-9]{2}";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if(matcher.find()) {
+			tmp_parser = new String[3];
+			tmp_target = matcher.group();
+			tmp_parser = tmp_target.split("/");
+			_tp.tunit[1] = Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[2] = Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[0] = Integer.parseInt(tmp_parser[2]);
+		}
 		
+		/*
+		 * 增加了:固定形式时间表达式 年.月.日 的正确识别
+		 * add by jzy
+		 */
+		rule = "[0-9]?[0-9]?[0-9]{2}\\.((10)|(11)|(12)|([1-9]))\\.((?<!\\d))([0-3][0-9]|[1-9])";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			tmp_parser = new String[3];
+			tmp_target = matcher.group();
+			tmp_parser = tmp_target.split("\\.");
+			_tp.tunit[0] = Integer.parseInt(tmp_parser[0]);
+			_tp.tunit[1] = Integer.parseInt(tmp_parser[1]);
+			_tp.tunit[2] = Integer.parseInt(tmp_parser[2]);
+		}
 	}
 	
 	
