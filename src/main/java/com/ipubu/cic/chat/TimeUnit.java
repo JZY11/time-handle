@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ipubu.time1.RangeTimeEnum;
 import com.ipubu.time1.TimeNormalizer;
 
 /**
@@ -589,8 +590,42 @@ public class TimeUnit {
 				isAllDayTime = false;
 			}
 		}
+		
+		/*
+		 * 增加了:固定形式时间表达式的
+		 * 中午,午间,下午,午后,晚上,傍晚,晚间,晚,pm,PM
+		 * 的正确时间计算，规约同上
+		 */
+		rule = "(中午)|(午间)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			if (_tp.tunit[3] > 0 && _tp.tunit[3] <= 10) {
+				_tp.tunit[3] += 12;
+			}
+			if (_tp.tunit[3] == -1) { /** 增加了对没有明确时间点，但只写了"中午/午间"这种情况的处理 */
+				_tp.tunit[3] = RangeTimeEnum.noon.getHourTime();
+			}
+			isAllDayTime = false;
+		}
+		
+		rule = "(下午)|(午后)|(pm)|(PM)";
+		pattern = Pattern.compile(rule);
+		matcher = pattern.matcher(Time_Expression);
+		if(matcher.find()){
+			if(_tp.tunit[3] >= 0 && _tp.tunit[3] <= 11)
+				_tp.tunit[3] += 12;
+			if(_tp.tunit[3] == -1) /**增加对没有明确时间点，只写了“中午/午间”这种情况的处理 */
+				_tp.tunit[3] = RangeTimeEnum.afternoon.getHourTime(); 
+			/**处理倾向于未来时间的情况  */
+			//preferFuture(3);
+			isAllDayTime = false;
+		}
+		
+		
+		
+		
 	}
-	
 	
 	
 }
