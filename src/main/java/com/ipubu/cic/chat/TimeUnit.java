@@ -66,6 +66,8 @@ public class TimeUnit {
 		norm_setmonth_fuzzyday();
 		norm_setBaseRelated();
 		norm_setCurRelated();
+		norm_sethour();
+		norm_setminute();
 	}
 
 
@@ -493,20 +495,38 @@ public class TimeUnit {
 		
 	}
 	
+	/**
+	 * 时 - 规范化方法
+	 * @param 
+	 * @return
+	 */
+	public void norm_sethour() {
+		String rule = "(?<!(周|星期))([0-2]?[0-9])(?=(时|点))(前|之前|以前|后|之后|以后)?";
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			_tp.tunit[3] = Integer.parseInt(matcher.group());
+			isTimePoint = true;
+			isAllDayTime = false;
+		}
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 分钟 - 规范化方法
+	 * 该字段识别时间表达式单元的分字段
+	 * @param 
+	 * @return
+	 */
+	public void norm_setminute() {
+		String rule = "([0-5]?[0-9](?=分(?!钟)))|((?<=((?<!小)[点时]))[0-5]?[0-9](?!刻))";
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(Time_Expression);
+		if (matcher.find()) {
+			_tp.tunit[4] = Integer.parseInt(matcher.group());
+			isAllDayTime = false;
+			isTimePoint = true;
+		}
+	}
 	
 	
 	
