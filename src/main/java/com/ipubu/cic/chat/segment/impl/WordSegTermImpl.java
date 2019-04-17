@@ -20,6 +20,74 @@ public class WordSegTermImpl implements IWordSegTerm{
     private boolean isUserDefineWord = false; // 是否是用户自定义的词，在ES或者其他地方定义(znja领域)
     private boolean isHideWord = false; // 是否是隐含词，即原始语句中没有出现的词(znja领域)
 	
+    /**
+     * 升级某个词的分类信息
+     * @param otherWord
+     */
+    public void update(WordSegTermImpl otherWord) {
+    	if (otherWord == null || otherWord.getWord() == null || !otherWord.getWord().equalsIgnoreCase(word)) {
+			return;
+		}
+    	
+    	setExtWordClass(otherWord.getExtWordClass());
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+	public String getExtWordClass() {
+		return extWordClass;
+	}
+	
+	public void setExtWordClass(String extWordClass) {
+		this.extWordClass = extWordClass;
+	}
+	
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	public List<String> getWordClassRoutes() {
+		return wordClassRoutes;
+	}
+
+	public void setWordClassRoutes(List<String> wordClassRoutes) {
+		this.wordClassRoutes = wordClassRoutes;
+	}
+
+	public List<String> getWordClasses() {
+		return wordClasses;
+	}
+
+	public void setWordClasses(List<String> wordClasses) {
+		this.wordClasses = wordClasses;
+	}
+
+	public boolean isUserDefineWord() {
+		return isUserDefineWord;
+	}
+
+	public void setUserDefineWord(boolean isUserDefineWord) {
+		this.isUserDefineWord = isUserDefineWord;
+	}
+
+	public boolean isHideWord() {
+		return isHideWord;
+	}
+
+	public void setHideWord(boolean isHideWord) {
+		this.isHideWord = isHideWord;
+	}
+
+
 	public String getWord() {
 		return word;
 	}
