@@ -1,8 +1,10 @@
 package com.ipubu.cic.chat.segment.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ipubu.cic.chat.segment.IWordSegTerm;
+import com.ipubu.cic.chat.segment.SegmentDomain;
 
 /**
  * @ClassName WordSegTermImpl
@@ -30,6 +32,8 @@ public class WordSegTermImpl implements IWordSegTerm{
 		}
     	
     	setExtWordClass(otherWord.getExtWordClass());
+    	isUserDefineWord =otherWord.isUserDefineWord(); 
+		isHideWord = otherWord.isHideWord();
     }
     
     
@@ -37,7 +41,44 @@ public class WordSegTermImpl implements IWordSegTerm{
     
     
     
-    
+    public WordSegTermImpl(String word,int pos,String domain){
+		this.word = word;
+		this.pose = pos;
+		this.domain =domain;
+	}
+	
+	public WordSegTermImpl(String word,String nerWordClass,String domain){
+		this.word = word;
+		this.domain =domain;
+		this.extWordClass = nerWordClass;
+	}
+	
+	/**
+	 * 获取词的词类路由信息
+	 * wc1#wc2#wc3;wc4#wc5#wc6
+	 * @return
+	 */
+	public List<String> getWordClassRoutes() {
+		if (wordClassRoutes == null) {
+			wordClassRoutes = SegmentDomain.getWordClassRoutes(word, domain);
+			
+			if (extWordClass != null) {
+				if (wordClassRoutes == null) {
+					wordClassRoutes = new ArrayList<String>();
+				}
+				
+				wordClassRoutes.add(extWordClass);
+			}
+		}
+		return wordClassRoutes;
+	}
+	
+	
+	
+	
+	
+	
+	
     
 	public String getExtWordClass() {
 		return extWordClass;
@@ -55,10 +96,6 @@ public class WordSegTermImpl implements IWordSegTerm{
 		this.domain = domain;
 	}
 
-	public List<String> getWordClassRoutes() {
-		return wordClassRoutes;
-	}
-
 	public void setWordClassRoutes(List<String> wordClassRoutes) {
 		this.wordClassRoutes = wordClassRoutes;
 	}
@@ -71,6 +108,10 @@ public class WordSegTermImpl implements IWordSegTerm{
 		this.wordClasses = wordClasses;
 	}
 
+	/**
+	 * 是否是用户自定义的词,在es或者其他地方定义(ZNJJ领域)
+	 * @return
+	 */
 	public boolean isUserDefineWord() {
 		return isUserDefineWord;
 	}
@@ -79,6 +120,10 @@ public class WordSegTermImpl implements IWordSegTerm{
 		this.isUserDefineWord = isUserDefineWord;
 	}
 
+	/**
+	 * 是否为隐含词，即原始语句中没有出现的词（ZNJJ领域）
+	 * @return
+	 */
 	public boolean isHideWord() {
 		return isHideWord;
 	}
