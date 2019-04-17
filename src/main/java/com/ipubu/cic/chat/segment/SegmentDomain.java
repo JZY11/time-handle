@@ -95,7 +95,34 @@ public class SegmentDomain {
      * @return List wc1#wc2#wc3
      */
     private static List<String> getAllWordClassRoutesByDomain(String word, String domain) {
+    	if (word == null || word.length() == 0 || domain == null || domain.length() == 0) {
+			return null;
+		}
     	
+    	TreeMap<String, String> wordskv = domainWordWClassMap.get(domain);
+    	if (wordskv == null || wordskv.size() == 0) {
+			return null;
+		}
+    	String wcstring = wordskv.get(word);
+    	if (wcstring == null || wcstring.length() == 0) {
+			return null;
+		}
+    	
+    	String[] wcs = wcstring.split("##");
+    	if (wcs == null || wcs.length == 0) {
+			return null;
+		}
+    	
+    	List<String> wordClassRoutesList = new ArrayList<String>();
+    	for (String wc : wcs) {
+    		wc = wc.trim();
+    		if (wc.length() == 0) {
+				continue;
+			}
+    		wordClassRoutesList.add(wc);
+    	}
+    	
+    	return wordClassRoutesList;
     }
     
     
