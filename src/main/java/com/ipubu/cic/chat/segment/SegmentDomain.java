@@ -72,7 +72,16 @@ public class SegmentDomain {
         
         for (String domain : serviceLimitedWClassMap.keySet()) {
         	wClassList = getAllWordClassRoutesByDomain(word, domain);
+        	if (wClassList != null) {
+				for (String wClassRoute : wClassList) {
+					if (!wordClassRoutesList.contains(wClassRoute)) {
+						wordClassRoutesList.add(wClassRoute);
+					}
+				}
+			}
         }
+        
+        return wordClassRoutesList;
     }
     
     
