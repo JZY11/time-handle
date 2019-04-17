@@ -9,5 +9,5 @@ public interface IWordSegTerm extends ITerm{
 	
 	public String getWord();
 	
-	public String getPose();
+	public int getPose();
 }
