@@ -32,4 +32,63 @@ public class SegmentDomain {
     private static Map<String, DoubleArray> domainForwardDoubleArrayMap = new HashMap<String, DoubleArray>(); // 各领域词典的正序double array
     private static Map<String, DoubleArray> domainBackwardDoubleArrayMap = new HashMap<String, DoubleArray>();// 各领域词典的反序double array
 
+    
+    
+    
+    
+    /**
+     * 获取某个词所有可能的词类路由信息或者某个领域的词类路由信息
+     * @param word
+     *             词
+     * @param domain
+     *             领域(可以为空)
+     * @return List wc1#wc2#wc3
+     */
+    public static List<String> getWordClassRoutes(String word, String domain) {
+    	if (domain == null || "".equals(domain)) {
+			return getAllWordClassRoutes(word);
+		} else if (!systemSupportDomains.contains(domain)) {
+			domain = "other";
+		}
+    	
+    	return getAllWordClassRoutesByDomain(word, domain);
+    }
+    
+    
+    /**
+     * 获取某个词的所有可能的词类路由信息
+     * 
+     * @param word
+     *            词
+     * @return List wc1#wc2#wc3
+     */
+    private static List<String> getAllWordClassRoutes(String word) {
+    	if (word == null || "".equals(word)) {
+			return null;
+		}
+    	
+    	List<String> wordClassRoutesList = new ArrayList<String>();
+        List<String> wClassList = null;
+        
+        for (String domain : serviceLimitedWClassMap.keySet()) {
+        	wClassList = getAllWordClassRoutesByDomain(word, domain);
+        }
+    }
+    
+    
+    /**
+     * 获取某个词在某一领域的词类路由信息
+     * 
+     * @param word
+     *            词
+     * @param domain
+     *            领域
+     * @return List wc1#wc2#wc3
+     */
+    private static List<String> getAllWordClassRoutesByDomain(String word, String domain) {
+    	
+    }
+    
+    
+    
 }
