@@ -33,7 +33,7 @@ public class CommonDateUtil {
 	}
 
 	public static int getYear(Date date) {
-		return getCalendar(date).get(1);
+		return getCalendar(date).get(1); // Returns the value of the given calendar field
 	}
 	
 	public static int getMonth(Date date) {
@@ -44,11 +44,50 @@ public class CommonDateUtil {
 		return getCalendar(date).get(5);
 	}
 	
+	public static int getWeek(Date date) {
+		return getCalendar(date).get(7);
+	}
+
+	public static int getWeekOfFirstDayOfMonth(Date date) {
+		return getWeek(getFirstDayOfMonth(date));
+	}
+
+	public static int getWeekOfLastDayOfMonth(Date date) {
+		return getWeek(getLastDayOfMonth(date));
+	}
+	
 	public static Calendar getCalendar(Date day) {
 		Calendar c = Calendar.getInstance(); // getInstance方法返回一个Calendar对象(该对象为Calendar的子类对象),其日历字段已由当前日期和时间初始化了
 		if (day != null)
-			c.setTime(day);
+			c.setTime(day); // 通过给定的时间来设置当前Calendar对象实例的时间
 		return c;
+	}
+	
+	public static Date getFirstDayOfMonth(Date date) {
+		return getFirstCleanDay(5, date);
+	}
+	
+	private static Date getFirstCleanDay(int datePart, Date date) {
+		Calendar c = Calendar.getInstance();
+		if (date != null)
+			c.setTime(date);
+		c.set(datePart, 1);
+		return getCleanDay(c);
+	}
+	
+	private static Date getCleanDay(Calendar c) {
+		c.set(11, 0);
+		c.clear(12);
+		c.clear(13);
+		c.clear(14);
+		return c.getTime();
+	}
+	
+	public static Date getLastDayOfMonth(Date date) {
+		Calendar c = getCalendar(getFirstDayOfMonth(date));
+		c.add(2, 1);
+		c.add(5, -1);
+		return getCleanDay(c);
 	}
 
 
