@@ -36,11 +36,6 @@ public class WordSegTermImpl implements IWordSegTerm{
 		isHideWord = otherWord.isHideWord();
     }
     
-    
-    
-    
-    
-    
     public WordSegTermImpl(String word,int pos,String domain){
 		this.word = word;
 		this.pose = pos;
