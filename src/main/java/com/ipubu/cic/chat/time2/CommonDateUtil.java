@@ -1,5 +1,8 @@
 package com.ipubu.cic.chat.time2;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * 日期工具类
  * @ClassName CommonDateUtil
@@ -25,7 +28,28 @@ public class CommonDateUtil {
 
 	private static final int[] constellationEdgeDay = { 20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22 };
 
+	public static String getDatePattern() {
+		return defaultDatePattern;
+	}
+
+	public static int getYear(Date date) {
+		return getCalendar(date).get(1);
+	}
 	
+	public static int getMonth(Date date) {
+		return getCalendar(date).get(2);
+	}
+
+	public static int getDay(Date date) {
+		return getCalendar(date).get(5);
+	}
+	
+	public static Calendar getCalendar(Date day) {
+		Calendar c = Calendar.getInstance(); // getInstance方法返回一个Calendar对象(该对象为Calendar的子类对象),其日历字段已由当前日期和时间初始化了
+		if (day != null)
+			c.setTime(day);
+		return c;
+	}
 
 
 }
