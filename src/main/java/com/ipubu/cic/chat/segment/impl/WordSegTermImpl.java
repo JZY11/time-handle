@@ -74,7 +74,33 @@ public class WordSegTermImpl implements IWordSegTerm{
 	}
 	
 	
-	
+	/**
+	 * 获取词的词类信息
+	 * @return
+	 */
+	public List<String> getWordClasses() {
+		if (wordClasses == null) {
+			getWordClasses();
+			
+			if (wordClassRoutes != null && wordClassRoutes.size() > 0) {
+				String[] wcstrs = null;
+				wordClasses = new ArrayList<String>();
+				
+				for (String s : wordClassRoutes) {
+					wcstrs = s.split("#");
+					if (wcstrs == null || wcstrs.length == 0) {
+						continue;
+					}
+					
+					for (String wordClass : wcstrs) {
+						wordClasses.add(wordClass);
+					}
+				}
+			}
+		}
+		
+		return wordClasses;
+	}
 	
 	
 	
@@ -98,10 +124,6 @@ public class WordSegTermImpl implements IWordSegTerm{
 
 	public void setWordClassRoutes(List<String> wordClassRoutes) {
 		this.wordClassRoutes = wordClassRoutes;
-	}
-
-	public List<String> getWordClasses() {
-		return wordClasses;
 	}
 
 	public void setWordClasses(List<String> wordClasses) {
