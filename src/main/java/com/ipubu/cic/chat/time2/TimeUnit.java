@@ -41,4 +41,15 @@ public class TimeUnit {
 		Time_Normalization();
 		
 	}
+	
+	/**
+     *时间表达式规范化的入口
+     *
+     *时间表达式识别后，通过此入口进入规范化阶段，
+     *具体识别每个字段的值
+     * 
+     */
+	public void Time_Normalization() {
+		// TODO
+	}
 }
