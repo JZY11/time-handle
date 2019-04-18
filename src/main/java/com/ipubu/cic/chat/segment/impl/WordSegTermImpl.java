@@ -75,7 +75,7 @@ public class WordSegTermImpl implements IWordSegTerm{
 	
 	
 	/**
-	 * 获取词的词类信息
+	 * 获取词的词类信息:wc1;wc2;wc3
 	 * @return
 	 */
 	public List<String> getWordClasses() {
@@ -110,9 +110,31 @@ public class WordSegTermImpl implements IWordSegTerm{
 		return extWordClass;
 	}
 	
+	/**
+	 * 给词赋值一个扩展词类信息
+	 * @param extWordClass
+	 */
 	public void setExtWordClass(String extWordClass) {
+		if(extWordClass == null || extWordClass.length() == 0){
+			return;
+		}
+		
 		this.extWordClass = extWordClass;
+		
+		/** 要先保证原有的词类加载信息 */
+		getWordClassRoutes();
+		getWordClasses();
+		
+		/** 接下来判断是否需要追加新的词类信息 */
+		if (wordClassRoutes.contains(wordClasses)) {
+			wordClassRoutes.addAll(wordClasses);
+		}
+		
+		if (!wordClasses.contains(extWordClass)) {
+			wordClasses.add(extWordClass);
+		}
 	}
+	
 	
 	public String getDomain() {
 		return domain;
