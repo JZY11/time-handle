@@ -114,6 +114,19 @@ public class CommonDateUtil {
 		return getFirstDayOfMonth(null);
 	}
 	
+	public static Date getFirstDayOfYear(Date date) { // 获取一年之中的第一天
+		return makeDate(getYear(date), 1, 1);
+	}
+	
+	public static Date makeDate(int year, int month, int day) {
+		Calendar c = Calendar.getInstance();
+		getCleanDay(c);
+		c.set(1, year);
+		c.set(2, month - 1);
+		c.set(5, day);
+		return c.getTime();
+	}
+	
 
 
 }
