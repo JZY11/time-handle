@@ -127,6 +127,18 @@ public class CommonDateUtil {
 		return c.getTime();
 	}
 	
+	public static Date getFirstDayOfYear() {
+		return getFirstDayOfYear(new Date());
+	}
+	
+	public static Date getDateAfterWeeks(Date start, int weeks) {
+		return getDateAfterMs(start, weeks * 604800000L);
+	}
+	
+	public static Date getDateAfterMs(Date start, long ms) {
+		return new Date(start.getTime() + ms);
+	}
+	
 
 
 }
