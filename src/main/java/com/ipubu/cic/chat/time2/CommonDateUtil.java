@@ -89,6 +89,26 @@ public class CommonDateUtil {
 		c.add(5, -1);
 		return getCleanDay(c);
 	}
+	
+	public static Date getFirstDayOfSeason(Date date) {
+		Date d = getFirstDayOfMonth(date);
+		int delta = getMonth(d) % 3;
+		if (delta > 0)
+			d = getDateAfterMonths(d, -delta);
+		return d;
+	}
+	
+	public static Date getDateAfterMonths(Date start, int months) {
+		return add(2, months, start);
+	}
+	
+	private static Date add(int datePart, int detal, Date date) {
+		Calendar c = Calendar.getInstance();
+		if (date != null)
+			c.setTime(date);
+		c.add(datePart, detal);
+		return c.getTime();
+	}
 
 
 }
