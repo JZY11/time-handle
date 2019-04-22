@@ -139,6 +139,22 @@ public class CommonDateUtil {
 		return new Date(start.getTime() + ms);
 	}
 	
+	public static Date getDateAfterYears(Date start, int years) {
+		return add(1, years, start);
+	}
+	
+	public static Date getDateAfterDays(Date start, int days) {
+		return getDateAfterMs(start, days * 86400000L);
+	}
+	
+	public static long getPeriodNum(Date start, Date end, long msPeriod) {
+		return (getIntervalMs(start, end) / msPeriod);
+	}
+	
+	public static long getIntervalMs(Date start, Date end) {
+		return (end.getTime() - start.getTime());
+	}
+	
 
 
 }
