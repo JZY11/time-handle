@@ -109,6 +109,11 @@ public class CommonDateUtil {
 		c.add(datePart, detal);
 		return c.getTime();
 	}
+	
+	public static Date getFirstDayOfSeason() {
+		return getFirstDayOfMonth(null);
+	}
+	
 
 
 }
