@@ -155,6 +155,15 @@ public class CommonDateUtil {
 		return (end.getTime() - start.getTime());
 	}
 	
+	public static int getIntervalDays(Date start, Date end) {
+		return (int) getPeriodNum(start, end, 86400000L);
+	}
+	
+	public static int getIntervalWeeks(Date start, Date end) {
+		return (int) getPeriodNum(start, end, 604800000L);
+	}
+
+	
 
 
 }
