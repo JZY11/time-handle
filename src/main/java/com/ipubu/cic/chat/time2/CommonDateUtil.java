@@ -199,6 +199,20 @@ public class CommonDateUtil {
 		return ZODIACARRAY[(year % 12)];
 	}
 
+	public static String date2Constellation(Date time) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(time);
+		int month = c.get(2);
+		int day = c.get(5);
+		if (day < constellationEdgeDay[month]) {
+			--month;
+		}
+		if (month >= 0) {
+			return constellationArray[month];
+		}
+
+		return constellationArray[11];
+	}
 	
 
 
