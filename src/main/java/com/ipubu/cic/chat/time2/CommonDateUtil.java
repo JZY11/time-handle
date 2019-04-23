@@ -170,6 +170,20 @@ public class CommonDateUtil {
 	public static boolean after(Date base, Date date) {
 		return ((date.after(base)) || (date.equals(base)));
 	}
+	
+	public static Date max(Date date1, Date date2) {
+		if (date1.getTime() > date2.getTime()) {
+			return date1;
+		}
+		return date2;
+	}
+
+	public static Date min(Date date1, Date date2) {
+		if (date1.getTime() < date2.getTime()) {
+			return date1;
+		}
+		return date2;
+	}
 
 	
 
