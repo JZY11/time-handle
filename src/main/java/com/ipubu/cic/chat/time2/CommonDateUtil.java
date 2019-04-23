@@ -162,6 +162,14 @@ public class CommonDateUtil {
 	public static int getIntervalWeeks(Date start, Date end) {
 		return (int) getPeriodNum(start, end, 604800000L);
 	}
+	
+	public static boolean before(Date base, Date date) {
+		return ((date.before(base)) || (date.equals(base)));
+	}
+
+	public static boolean after(Date base, Date date) {
+		return ((date.after(base)) || (date.equals(base)));
+	}
 
 	
 
