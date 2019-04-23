@@ -185,6 +185,20 @@ public class CommonDateUtil {
 		return date2;
 	}
 
+	public static boolean inPeriod(Date start, Date end, Date date) {
+		return ((((end.after(date)) || (end.equals(date)))) && (((start.before(date)) || (start.equals(date)))));
+	}
+	
+	public static String date2Zodica(Date time) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(time);
+		return year2Zodica(c.get(1));
+	}
+	
+	public static String year2Zodica(int year) {
+		return ZODIACARRAY[(year % 12)];
+	}
+
 	
 
 
