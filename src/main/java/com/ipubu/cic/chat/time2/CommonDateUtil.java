@@ -236,7 +236,7 @@ public class CommonDateUtil {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			return zodiacArray[(year % 12)]+" "+year;
+			return ZODIACARRAY[(year % 12)]+" "+year;
 		}else{
 			return null;
 		}
