@@ -297,6 +297,12 @@ public class CommonDateUtil {
 		Log.logger.info(new Date());
 		Calendar c = Calendar.getInstance();
 		c.set(5, 1);
+		
+		Log.logger.info(getFirstDayOfMonth());
+		Log.logger.info(getLastDayOfMonth(makeDate(1996, 2, 1)));
+
+		Log.logger.info(formatDate(makeDate(2009, 5, 1)));
+		Log.logger.info(formatDate(makeDate(2010, 5, 1)));
 	}
 
 }
