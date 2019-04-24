@@ -1,7 +1,12 @@
 package com.ipubu.cic.chat.time2;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import com.ipubu.time1.NormTime;
 
 /**
  * 日期工具类
@@ -214,6 +219,27 @@ public class CommonDateUtil {
 		return constellationArray[11];
 	}
 	
-
+	public static String year2Zodica(String timeExp,String domain) {
+		 List<String> tlist= NormTime.getNormTime(timeExp,domain);
+		 
+		 if(tlist.size()!=0){
+			String time = tlist.get(0).split(",")[1];
+			String time2 = time.split("=")[1].split(" ")[0];
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date;
+			int year = -1;
+			try {
+				date = formatter.parse(time2);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				year = cal.get(cal.YEAR);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			return zodiacArray[(year % 12)]+" "+year;
+		}else{
+			return null;
+		}
+	}
 
 }
