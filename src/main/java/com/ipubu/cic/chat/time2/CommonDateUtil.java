@@ -303,6 +303,10 @@ public class CommonDateUtil {
 
 		Log.logger.info(formatDate(makeDate(2009, 5, 1)));
 		Log.logger.info(formatDate(makeDate(2010, 5, 1)));
+		Log.logger.info(formatDate(makeDate(2010, 12, 21)));
+		Log.logger.info(before(makeDate(2009, 5, 1), new Date()));
+		Log.logger.info(after(makeDate(2009, 5, 1), new Date()));
+		Log.logger.info(inPeriod(makeDate(2009, 11, 24), makeDate(2009, 11, 30), makeDate(2009, 11, 25)));
 	}
 
 }
