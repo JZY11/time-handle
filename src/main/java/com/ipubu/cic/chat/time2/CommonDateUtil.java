@@ -81,6 +81,10 @@ public class CommonDateUtil {
 		return getCleanDay(c);
 	}
 	
+	public static Date getCleanDay(Date day) {
+		return getCleanDay(getCalendar(day));
+	}
+	
 	private static Date getCleanDay(Calendar c) {
 		c.set(11, 0);
 		c.clear(12);
@@ -248,6 +252,10 @@ public class CommonDateUtil {
 		Log.logger.info(date2Zodica(new Date()));
 		Log.logger.info(date2Constellation(makeDate(1973, 5, 12)));
 		Log.logger.info(Calendar.getInstance() == Calendar.getInstance());
+		Log.logger.info(getCleanDay(new Date()));
+		Log.logger.info(new Date());
+		Calendar c = Calendar.getInstance();
+		c.set(5, 1);
 	}
 
 }
