@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ipubu.time1.NormTime;
+import com.ipubu.util.Log;
 
 /**
  * 日期工具类
@@ -240,6 +241,13 @@ public class CommonDateUtil {
 		}else{
 			return null;
 		}
+	}
+	
+	public static void main(String[] args) {
+		Log.logger.info(year2Zodica(1973));
+		Log.logger.info(date2Zodica(new Date()));
+		Log.logger.info(date2Constellation(makeDate(1973, 5, 12)));
+		Log.logger.info(Calendar.getInstance() == Calendar.getInstance());
 	}
 
 }
