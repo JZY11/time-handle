@@ -47,4 +47,21 @@ public class DateUtil extends CommonDateUtil{
 		c.set(Calendar.MILLISECOND, 999);
 		return c.getTime();
 	}
+	
+	/**
+	 * 获得指定时间那天的某个小时（24小时制）的整点时间
+	 * 
+	 * @param date
+	 * @param hourIn24
+	 * @return
+	 */
+	public static Date getSpecificHourInTheDay(final Date date, int hourIn24) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, hourIn24);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
 }
