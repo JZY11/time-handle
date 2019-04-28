@@ -64,4 +64,30 @@ public class DateUtil extends CommonDateUtil{
 		c.set(Calendar.MILLISECOND, 0);
 		return c.getTime();
 	}
+	
+	
+	/**
+	 * 对时间中的分钟向上取整
+	 * 
+	 * @param date
+	 * @param round
+	 *            取整的值
+	 * @return
+	 */
+	public static Date roundMin(final Date date, int round) {
+		if (round > 60 || round < 0) {
+			round = 0;
+		}
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int min = c.get(Calendar.MINUTE);
+		if ((min % round) >= (round / 2)) {
+			min = round * (min / (round + 1));
+		} else {
+			min = round * (min / round);
+		}
+		c.set(Calendar.MINUTE, min);
+		c.set(Calendar.SECOND, 0);
+		return c.getTime();
+	}
 }
