@@ -123,4 +123,17 @@ public class DateUtil extends CommonDateUtil{
 //		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return DateUtil.formatDate(date, "yyyy-MM-dd HH:mm:ss");
 	}
+	
+	/**
+	 * 检验日期格式字符串是否符合format结构
+	 * 
+	 * 主要的逻辑是先把字符parse为该format的Date对象，再将Date对象按照format转化为String。如果此时的String与初始时的字符串一致的话，则日期符合format。
+	 * 
+	 * 之所以用来回双重逻辑校验，是因为假如把一个非法字符串parse为某format格式的Date对象是不一定会报错的。比如 2015-06-29 13:12:121，明显不符合yyyy-MM-dd
+	 * HH:mm:ss，但是可以正常parse成Date对象，但时间变为了2015-06-29 13:14:01。增加多一重校验则可检测出这个问题。
+	 * 
+	 * @param strDateTime
+     * @param format 日期格式
+     * @return boolean
+	 */
 }
