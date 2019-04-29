@@ -1,8 +1,11 @@
 package com.ipubu.cic.chat.time2;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.ipubu.util.Log;
 
 /**
  * @ClassName DateUtil
@@ -136,4 +139,26 @@ public class DateUtil extends CommonDateUtil{
      * @param format 日期格式
      * @return boolean
 	 */
+	public static boolean checkDateFormatAndValite(String strDateTime, String format){
+		if (strDateTime == null || strDateTime.length() == 0) {
+			return false;
+		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		try {
+			Date date = dateFormat.parse(strDateTime);
+			String str = dateFormat.format(date);
+			 Log.logger.info("func<checkDateFormatAndValite> strDateTime<" + strDateTime + "> format<" + format +
+                     "> str<" + str + ">");
+			 
+			 if (str.equals(strDateTime)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
