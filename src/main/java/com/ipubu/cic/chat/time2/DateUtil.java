@@ -2,8 +2,10 @@ package com.ipubu.cic.chat.time2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.ipubu.util.Log;
 
@@ -160,5 +162,16 @@ public class DateUtil extends CommonDateUtil{
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	private final static List<Integer> TIMEUNITS = new ArrayList<Integer>();
+	
+	static {
+		TIMEUNITS.add(Calendar.YEAR);
+		TIMEUNITS.add(Calendar.MONTH);
+		TIMEUNITS.add(Calendar.DATE);
+		TIMEUNITS.add(Calendar.HOUR);
+		TIMEUNITS.add(Calendar.MINUTE);
+		TIMEUNITS.add(Calendar.SECOND);
 	}
 }
