@@ -104,4 +104,14 @@ public class DateUtil extends CommonDateUtil{
 		calendar.add(calendar.DATE, -day_of_week + 1);
 		return calendar.getTime();
 	}
+	
+	/**
+	 * 处理相对日期的相对运算(当前只支持周、日)
+	 */
+	public static Date getRelativeTime(final Date date, final int calUnit, final int relative){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(calUnit, relative);
+		return calendar.getTime();
+	}
 }
