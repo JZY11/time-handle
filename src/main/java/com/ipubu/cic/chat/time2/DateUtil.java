@@ -1,5 +1,6 @@
 package com.ipubu.cic.chat.time2;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -113,5 +114,13 @@ public class DateUtil extends CommonDateUtil{
 		calendar.setTime(date);
 		calendar.add(calUnit, relative);
 		return calendar.getTime();
+	}
+	
+	/**
+	 * 默认的时间格式化
+	 */
+	public static String formatDateDefault(Date date){
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return DateUtil.formatDate(date, "yyyy-MM-dd HH:mm:ss");
 	}
 }
